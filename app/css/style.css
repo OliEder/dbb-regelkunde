@@ -807,3 +807,370 @@ html.light .fc-back {
 html.light .bottom-nav { border-top: 2px solid var(--accent); }
 html.light .nav-btn::after { background: var(--accent); }
 html.light .topbar { border-bottom: 2px solid var(--border); }
+/* ── REGELWERK ──────────────────────────────────────────── */
+.rules-search-wrap {
+  position: relative;
+}
+.rules-search-icon {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 18px;
+  height: 18px;
+  color: var(--text2);
+  pointer-events: none;
+}
+.rules-search-input {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 10px 14px 10px 40px;
+  background: var(--bg3);
+  border: 1.5px solid var(--border);
+  border-radius: var(--r);
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: 15px;
+  outline: none;
+  transition: border-color 0.15s;
+}
+.rules-search-input:focus {
+  border-color: var(--accent);
+}
+.rules-search-input::placeholder { color: var(--text2); }
+
+/* Artikel-Karte */
+.rules-artikel-card {
+  background: var(--bg2);
+  border: 1.5px solid var(--border);
+  border-radius: var(--r);
+  margin-bottom: 10px;
+  cursor: pointer;
+  transition: border-color 0.15s, transform 0.1s;
+}
+.rules-artikel-card:active { transform: scale(0.98); }
+.rules-artikel-card:hover { border-color: var(--accent); }
+.rules-artikel-card-inner {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 14px;
+}
+.rules-art-num {
+  font-family: var(--font-head);
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--accent);
+  background: rgba(255,107,26,0.12);
+  border-radius: 5px;
+  padding: 3px 7px;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.rules-art-info { flex: 1; min-width: 0; }
+.rules-art-title {
+  font-weight: 600;
+  font-size: 14px;
+  color: var(--text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.rules-art-regel {
+  font-size: 11px;
+  color: var(--text2);
+  margin-top: 2px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.rules-art-chevron {
+  color: var(--text2);
+  flex-shrink: 0;
+}
+.rules-art-img-count {
+  font-size: 11px;
+  color: var(--text2);
+  background: var(--bg3);
+  border-radius: 10px;
+  padding: 2px 8px;
+  flex-shrink: 0;
+}
+
+/* Glossar */
+.rules-glossar-entry {
+  background: var(--bg2);
+  border: 1.5px solid var(--border);
+  border-radius: var(--r);
+  margin-bottom: 10px;
+  overflow: hidden;
+}
+.rules-glossar-term {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 14px;
+  cursor: pointer;
+  font-weight: 700;
+  font-size: 14px;
+  gap: 8px;
+}
+.rules-glossar-term:hover { background: var(--bg3); }
+.rules-glossar-body {
+  padding: 0 14px;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.25s ease, padding 0.2s;
+}
+.rules-glossar-body.open {
+  max-height: 500px;
+  padding: 0 14px 14px;
+}
+.rules-glossar-def {
+  font-size: 14px;
+  color: var(--text);
+  line-height: 1.6;
+  margin-bottom: 8px;
+}
+.rules-glossar-arts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.rules-glossar-art-link {
+  font-size: 12px;
+  background: rgba(255,107,26,0.12);
+  color: var(--accent);
+  border: none;
+  border-radius: 5px;
+  padding: 3px 9px;
+  cursor: pointer;
+  font-family: var(--font-body);
+  font-weight: 600;
+}
+.rules-glossar-art-link:hover { background: rgba(255,107,26,0.25); }
+.rules-glossar-arrow {
+  transition: transform 0.2s;
+  flex-shrink: 0;
+}
+.rules-glossar-arrow.open { transform: rotate(180deg); }
+
+/* Bilder-Galerie */
+.rules-bilder-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+}
+.rules-bild-card {
+  background: var(--bg2);
+  border: 1.5px solid var(--border);
+  border-radius: var(--r);
+  overflow: hidden;
+  cursor: pointer;
+  transition: border-color 0.15s;
+}
+.rules-bild-card:hover { border-color: var(--accent); }
+.rules-bild-img {
+  width: 100%;
+  aspect-ratio: 4/3;
+  object-fit: cover;
+  display: block;
+  background: var(--bg3);
+}
+.rules-bild-caption {
+  font-size: 11px;
+  color: var(--text2);
+  padding: 6px 8px;
+  line-height: 1.4;
+}
+
+/* Lightbox */
+.rules-lightbox {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.92);
+  z-index: 200;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+.rules-lightbox-img {
+  max-width: 100%;
+  max-height: 70vh;
+  object-fit: contain;
+  border-radius: 8px;
+}
+.rules-lightbox-caption {
+  margin-top: 12px;
+  color: #fff;
+  font-size: 14px;
+  text-align: center;
+  max-width: 400px;
+}
+.rules-lightbox-close {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  background: rgba(255,255,255,0.15);
+  border: none;
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
+  color: #fff;
+  font-size: 20px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Detail-Overlay */
+.rules-detail-overlay {
+  position: absolute;
+  inset: 0;
+  background: var(--bg);
+  z-index: 10;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+.rules-detail-header {
+  position: sticky;
+  top: 0;
+  background: var(--bg);
+  border-bottom: 1.5px solid var(--border);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 16px;
+  z-index: 2;
+}
+.rules-back-btn {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  background: none;
+  border: none;
+  color: var(--accent);
+  font-family: var(--font-body);
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 6px 0;
+}
+.rules-back-btn svg { width: 20px; height: 20px; }
+.rules-detail-meta {
+  font-size: 12px;
+  color: var(--text2);
+  margin-left: auto;
+  text-align: right;
+}
+.rules-detail-body {
+  padding: 16px;
+  padding-bottom: 80px;
+}
+.rules-detail-art-num {
+  font-family: var(--font-head);
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--accent);
+  background: rgba(255,107,26,0.12);
+  border-radius: 5px;
+  padding: 3px 9px;
+  display: inline-block;
+  margin-bottom: 6px;
+}
+.rules-detail-title {
+  font-family: var(--font-head);
+  font-size: 26px;
+  font-weight: 800;
+  line-height: 1.2;
+  margin-bottom: 4px;
+}
+.rules-detail-regel {
+  font-size: 12px;
+  color: var(--text2);
+  margin-bottom: 16px;
+}
+.rules-detail-text {
+  font-size: 14px;
+  line-height: 1.75;
+  color: var(--text);
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+.rules-detail-images {
+  margin-top: 20px;
+}
+.rules-detail-images-title {
+  font-weight: 700;
+  font-size: 13px;
+  color: var(--text2);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin-bottom: 10px;
+}
+.rules-detail-img-scroll {
+  display: flex;
+  gap: 10px;
+  overflow-x: auto;
+  padding-bottom: 8px;
+  -webkit-overflow-scrolling: touch;
+}
+.rules-detail-img-thumb {
+  flex-shrink: 0;
+  width: 160px;
+  height: 120px;
+  object-fit: cover;
+  border-radius: 8px;
+  border: 1.5px solid var(--border);
+  cursor: pointer;
+  transition: border-color 0.15s;
+  background: var(--bg3);
+}
+.rules-detail-img-thumb:hover { border-color: var(--accent); }
+.rules-detail-related {
+  margin-top: 20px;
+  border-top: 1.5px solid var(--border);
+  padding-top: 16px;
+}
+.rules-detail-related-title {
+  font-weight: 700;
+  font-size: 13px;
+  color: var(--text2);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin-bottom: 10px;
+}
+.rules-related-q {
+  background: var(--bg2);
+  border: 1.5px solid var(--border);
+  border-radius: var(--r);
+  padding: 10px 12px;
+  margin-bottom: 8px;
+  font-size: 13px;
+}
+.rules-related-q-text { color: var(--text); margin-bottom: 4px; }
+.rules-related-q-answer {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--green);
+}
+.rules-related-q-answer.nein { color: var(--red, #e05555); }
+
+/* Keine Ergebnisse */
+.rules-empty {
+  text-align: center;
+  padding: 40px 20px;
+  color: var(--text2);
+}
+.rules-empty-icon { font-size: 40px; margin-bottom: 12px; }
+
+/* Light mode overrides */
+html.light .rules-search-input { background: #fff; }
+html.light .rules-artikel-card { background: #fff; }
+html.light .rules-glossar-entry { background: #fff; }
+html.light .rules-bild-card { background: #fff; }
+html.light .rules-detail-overlay { background: var(--bg); }
+html.light .rules-detail-header { background: var(--bg); }

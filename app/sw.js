@@ -1,14 +1,16 @@
 // sw.js — Service Worker für Offline-Nutzung
-const CACHE = 'regelkunde-v1';
+const CACHE = 'regelkunde-v2';
 const ASSETS = [
   './',
   './index.html',
   './css/style.css',
   './js/app.js',
+  './js/rules.js',
   './js/state.js',
   './js/theme.js',
   './js/utils.js',
   './data/questions.json',
+  './data/rules.json',
   './manifest.json',
 ];
 

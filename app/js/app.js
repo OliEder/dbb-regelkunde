@@ -2,6 +2,10 @@
 import { initState, getCard, isMastered, recordAnswer, STATE, saveState, loadDlProgress, saveDlProgress, clearDlProgress } from './state.js';
 import { initTheme, toggleTheme } from './theme.js';
 import { shuffle, escHtml } from './utils.js';
+import {
+  loadRules, initRegeln, rulesSetTab, rulesSetRegel, rulesSearch,
+  rulesOpenDetail, rulesCloseDetail, rulesOpenLightbox, setQuestionsRef
+} from './rules.js';
 
 // Globale Exports für onclick-Handler im HTML
 window.toggleTheme    = toggleTheme;
@@ -29,6 +33,12 @@ window.dlSetTopic      = dlSetTopic;
 window.startDurchlauf  = startDurchlauf;
 window.resumeDurchlauf = resumeDurchlauf;
 window.dlNext          = dlNext;
+window.rulesSetTab      = rulesSetTab;
+window.rulesSetRegel    = rulesSetRegel;
+window.rulesSearch      = rulesSearch;
+window.rulesOpenDetail  = rulesOpenDetail;
+window.rulesCloseDetail = rulesCloseDetail;
+window.rulesOpenLightbox = rulesOpenLightbox;
 
 let QUESTIONS = [];
 let globalCat = 'all';
@@ -123,6 +133,7 @@ function navigate(view) {
   if (view === 'learn')      initLearn();
   if (view === 'stats')      renderStats();
   if (view === 'durchlauf')  initDurchlauf();
+  if (view === 'regeln')     initRegeln();
 }
 
 // HOME
@@ -751,6 +762,7 @@ document.addEventListener('keydown', function(e) {
   initState();
   initTheme();
   await loadQuestions();
+  setQuestionsRef(QUESTIONS);
   renderHome();
   initLearn();
 })();

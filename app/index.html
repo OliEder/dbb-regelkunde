@@ -42,6 +42,10 @@
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polygon points="5 3 19 12 5 21 5 3"/></svg>
     Prüfung
   </button>
+  <button class="nav-btn" data-view="regeln" onclick="navigate('regeln')" aria-label="Regelwerk">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+    Regeln
+  </button>
 </nav>
 
 <main id="main-content" tabindex="-1">
@@ -92,6 +96,11 @@
         <div class="m-icon" aria-hidden="true">🏆</div>
         <div class="m-title">Durchlauf</div>
         <div class="m-desc">Prüfungstest</div>
+      </button>
+      <button class="mode-btn" onclick="navigate('regeln')" aria-label="Regelwerk - Artikel und Glossar">
+        <div class="m-icon" aria-hidden="true">📋</div>
+        <div class="m-title">Regelwerk</div>
+        <div class="m-desc">Artikel & Glossar</div>
       </button>
     </div>
 
@@ -356,6 +365,71 @@
     <div class="dl-summary-stats" id="dl-summary-stats"></div>
     <button class="btn btn-primary btn-full" onclick="startDurchlauf()" style="margin-bottom:10px">Nochmal</button>
     <button class="btn btn-ghost btn-full" onclick="document.getElementById('dl-summary').style.display='none';document.getElementById('dl-config').style.display='block'">Zurück</button>
+  </div>
+</section>
+
+<!-- ═══ REGELWERK ════════════════════════════════════════ -->
+<section id="view-regeln" class="view" aria-label="Regelwerk">
+  <div class="topbar">
+    <div class="topbar-inner">
+      <div>
+        <h1>Regel<span style="color:var(--accent)">werk</span><span style="color:var(--accent)">.</span></h1>
+        <div class="topbar-sub">Offizielle Basketball-Regeln 2024</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Suche und Tab-Navigation -->
+  <div class="pad" style="padding-bottom:4px">
+    <div class="rules-search-wrap">
+      <svg class="rules-search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <input type="search" id="rules-search" class="rules-search-input" placeholder="Artikel oder Begriff suchen…" aria-label="Regelwerk durchsuchen" oninput="rulesSearch(this.value)">
+    </div>
+    <div class="chip-row" id="rules-tab-row" role="tablist" aria-label="Ansicht wählen" style="margin-top:10px">
+      <button class="chip active" role="tab" aria-selected="true" onclick="rulesSetTab('artikel',this)">Artikel</button>
+      <button class="chip" role="tab" aria-selected="false" onclick="rulesSetTab('glossar',this)">Glossar</button>
+      <button class="chip" role="tab" aria-selected="false" onclick="rulesSetTab('bilder',this)">Bilder</button>
+    </div>
+  </div>
+
+  <!-- ARTIKEL TAB -->
+  <div id="rules-tab-artikel" class="rules-tab-content">
+    <!-- Regel-Filter -->
+    <div class="pad" style="padding-top:4px;padding-bottom:0">
+      <div class="chip-row" id="rules-regel-filter" role="group" aria-label="Regelabschnitt" style="flex-wrap:nowrap;overflow-x:auto;padding-bottom:4px">
+        <button class="chip active" data-regel="all" onclick="rulesSetRegel(this,'all')">Alle</button>
+        <button class="chip" data-regel="1" onclick="rulesSetRegel(this,'1')">I</button>
+        <button class="chip" data-regel="2" onclick="rulesSetRegel(this,'2')">II</button>
+        <button class="chip" data-regel="3" onclick="rulesSetRegel(this,'3')">III</button>
+        <button class="chip" data-regel="4" onclick="rulesSetRegel(this,'4')">IV</button>
+        <button class="chip" data-regel="5" onclick="rulesSetRegel(this,'5')">V</button>
+        <button class="chip" data-regel="6" onclick="rulesSetRegel(this,'6')">VI</button>
+        <button class="chip" data-regel="7" onclick="rulesSetRegel(this,'7')">VII</button>
+      </div>
+    </div>
+    <div id="rules-artikel-list" class="pad" style="padding-top:8px"></div>
+  </div>
+
+  <!-- GLOSSAR TAB -->
+  <div id="rules-tab-glossar" class="rules-tab-content" style="display:none">
+    <div id="rules-glossar-list" class="pad" style="padding-top:8px"></div>
+  </div>
+
+  <!-- BILDER TAB -->
+  <div id="rules-tab-bilder" class="rules-tab-content" style="display:none">
+    <div id="rules-bilder-list" class="pad" style="padding-top:8px"></div>
+  </div>
+
+  <!-- ARTIKEL DETAIL OVERLAY -->
+  <div id="rules-detail" class="rules-detail-overlay" style="display:none" role="dialog" aria-modal="true" aria-label="Artikel-Detail">
+    <div class="rules-detail-header">
+      <button class="rules-back-btn" onclick="rulesCloseDetail()" aria-label="Zurück zur Übersicht">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><polyline points="15 18 9 12 15 6"/></svg>
+        Zurück
+      </button>
+      <div class="rules-detail-meta" id="rules-detail-meta"></div>
+    </div>
+    <div class="rules-detail-body" id="rules-detail-body"></div>
   </div>
 </section>
 
