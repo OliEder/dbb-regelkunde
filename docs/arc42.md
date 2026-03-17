@@ -61,51 +61,41 @@ Das DBB Regelkunde Lerntool ist eine Progressive Web App (PWA) zur Prüfungsvorb
 
 ### 3.1 Fachlicher Kontext
 
-```
-┌─────────────────────────────────────────────────────────────────┐
-│                        DBB Schiedsrichterwesen                  │
-│  ┌─────────────────┐    ┌──────────────────────────────────┐   │
-│  │ Schiedsrichter- │    │  DBB Regelkunde Lerntool (PWA)   │   │
-│  │    Anwärter     │───>│                                  │   │
-│  └─────────────────┘    │  314 Fragen aus DBB-Katalog 2025 │   │
-│  ┌─────────────────┐    │  6 Lernmodi (Quiz, Karten, ...)  │   │
-│  │ Akt. Schieds-   │───>│  Offline-fähig (Service Worker)  │   │
-│  │   richter       │    │  Spaced Repetition (SM-2)        │   │
-│  └─────────────────┘    └──────────────────────────────────┘   │
-│  ┌─────────────────┐              ↑                             │
-│  │ Trainer         │    ┌─────────────────────┐                 │
-│  │ C-Lizenz        │───>│ DBB Fragenkatalog   │                 │
-│  │ Kandidaten      │    │ 2025 (XLSX-Datei)   │                 │
-│  └─────────────────┘    └─────────────────────┘                 │
-└─────────────────────────────────────────────────────────────────┘
+```mermaid
+graph TD
+    A["👤 Schiedsrichter-Anwärter"]
+    B["👤 Aktiver Schiedsrichter"]
+    C["👤 Trainer C-Lizenz Kandidat"]
+    D["📱 DBB Regelkunde Lerntool (PWA)\n314 Fragen · 6 Lernmodi · Offline · SM-2"]
+    E["📄 DBB Fragenkatalog 2025 (XLSX)\nDatenquelle – einmalig extrahiert"]
+
+    A -->|lernt mit| D
+    B -->|frischt auf| D
+    C -->|bereitet sich vor| D
+    E -->|Datenbasis| D
 ```
 
 ### 3.2 Technischer Kontext
 
-```
-  Lernender (Browser)
-        │
-        │ HTTPS
-        ▼
-┌──────────────────┐
-│  GitHub Pages    │  Statisches Hosting
-│  (CDN/Edge)      │  olieder.github.io/dbb-regelkunde
-└──────────────────┘
-        │
-        │ Liefert HTML/CSS/JS/JSON/Fonts
-        ▼
-┌──────────────────────────────────────────┐
-│  Browser (Chrome, Firefox, Safari)       │
-│                                          │
-│  ┌────────────────┐  ┌────────────────┐  │
-│  │ Service Worker │  │  LocalStorage  │  │
-│  │ (Cache-First)  │  │ (Lernstand)    │  │
-│  └────────────────┘  └────────────────┘  │
-│                                          │
-│  ┌────────────────────────────────────┐  │
-│  │   SPA (index.html + 4 JS-Module)   │  │
-│  └────────────────────────────────────┘  │
-└──────────────────────────────────────────┘
+```mermaid
+graph LR
+    User["👤 Lernender"]
+
+    subgraph GitHub
+        Pages["GitHub Pages\nCDN/Edge"]
+    end
+
+    subgraph Browser["Browser (Endgerät)"]
+        SPA["SPA\nindex.html + 4 JS-Module"]
+        SW["Service Worker\nCache-First"]
+        LS[("LocalStorage\nLernstand")]
+    end
+
+    User -->|HTTPS GET| Pages
+    Pages -->|HTML / CSS / JS / JSON / Fonts| SPA
+    SPA <-->|Ressourcen-Requests| SW
+    SPA <-->|Lernstand lesen/schreiben| LS
+    SW -.->|Netzwerk-Fallback\nbei Cache-Miss| Pages
 ```
 
 **Externe Schnittstellen:** keine (vollständig selbstenthalten)
@@ -130,32 +120,42 @@ Das DBB Regelkunde Lerntool ist eine Progressive Web App (PWA) zur Prüfungsvorb
 
 ### 5.1 Ebene 1 – Gesamtsystem
 
-```
-┌─────────────────────────────────────────────────────────┐
-│                  DBB Regelkunde PWA                     │
-│                                                         │
-│  ┌─────────────┐  ┌─────────────┐  ┌────────────────┐  │
-│  │   app.js    │  │  state.js   │  │   theme.js     │  │
-│  │ (View-Logik)│  │(Persistenz/ │  │(Hell/Dunkel)   │  │
-│  │             │  │ SM-2 Algo)  │  │                │  │
-│  └─────────────┘  └─────────────┘  └────────────────┘  │
-│                                                         │
-│  ┌─────────────┐  ┌─────────────┐  ┌────────────────┐  │
-│  │  utils.js   │  │   sw.js     │  │  index.html    │  │
-│  │(shuffle,    │  │(Service-    │  │(HTML-Gerüst,   │  │
-│  │ escHtml)    │  │ Worker)     │  │ 6 Views)       │  │
-│  └─────────────┘  └─────────────┘  └────────────────┘  │
-│                                                         │
-│  ┌─────────────────────────────────────────────────┐    │
-│  │              questions.json                     │    │
-│  │         (314 Prüfungsfragen, ~137 KB)           │    │
-│  └─────────────────────────────────────────────────┘    │
-└─────────────────────────────────────────────────────────┘
+```mermaid
+graph TD
+    subgraph PWA["DBB Regelkunde PWA"]
+        HTML["index.html\nHTML-Gerüst · 6 Views"]
+        APP["app.js\nView-Logik"]
+        STATE["state.js\nPersistenz · SM-2"]
+        THEME["theme.js\nHell/Dunkel"]
+        UTILS["utils.js\nshuffle · escHtml"]
+        SW["sw.js\nService Worker"]
+        DATA[("questions.json\n314 Prüfungsfragen · ~137 KB")]
+    end
+
+    HTML -->|onclick-Handler| APP
+    APP --> STATE
+    APP --> UTILS
+    APP -->|Fragen laden| DATA
+    THEME -->|CSS-Klasse| HTML
+    SW -->|cacht| DATA
+    SW -->|cacht| HTML
 ```
 
 ### 5.2 Ebene 2 – app.js (View-Controller)
 
 `app.js` implementiert alle 6 Anwendungsviews als eigenständige „Mini-Controller":
+
+```mermaid
+graph LR
+    NAV["navigate(view)\nGlobale window.*-API"]
+
+    NAV --> HOME["Home\nStatistik-Dashboard"]
+    NAV --> FC["Flashcards fc*\nSpaced Repetition"]
+    NAV --> QUIZ["Quiz qz*\nPrüfungsfragen"]
+    NAV --> LEARN["Lernen learn*\nVollständige Liste + Suche"]
+    NAV --> STATS["Statistik stats*\nCharts + Artikelübersicht"]
+    NAV --> DL["Durchlauf dl*\nPrüfungssimulation"]
+```
 
 | Controller | Beschreibung |
 |------------|-------------|
@@ -165,16 +165,6 @@ Das DBB Regelkunde Lerntool ist eine Progressive Web App (PWA) zur Prüfungsvorb
 | **Lernen (`learn*`)** | Vollständige Fragenliste mit Suche und Filterung |
 | **Statistik (`stats*`)** | Donut-Charts und artikelbezogene Fortschrittsanzeige |
 | **Durchlauf (`dl*`)** | Prüfungssimulation (2× hintereinander richtig pro Frage) |
-
-**Globale API** (für `onclick`-Handler in HTML):
-```javascript
-window.navigate   // View-Wechsel
-window.fcFlip     // Karte umdrehen
-window.fcAnswer   // Karte als richtig/falsch markieren
-window.qzStart    // Quiz starten
-window.dlStart    // Durchlauf starten
-// ... weitere
-```
 
 ### 5.3 Ebene 2 – state.js (Datenhaltung)
 
@@ -203,86 +193,82 @@ const STORAGE_KEY = 'regelkunde_v2';
 
 ### 6.1 Erster App-Start
 
-```
-Browser                  Service Worker           LocalStorage
-   │                          │                        │
-   │── fetch index.html ──────>│                        │
-   │<─ HTML (from network) ───│                        │
-   │── register sw.js ─────────>│                       │
-   │                          │── cache alle Assets ──>│
-   │── fetch questions.json ──>│                        │
-   │<─ JSON (from network) ───│                        │
-   │── initState() ───────────────────────────────────>│
-   │<─ leerer Lernstand ───────────────────────────────│
-   │── renderHome() ──>│                               │
+```mermaid
+sequenceDiagram
+    participant Browser
+    participant SW as Service Worker
+    participant CDN as GitHub Pages
+    participant LS as LocalStorage
+
+    Browser->>CDN: fetch index.html
+    CDN-->>Browser: HTML (from network)
+    Browser->>SW: register sw.js
+    SW->>CDN: cache alle statischen Assets
+    Browser->>CDN: fetch questions.json
+    CDN-->>Browser: JSON (from network)
+    Browser->>LS: initState()
+    LS-->>Browser: leerer Lernstand
+    Browser->>Browser: renderHome()
 ```
 
 ### 6.2 Wiederkehrender Nutzer (offline)
 
-```
-Browser                  Service Worker           LocalStorage
-   │                          │                        │
-   │── fetch index.html ──────>│                        │
-   │<─ HTML (from cache) ─────│                        │
-   │── fetch questions.json ──>│                        │
-   │<─ JSON (from cache) ─────│                        │
-   │── loadState() ───────────────────────────────────>│
-   │<─ gespeicherter Lernstand ────────────────────────│
-   │── renderHome() ──>│                               │
+```mermaid
+sequenceDiagram
+    participant Browser
+    participant SW as Service Worker
+    participant LS as LocalStorage
+
+    Browser->>SW: fetch index.html
+    SW-->>Browser: HTML (from cache)
+    Browser->>SW: fetch questions.json
+    SW-->>Browser: JSON (from cache)
+    Browser->>LS: loadState()
+    LS-->>Browser: gespeicherter Lernstand
+    Browser->>Browser: renderHome()
 ```
 
 ### 6.3 Lernkarte beantworten (Flashcard-Modus)
 
-```
-Nutzer          app.js              state.js         LocalStorage
-  │                │                    │                   │
-  │── Karte sehen ─>│                   │                   │
-  │── fcFlip() ────>│                   │                   │
-  │<─ Karte zeigt Antwort + Erklärung ──│                   │
-  │                │                   │                   │
-  │── fcAnswer(true)─>│                │                   │
-  │                │── markCorrect(id)─>│                   │
-  │                │                   │── interval × 2 ──>│
-  │                │                   │── nextReview setzen>│
-  │                │                   │── saveState() ────>│
-  │                │── nächste Karte ──│                   │
-  │<─ neue Frage ───│                  │                   │
+```mermaid
+sequenceDiagram
+    actor Nutzer
+    participant APP as app.js
+    participant STATE as state.js
+    participant LS as LocalStorage
+
+    Nutzer->>APP: fcFlip()
+    APP-->>Nutzer: Antwort + Erklärung anzeigen
+    Nutzer->>APP: fcAnswer(true)
+    APP->>STATE: markCorrect(id)
+    STATE->>STATE: interval × 2, nextReview setzen
+    STATE->>LS: saveState()
+    APP-->>Nutzer: nächste Karte anzeigen
 ```
 
 ---
 
 ## 7. Verteilungssicht
 
-```
-┌──────────────────────────────────────────────────────────┐
-│                    GitHub                                │
-│                                                          │
-│  ┌──────────────────┐    ┌──────────────────────────┐   │
-│  │  Repository      │    │  GitHub Actions           │   │
-│  │  (main-Branch)   │───>│  deploy.yml               │   │
-│  │                  │    │  → upload app/ als Pages- │   │
-│  │  app/            │    │    Artifact               │   │
-│  │  ├── index.html  │    └──────────────────────────┘   │
-│  │  ├── js/         │              │                     │
-│  │  ├── css/        │              ▼                     │
-│  │  ├── data/       │    ┌──────────────────────────┐   │
-│  │  └── fonts/      │    │  GitHub Pages (CDN)       │   │
-│  │  tests/          │    │  olieder.github.io/       │   │
-│  │  .github/        │    │  dbb-regelkunde/          │   │
-│  └──────────────────┘    └──────────────────────────┘   │
-└──────────────────────────────────────────────────────────┘
-                                   │
-                           HTTPS (GET)
-                                   │
-                          ┌────────────────┐
-                          │  Endgerät      │
-                          │  (Smartphone / │
-                          │   Desktop)     │
-                          │                │
-                          │  Browser-Cache │
-                          │  (SW + HTTP)   │
-                          │  LocalStorage  │
-                          └────────────────┘
+```mermaid
+graph TD
+    subgraph GitHub
+        REPO["Repository\nmain-Branch"]
+        ACTIONS["GitHub Actions\ndeploy.yml"]
+        PAGES["GitHub Pages CDN\nolieder.github.io/dbb-regelkunde"]
+    end
+
+    subgraph Endgerät["Endgerät (Smartphone / Desktop)"]
+        BROWSER["Browser"]
+        SWCACHE["Service Worker Cache"]
+        LS[("LocalStorage")]
+    end
+
+    REPO -->|Push auf main\nlöst Workflow aus| ACTIONS
+    ACTIONS -->|deploy app/ als Pages-Artifact| PAGES
+    PAGES -->|HTTPS GET| BROWSER
+    BROWSER <-->|Assets cachen| SWCACHE
+    BROWSER <-->|Lernstand| LS
 ```
 
 **Deployment-Prozess:**
@@ -389,7 +375,7 @@ function escHtml(str) {
 **Status:** Akzeptiert
 **Kontext:** Kein Backend vorhanden, DSGVO-Sensibilität, Einfachheit
 **Entscheidung:** Lernstand ausschließlich in `localStorage` (gerätelokal)
-**Konsequenzen:** Keine Registrierung/Login nötig, vollständig DSGVO-konform. Dafür kein Geräteübergreifendes Synchronisieren des Lernstands.
+**Konsequenzen:** Keine Registrierung/Login nötig, vollständig DSGVO-konform. Dafür kein geräteübergreifendes Synchronisieren des Lernstands.
 
 ### ADR-003: Cache-First Service Worker
 
@@ -418,24 +404,25 @@ function escHtml(str) {
 
 ### 10.1 Qualitätsbaum
 
-```
-Qualität
-├── Funktionale Eignung
-│   ├── Alle 314 Fragen korrekt abgebildet
-│   └── Lernfortschritt korrekt berechnet (SM-2)
-├── Zuverlässigkeit
-│   ├── Offline-Verfügbarkeit (Service Worker)
-│   └── Datenpersistenz (LocalStorage)
-├── Benutzbarkeit
-│   ├── Barrierefreiheit (WCAG 2.1 AA)
-│   ├── Mobile-First Bedienbarkeit
-│   └── Intuitive Navigation (6 Tabs)
-├── Effizienz
-│   ├── Ladezeit < 1s lokal / < 3s auf 3G
-│   └── Bundle-Größe ~20 KB JS
-└── Wartbarkeit
-    ├── Daten-Update via Python-Skript
-    └── Keine Framework-Abhängigkeiten
+```mermaid
+mindmap
+  root((Qualität))
+    Funktionale Eignung
+      Alle 314 Fragen korrekt abgebildet
+      Lernfortschritt korrekt berechnet (SM-2)
+    Zuverlässigkeit
+      Offline-Verfügbarkeit (Service Worker)
+      Datenpersistenz (LocalStorage)
+    Benutzbarkeit
+      Barrierefreiheit (WCAG 2.1 AA)
+      Mobile-First Bedienbarkeit
+      Intuitive Navigation (6 Tabs)
+    Effizienz
+      Ladezeit < 1s lokal / < 3s auf 3G
+      Bundle-Größe ~20 KB JS
+    Wartbarkeit
+      Daten-Update via Python-Skript
+      Keine Framework-Abhängigkeiten
 ```
 
 ### 10.2 Bewertungsszenarien
@@ -456,7 +443,7 @@ Qualität
 |--------|-------------------|------------|---------|
 | LocalStorage-Quota überschritten (5–10 MB) | Gering | Lernstand-Verlust | Warnung bei Speicherfehler, alternativ IndexedDB |
 | Service Worker cacht veraltete Frageversion | Mittel | Falsche Fragen nach Update | `CACHE_VERSION` bei jedem Daten-Update inkrementieren |
-| Kein Geräteübergreifender Sync | Hoch (konzeptionell) | Lernstand nicht auf zweitem Gerät verfügbar | Bewusst akzeptiert (kein Backend) |
+| Kein geräteübergreifender Sync | Hoch (konzeptionell) | Lernstand nicht auf zweitem Gerät verfügbar | Bewusst akzeptiert (kein Backend) |
 | XLSX-Format ändert sich | Mittel | Python-Skript muss angepasst werden | Extraktion jährlich manuell prüfen |
 | Keine Analytics | Hoch | Nutzungsmuster unbekannt | Privacy-friendly Analytics (z.B. Plausible) möglich |
 
