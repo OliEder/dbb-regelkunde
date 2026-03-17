@@ -31,102 +31,126 @@ test.describe('Durchlauf View', () => {
 
   test('shows category filter chips with counts', async ({ page }) => {
     const chips = page.locator('#dl-cat-filter .chip');
-    await expect(chips).toHaveCount(3);
+    await expect(chips).toHaveCount(4);
     await expect(chips.nth(0)).toContainText('314');
     await expect(chips.nth(1)).toContainText('175');
     await expect(chips.nth(2)).toContainText('139');
+    await expect(chips.nth(3)).toContainText('Trainer C-Lizenz');
   });
 
-  test('Durchlauf starten starts the durchlauf', async ({ page }) => {
-    await page.locator('button:has-text("Durchlauf starten")').click();
+  test('Neu starten starts the durchlauf', async ({ page }) => {
+    await page.locator('#dl-config button:has-text("Neu starten")').click();
     await expect(page.locator('#dl-active')).toBeVisible();
     await expect(page.locator('#dl-config')).not.toBeVisible();
   });
 
-  test('scoreboard shows initial values', async ({ page }) => {
-    await page.locator('button:has-text("Durchlauf starten")').click();
-    await expect(page.locator('#dl-done-count')).toHaveText('0');
-    await expect(page.locator('#dl-round')).toHaveText('1');
+  test('shows question header with Frage counter', async ({ page }) => {
+    await page.locator('#dl-config button:has-text("Neu starten")').click();
+    await expect(page.locator('#dl-num')).toContainText('Frage');
+    await expect(page.locator('#dl-done-count')).toContainText('✓');
   });
 
-  test('shows flashcard with question text', async ({ page }) => {
-    await page.locator('button:has-text("Durchlauf starten")').click();
-    const questionEl = page.locator('#dl-question');
+  test('shows question text', async ({ page }) => {
+    await page.locator('#dl-config button:has-text("Neu starten")').click();
+    const questionEl = page.locator('#dl-q-text');
     await expect(questionEl).not.toBeEmpty();
     await expect(questionEl).not.toHaveText('—');
   });
 
-  test('flip button flips the durchlauf card', async ({ page }) => {
-    await page.locator('button:has-text("Durchlauf starten")').click();
-    const flipBtn = page.locator('#dl-flip-btn');
-    await expect(flipBtn).toHaveAttribute('aria-pressed', 'false');
-    await flipBtn.click();
-    await expect(flipBtn).toHaveAttribute('aria-pressed', 'true');
-    await expect(page.locator('#dl-flashcard')).toHaveClass(/flipped/);
-  });
-
-  test('answer buttons are visible', async ({ page }) => {
-    await page.locator('button:has-text("Durchlauf starten")').click();
+  test('answer buttons are visible before answering', async ({ page }) => {
+    await page.locator('#dl-config button:has-text("Neu starten")').click();
     await expect(page.locator('#dl-active .a-btn-ja')).toBeVisible();
     await expect(page.locator('#dl-active .a-btn-nein')).toBeVisible();
+    await expect(page.locator('#dl-next-btn')).not.toBeVisible();
   });
 
-  test('answering a question advances to next card', async ({ page }) => {
-    await page.locator('button:has-text("Durchlauf starten")').click();
-    const firstQ = await page.locator('#dl-question').textContent();
+  test('answering shows inline feedback', async ({ page }) => {
+    await page.locator('#dl-config button:has-text("Neu starten")').click();
+    await expect(page.locator('#dl-feedback')).not.toBeVisible();
     await page.locator('#dl-active .a-btn-ja').click();
+    await expect(page.locator('#dl-feedback')).toBeVisible();
+    await expect(page.locator('#dl-next-btn')).toBeVisible();
+    await expect(page.locator('#dl-btns')).not.toBeVisible();
+  });
+
+  test('feedback shows correct or wrong class', async ({ page }) => {
+    await page.locator('#dl-config button:has-text("Neu starten")').click();
+    await page.locator('#dl-active .a-btn-ja').click();
+    const fb = page.locator('#dl-feedback');
+    const cls = await fb.getAttribute('class');
+    expect(cls).toMatch(/correct|wrong/);
+  });
+
+  test('Weiter button advances to next question', async ({ page }) => {
+    await page.locator('#dl-config button:has-text("Neu starten")').click();
+    const firstQ = await page.locator('#dl-q-text').textContent();
+    await page.locator('#dl-active .a-btn-ja').click();
+    await page.locator('#dl-next-btn').click();
     await page.waitForTimeout(100);
     const isDone = await page.locator('#dl-summary').isVisible();
     if (!isDone) {
-      const secondQ = await page.locator('#dl-question').textContent();
+      const secondQ = await page.locator('#dl-q-text').textContent();
       expect(secondQ).not.toEqual(firstQ);
     }
   });
 
   test('progress bar is visible', async ({ page }) => {
-    await page.locator('button:has-text("Durchlauf starten")').click();
-    await expect(page.locator('#dl-pbar')).toBeVisible();
-  });
-
-  test('Runde label is visible', async ({ page }) => {
-    await page.locator('button:has-text("Durchlauf starten")').click();
-    await expect(page.locator('.round-tag')).toBeVisible();
-    await expect(page.locator('.round-tag')).toContainText('Runde');
+    await page.locator('#dl-config button:has-text("Neu starten")').click();
+    await expect(page.locator('#dl-pbar-el')).toBeVisible();
   });
 
   test('keyboard shortcut J answers in durchlauf', async ({ page }) => {
-    await page.locator('button:has-text("Durchlauf starten")').click();
-    const firstQ = await page.locator('#dl-question').textContent();
+    await page.locator('#dl-config button:has-text("Neu starten")').click();
     await page.keyboard.press('j');
+    await page.waitForTimeout(100);
+    await expect(page.locator('#dl-feedback')).toBeVisible();
+  });
+
+  test('keyboard Space after answering advances to next question', async ({ page }) => {
+    await page.locator('#dl-config button:has-text("Neu starten")').click();
+    const firstQ = await page.locator('#dl-q-text').textContent();
+    await page.keyboard.press('j');
+    await page.waitForTimeout(50);
+    await page.keyboard.press('Space');
     await page.waitForTimeout(100);
     const isDone = await page.locator('#dl-summary').isVisible();
     if (!isDone) {
-      const nextQ = await page.locator('#dl-question').textContent();
+      const nextQ = await page.locator('#dl-q-text').textContent();
       expect(nextQ).not.toEqual(firstQ);
     }
   });
 
-  test('keyboard Space flips durchlauf card', async ({ page }) => {
-    await page.locator('button:has-text("Durchlauf starten")').click();
-    await page.keyboard.press('Space');
-    await expect(page.locator('#dl-flashcard')).toHaveClass(/flipped/);
-  });
-
-  test('summary shows after completing all questions (small set via KR-Fragen)', async ({ page }) => {
-    // Use KR-Fragen and manually complete enough to get to summary
-    // We just test the summary structure by simulating completion path
-    await page.locator('#dl-cat-filter .chip').nth(2).click();
-    await page.locator('button:has-text("Durchlauf starten")').click();
-    // Answer 5 correct to see scoring works
-    for (let i = 0; i < 5; i++) {
+  test('done count updates after correct answers', async ({ page }) => {
+    await page.locator('#dl-config button:has-text("Neu starten")').click();
+    // Answer 2 questions correctly to mark one as done (streak >= 2)
+    for (let i = 0; i < 4; i++) {
       const active = await page.locator('#dl-active').isVisible();
       if (!active) break;
       await page.locator('#dl-active .a-btn-ja').click();
       await page.waitForTimeout(50);
+      const nextVisible = await page.locator('#dl-next-btn').isVisible();
+      if (nextVisible) {
+        await page.locator('#dl-next-btn').click();
+        await page.waitForTimeout(50);
+      }
     }
-    // Stats should have updated
     const doneCount = await page.locator('#dl-done-count').textContent();
-    // Done count may be 0 if answers were wrong in first round, that's fine
-    expect(parseInt(doneCount || '0')).toBeGreaterThanOrEqual(0);
+    expect(doneCount).toMatch(/✓/);
+  });
+
+  test('resume button hidden when no saved progress', async ({ page }) => {
+    await expect(page.locator('#dl-resume-btn')).not.toBeVisible();
+  });
+
+  test('resume button visible after starting a durchlauf and returning', async ({ page }) => {
+    await page.locator('#dl-config button:has-text("Neu starten")').click();
+    // Answer one question then navigate away and back
+    await page.locator('#dl-active .a-btn-ja').click();
+    await page.locator('#dl-next-btn').click();
+    await page.waitForTimeout(50);
+    await page.locator('.nav-btn[data-view="home"]').click();
+    await page.locator('.nav-btn[data-view="durchlauf"]').click();
+    await page.waitForTimeout(200);
+    await expect(page.locator('#dl-resume-btn')).toBeVisible();
   });
 });

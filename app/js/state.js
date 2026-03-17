@@ -24,6 +24,23 @@ export function isMastered(id) {
   return c.correctCount >= 3 && (c.correctCount - c.wrongCount) >= 3;
 }
 
+const DL_STORAGE_KEY = 'regelkunde_durchlauf_v1';
+
+export function loadDlProgress() {
+  try {
+    const raw = localStorage.getItem(DL_STORAGE_KEY);
+    return raw ? JSON.parse(raw) : null;
+  } catch (e) { return null; }
+}
+
+export function saveDlProgress(state) {
+  try { localStorage.setItem(DL_STORAGE_KEY, JSON.stringify(state)); } catch (e) {}
+}
+
+export function clearDlProgress() {
+  try { localStorage.removeItem(DL_STORAGE_KEY); } catch (e) {}
+}
+
 export function recordAnswer(id, correct) {
   const c = getCard(id), now = Date.now();
   if (correct) {

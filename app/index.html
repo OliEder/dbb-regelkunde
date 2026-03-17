@@ -328,55 +328,31 @@
       <button class="chip" data-cat="Trainer" onclick="dlSetCat(this,'Trainer')" aria-pressed="false">🎓 Trainer C-Lizenz</button>
     </div>
     <div class="chip-row" id="dl-topic-filter" role="group" aria-label="Themengebiet wählen" style="display:none;margin-bottom:8px"></div>
-    <button class="btn btn-primary btn-full" onclick="startDurchlauf()">Durchlauf starten</button>
+    <button id="dl-resume-btn" class="btn btn-primary btn-full" style="display:none;margin-bottom:8px" onclick="resumeDurchlauf()">Fortfahren</button>
+    <button class="btn btn-ghost btn-full" onclick="startDurchlauf()">Neu starten</button>
   </div>
-  <div id="dl-active" style="display:none">
-    <div class="dl-scoreboard">
-      <div class="dl-scoreboard-row">
-        <span class="dl-score-label">Fortschritt</span>
-        <span class="round-tag" aria-live="polite">Runde <span id="dl-round">1</span></span>
-      </div>
-      <div class="pbar" role="progressbar" id="dl-pbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="margin-bottom:8px">
-        <div class="pbar-fill green" id="dl-progress-bar" style="width:0%"></div>
-      </div>
-      <div class="dl-scoreboard-row">
-        <span class="dl-score-label">Abgehakt</span>
-        <span class="dl-score-val"><em id="dl-done-count">0</em> / <span id="dl-total-count">0</span></span>
-      </div>
-      <div class="dl-scoreboard-row">
-        <span class="dl-score-label">Verbleibend</span>
-        <span class="dl-score-val" id="dl-remaining">0</span>
-      </div>
+  <div id="dl-active" style="display:none" class="pad">
+    <div class="quiz-q-header">
+      <span id="dl-num" aria-live="polite">Frage 1/0</span>
+      <span id="dl-done-count" aria-live="polite">✓ 0</span>
     </div>
-    <div class="fc-progress-row" style="padding:10px 16px 0">
-      <div class="fc-meta" style="padding:0;width:100%">
-        <span class="fc-meta-id" id="dl-id" aria-live="polite">—</span>
-        <span class="fc-meta-art">Art. <span id="dl-art-num">—</span></span>
-      </div>
+    <div class="pbar" style="margin-bottom:16px" role="progressbar" id="dl-pbar-el" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
+      <div class="pbar-fill blue" id="dl-pbar" style="width:0%"></div>
     </div>
-    <button class="fc-wrap" id="dl-flip-btn" onclick="dlFlip()" aria-label="Karte umdrehen" aria-pressed="false">
-      <div class="fc-inner" id="dl-flashcard">
-        <div class="fc-face fc-front">
-          <p class="fc-q-text" id="dl-question">—</p>
-          <div class="fc-hint">Tippen zum Umdrehen</div>
-        </div>
-        <div class="fc-face fc-back">
-          <div class="fc-answer-word" id="dl-answer">—</div>
-          <p class="fc-explanation" id="dl-explanation">—</p>
-        </div>
-      </div>
-    </button>
-    <div class="answer-row" role="group" aria-label="Antwort geben">
-      <button class="a-btn a-btn-nein" onclick="dlAnswer(false)" aria-label="Nein — falsch beantwortet"><span aria-hidden="true">✕</span> Nein</button>
-      <button class="a-btn a-btn-ja" onclick="dlAnswer(true)" aria-label="Ja — richtig beantwortet"><span aria-hidden="true">✓</span> Ja</button>
+    <p class="quiz-q-text" id="dl-q-text" aria-live="polite">—</p>
+    <div id="dl-feedback" style="display:none" class="quiz-feedback" role="alert" aria-live="assertive"></div>
+    <div class="answer-row" id="dl-btns" role="group" aria-label="Antwort wählen">
+      <button class="a-btn a-btn-nein" onclick="dlAnswer(false)" aria-label="Nein antworten"><span aria-hidden="true">✕</span> Nein</button>
+      <button class="a-btn a-btn-ja" onclick="dlAnswer(true)" aria-label="Ja antworten"><span aria-hidden="true">✓</span> Ja</button>
     </div>
-    <div class="kbd-hint"><kbd>J</kbd> Ja &nbsp;·&nbsp; <kbd>N</kbd> Nein &nbsp;·&nbsp; <kbd>Leertaste</kbd> Umdrehen</div>
+    <button id="dl-next-btn" style="display:none" class="btn btn-primary btn-full" onclick="dlNext()">Weiter →</button>
+    <div class="kbd-hint"><kbd>J</kbd> Ja &nbsp;·&nbsp; <kbd>N</kbd> Nein</div>
   </div>
   <div id="dl-summary" style="display:none" class="dl-summary-wrap" aria-live="polite">
     <div class="dl-trophy" aria-hidden="true">🏆</div>
     <div class="dl-summary-title">Geschafft!</div>
-    <div class="dl-big-rounds" id="dl-final-rounds">1</div>
-    <div class="dl-rounds-label">Runden benötigt</div>
+    <div class="dl-big-rounds" id="dl-final-rounds">0</div>
+    <div class="dl-rounds-label">Fragen erledigt</div>
     <div class="dl-summary-stats" id="dl-summary-stats"></div>
     <button class="btn btn-primary btn-full" onclick="startDurchlauf()" style="margin-bottom:10px">Nochmal</button>
     <button class="btn btn-ghost btn-full" onclick="document.getElementById('dl-summary').style.display='none';document.getElementById('dl-config').style.display='block'">Zurück</button>

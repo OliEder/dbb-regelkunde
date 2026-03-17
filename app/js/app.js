@@ -1,5 +1,5 @@
 // app.js — Hauptlogik, importiert Module
-import { initState, getCard, isMastered, recordAnswer, STATE, saveState } from './state.js';
+import { initState, getCard, isMastered, recordAnswer, STATE, saveState, loadDlProgress, saveDlProgress, clearDlProgress } from './state.js';
 import { initTheme, toggleTheme } from './theme.js';
 import { shuffle, escHtml } from './utils.js';
 
@@ -24,10 +24,11 @@ window.learnSetTopic  = learnSetTopic;
 window.learnSetArt    = learnSetArt;
 window.renderLearn    = renderLearn;
 window.confirmReset   = confirmReset;
-window.dlSetCat       = dlSetCat;
-window.dlSetTopic     = dlSetTopic;
-window.startDurchlauf = startDurchlauf;
-window.dlFlip         = dlFlip;
+window.dlSetCat        = dlSetCat;
+window.dlSetTopic      = dlSetTopic;
+window.startDurchlauf  = startDurchlauf;
+window.resumeDurchlauf = resumeDurchlauf;
+window.dlNext          = dlNext;
 
 let QUESTIONS = [];
 let globalCat = 'all';
@@ -589,11 +590,13 @@ function confirmReset() {
 }
 
 // DURCHLAUF
-let dlState = { cat: 'all', queue: [], done: new Set(), streaks: {}, round: 1, total: 0, flipped: false };
+let dlState = { cat: 'all', queue: [], streaks: {}, total: 0, answered: false, correctCount: 0, wrongCount: 0 };
 
 function initDurchlauf() {
   buildTrainerTopicChips('dl-topic-filter', (el, id) => dlSetTopic(el, id));
-  if (dlState.queue.length > 0) return;
+  const saved = loadDlProgress();
+  const resumeBtn = document.getElementById('dl-resume-btn');
+  if (resumeBtn) resumeBtn.style.display = saved ? 'block' : 'none';
   document.getElementById('dl-config').style.display  = 'block';
   document.getElementById('dl-active').style.display  = 'none';
   document.getElementById('dl-summary').style.display = 'none';
@@ -617,9 +620,29 @@ function dlSetTopic(el, topicId) {
 }
 
 function startDurchlauf() {
+  clearDlProgress();
   const qs = shuffle([...filteredQuestions(dlState.cat)]);
-  dlState.queue = [...qs]; dlState.done = new Set(); dlState.streaks = {};
-  dlState.round = 1; dlState.total = qs.length; dlState.flipped = false;
+  dlState.queue = qs.map(q => q.id);
+  dlState.streaks = {}; dlState.total = qs.length;
+  dlState.answered = false; dlState.correctCount = 0; dlState.wrongCount = 0;
+  const progress = { cat: dlState.cat, queue: dlState.queue, streaks: dlState.streaks, total: dlState.total, correctCount: 0, wrongCount: 0, initialized: true };
+  saveDlProgress(progress);
+  document.getElementById('dl-config').style.display  = 'none';
+  document.getElementById('dl-active').style.display  = 'block';
+  document.getElementById('dl-summary').style.display = 'none';
+  dlRenderCurrent();
+}
+
+function resumeDurchlauf() {
+  const saved = loadDlProgress();
+  if (!saved) { startDurchlauf(); return; }
+  dlState.cat = saved.cat;
+  dlState.queue = saved.queue;
+  dlState.streaks = saved.streaks;
+  dlState.total = saved.total;
+  dlState.correctCount = saved.correctCount || 0;
+  dlState.wrongCount = saved.wrongCount || 0;
+  dlState.answered = false;
   document.getElementById('dl-config').style.display  = 'none';
   document.getElementById('dl-active').style.display  = 'block';
   document.getElementById('dl-summary').style.display = 'none';
@@ -627,54 +650,64 @@ function startDurchlauf() {
 }
 
 function dlRenderCurrent() {
-  const q = dlState.queue[0]; if (!q) return;
-  const pct = Math.round(dlState.done.size / dlState.total * 100);
-  document.getElementById('dl-done-count').textContent  = dlState.done.size;
-  document.getElementById('dl-total-count').textContent = dlState.total;
-  document.getElementById('dl-progress-bar').style.width = pct + '%';
-  document.getElementById('dl-pbar').setAttribute('aria-valuenow', pct);
-  document.getElementById('dl-remaining').textContent = dlState.queue.length;
-  document.getElementById('dl-round').textContent     = dlState.round;
-  document.getElementById('dl-id').textContent        = q.id;
-  document.getElementById('dl-art-num').textContent   = q.article || '-';
-  document.getElementById('dl-question').textContent  = q.question;
-  const ansEl = document.getElementById('dl-answer');
-  ansEl.textContent = q.answer;
-  ansEl.className = 'fc-answer-word ' + (q.answer === 'Ja' ? 'ja' : 'nein');
-  document.getElementById('dl-explanation').textContent = q.explanation || '';
-  dlState.flipped = false;
-  document.getElementById('dl-flashcard').classList.remove('flipped');
-  document.getElementById('dl-flip-btn').setAttribute('aria-pressed', 'false');
+  if (!dlState.queue.length) { showDlSummary(); return; }
+  const qId = dlState.queue[0];
+  const q = QUESTIONS.find(q => q.id === qId); if (!q) return;
+  const doneCount = Object.values(dlState.streaks).filter(s => s >= 2).length;
+  const pct = Math.round(doneCount / dlState.total * 100);
+  document.getElementById('dl-num').textContent       = 'Frage ' + (doneCount + 1) + '/' + dlState.total;
+  document.getElementById('dl-done-count').textContent = '✓ ' + doneCount;
+  document.getElementById('dl-pbar').style.width       = pct + '%';
+  document.getElementById('dl-pbar-el').setAttribute('aria-valuenow', pct);
+  document.getElementById('dl-q-text').textContent    = q.question;
+  document.getElementById('dl-feedback').style.display = 'none';
+  document.getElementById('dl-btns').style.display    = 'grid';
+  document.getElementById('dl-next-btn').style.display = 'none';
+  dlState.answered = false;
 }
 
-function dlFlip() {
-  dlState.flipped = !dlState.flipped;
-  document.getElementById('dl-flashcard').classList.toggle('flipped', dlState.flipped);
-  document.getElementById('dl-flip-btn').setAttribute('aria-pressed', String(dlState.flipped));
-}
-
-window.dlAnswer = function(correct) {
-  if (!dlState.queue.length) return;
-  const q = dlState.queue[0]; dlState.queue.splice(0, 1);
-  recordAnswer(q.id, correct);
+window.dlAnswer = function(userJa) {
+  if (dlState.answered || !dlState.queue.length) return;
+  dlState.answered = true;
+  const qId = dlState.queue[0]; dlState.queue.shift();
+  const q = QUESTIONS.find(q => q.id === qId); if (!q) return;
+  const correct = (userJa && q.answer === 'Ja') || (!userJa && q.answer === 'Nein');
+  recordAnswer(qId, correct);
   if (correct) {
-    dlState.streaks[q.id] = (dlState.streaks[q.id] || 0) + 1;
-    if (dlState.streaks[q.id] < 2) dlState.queue.push(q); else dlState.done.add(q.id);
+    dlState.correctCount++;
+    dlState.streaks[qId] = (dlState.streaks[qId] || 0) + 1;
+    if (dlState.streaks[qId] < 2) {
+      const insertAt = Math.floor(Math.random() * (dlState.queue.length + 1));
+      dlState.queue.splice(insertAt, 0, qId);
+    }
   } else {
-    dlState.streaks[q.id] = 0; dlState.queue.push(q);
+    dlState.wrongCount++;
+    dlState.streaks[qId] = 0;
+    const insertAt = dlState.queue.length > 0 ? Math.floor(Math.random() * dlState.queue.length) + 1 : 0;
+    dlState.queue.splice(insertAt, 0, qId);
   }
-  if (dlState.queue.length === 0) { showDlSummary(); return; }
-  const r = Math.max(1, Math.ceil(Object.keys(dlState.streaks).length / dlState.total * 2));
-  dlState.round = r; document.getElementById('dl-round').textContent = r;
-  dlRenderCurrent();
+  const fb = document.getElementById('dl-feedback');
+  fb.style.display = 'block';
+  fb.className = 'quiz-feedback ' + (correct ? 'correct' : 'wrong');
+  fb.textContent = (correct ? '✓ Richtig! ' : '✗ Falsch — Richtige Antwort: ' + q.answer + '. ') + (q.explanation || '');
+  document.getElementById('dl-btns').style.display    = 'none';
+  document.getElementById('dl-next-btn').style.display = 'block';
+  saveDlProgress({ cat: dlState.cat, queue: dlState.queue, streaks: dlState.streaks, total: dlState.total, correctCount: dlState.correctCount, wrongCount: dlState.wrongCount, initialized: true });
 };
 
+function dlNext() {
+  const doneCount = Object.values(dlState.streaks).filter(s => s >= 2).length;
+  if (doneCount >= dlState.total) { showDlSummary(); return; }
+  if (!dlState.queue.length) { showDlSummary(); return; }
+  dlRenderCurrent();
+}
+
 function showDlSummary() {
+  clearDlProgress();
   document.getElementById('dl-active').style.display  = 'none';
   document.getElementById('dl-summary').style.display = 'block';
-  document.getElementById('dl-final-rounds').textContent  = dlState.round;
-  document.getElementById('dl-summary-stats').textContent = dlState.total + ' Fragen · ' + dlState.done.size + ' abgehakt';
-  dlState.queue = []; dlState.done = new Set();
+  document.getElementById('dl-final-rounds').textContent  = dlState.total;
+  document.getElementById('dl-summary-stats').textContent = dlState.total + ' Fragen · ✓ ' + dlState.correctCount + ' richtig · ✗ ' + dlState.wrongCount + ' falsch';
 }
 
 // KEYBOARD
@@ -692,9 +725,10 @@ document.addEventListener('keydown', function(e) {
     } else if (quizState.answered && k === ' ') { e.preventDefault(); quizNext(); }
   } else if (currentView === 'durchlauf') {
     if (document.getElementById('dl-active').style.display !== 'none') {
-      if (k === 'j') window.dlAnswer(true);
-      else if (k === 'n') window.dlAnswer(false);
-      else if (k === ' ') { e.preventDefault(); dlFlip(); }
+      if (!dlState.answered) {
+        if (k === 'j') window.dlAnswer(true);
+        else if (k === 'n') window.dlAnswer(false);
+      } else if (k === ' ') { e.preventDefault(); dlNext(); }
     }
   }
 });
@@ -707,7 +741,7 @@ document.addEventListener('keydown', function(e) {
     const dx = e.changedTouches[0].clientX - sx, dy = e.changedTouches[0].clientY - sy;
     if (Math.abs(dx) < 60 || Math.abs(dy) > Math.abs(dx) * 0.8) return;
     if (currentView === 'flashcards') dx > 0 ? fcAnswer(true) : fcAnswer(false);
-    else if (currentView === 'durchlauf' && document.getElementById('dl-active').style.display !== 'none')
+    else if (currentView === 'durchlauf' && document.getElementById('dl-active').style.display !== 'none' && !dlState.answered)
       dx > 0 ? window.dlAnswer(true) : window.dlAnswer(false);
   }, { passive: true });
 })();
