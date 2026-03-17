@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#0d0f14" id="theme-color-meta">
+<meta name="description" content="DBB Regelkunde Lerntool — Schiedsrichter-Fragenkatalog 2025">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Regelkunde">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icons/icon-192.png">
+<title>DBB Regelkunde 2025</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div id="app" role="application">
+
+<!-- BOTTOM NAV -->
+<nav class="bottom-nav" aria-label="Hauptnavigation">
+  <button class="nav-btn active" data-view="home" onclick="navigate('home')" aria-label="Home" aria-current="page">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+    Home
+  </button>
+  <button class="nav-btn" data-view="flashcards" onclick="navigate('flashcards')" aria-label="Karteikarten">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="2" y="5" width="20" height="14" rx="3"/><line x1="2" y1="10" x2="22" y2="10"/></svg>
+    Karten
+  </button>
+  <button class="nav-btn" data-view="quiz" onclick="navigate('quiz')" aria-label="Quiz">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+    Quiz
+  </button>
+  <button class="nav-btn" data-view="learn" onclick="navigate('learn')" aria-label="Lernmodus">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>
+    Lernen
+  </button>
+  <button class="nav-btn" data-view="stats" onclick="navigate('stats')" aria-label="Statistik">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+    Statistik
+  </button>
+  <button class="nav-btn" data-view="durchlauf" onclick="navigate('durchlauf')" aria-label="Durchlauf-Modus">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+    Prüfung
+  </button>
+</nav>
+
+<main id="main-content" tabindex="-1">
+
+<!-- ═══ HOME ════════════════════════════════════════════ -->
+<section id="view-home" class="view active" role="main" aria-label="Home">
+  <div class="hero" style="position:relative">
+    <button class="theme-toggle" id="theme-toggle-btn" onclick="toggleTheme()" aria-label="Zum Hell-Modus wechseln" title="Theme wechseln">
+      <span id="theme-icon">☀️</span>
+    </button>
+    <div class="hero-label" aria-hidden="true">Schiedsrichter · 2025</div>
+    <h1 class="hero-title">DBB Regel<span>kunde</span></h1>
+    <div class="stats-grid" role="list">
+      <div class="stat-tile" role="listitem">
+        <div class="n" id="home-total" aria-label="Beantwortete Fragen">0</div>
+        <div class="l">Beantwortet</div>
+      </div>
+      <div class="stat-tile" role="listitem">
+        <div class="n" id="home-mastered" aria-label="Gemeisterte Fragen">0</div>
+        <div class="l">Gemeistert</div>
+      </div>
+      <div class="stat-tile" role="listitem">
+        <div class="n" id="home-streak" aria-label="Tagesstreak">0</div>
+        <div class="l">Streak</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="pad">
+    <div class="section-label">Modus wählen</div>
+    <div class="mode-grid" role="list">
+      <button class="mode-btn" onclick="navigate('flashcards')" aria-label="Karteikarten - Spaced Repetition">
+        <div class="m-icon" aria-hidden="true">🃏</div>
+        <div class="m-title">Karten</div>
+        <div class="m-desc">Spaced Repetition</div>
+      </button>
+      <button class="mode-btn" onclick="navigate('quiz')" aria-label="Quiz - Zufällige Fragen">
+        <div class="m-icon" aria-hidden="true">❓</div>
+        <div class="m-title">Quiz</div>
+        <div class="m-desc">Zufällige Fragen</div>
+      </button>
+      <button class="mode-btn" onclick="navigate('learn')" aria-label="Lernen - Alle Fragen durchsuchen">
+        <div class="m-icon" aria-hidden="true">📖</div>
+        <div class="m-title">Lernen</div>
+        <div class="m-desc">Alle Fragen</div>
+      </button>
+      <button class="mode-btn" onclick="navigate('durchlauf')" aria-label="Durchlauf - Prüfungsvorbereitung">
+        <div class="m-icon" aria-hidden="true">🏆</div>
+        <div class="m-title">Durchlauf</div>
+        <div class="m-desc">Prüfungstest</div>
+      </button>
+    </div>
+
+    <div class="divider" style="margin:16px -16px; width:calc(100% + 32px);"></div>
+
+    <div class="section-label" style="margin-top:16px">Fortschritt</div>
+    <div class="cat-progress">
+      <div class="cat-progress-head">
+        <span>Regelfragen</span>
+        <span id="home-r-text" aria-live="polite">0/175</span>
+      </div>
+      <div class="pbar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" id="home-r-pbar">
+        <div class="pbar-fill blue" id="home-r-bar" style="width:0%"></div>
+      </div>
+    </div>
+    <div class="cat-progress">
+      <div class="cat-progress-head">
+        <span>KR-Fragen</span>
+        <span id="home-k-text" aria-live="polite">0/139</span>
+      </div>
+      <div class="pbar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" id="home-k-pbar">
+        <div class="pbar-fill orange" id="home-k-bar" style="width:0%"></div>
+      </div>
+    </div>
+    <div class="cat-progress">
+      <div class="cat-progress-head">
+        <span>🎓 Trainer C-Lizenz</span>
+        <span id="home-t-text" aria-live="polite">0/0</span>
+      </div>
+      <div class="pbar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" id="home-t-pbar">
+        <div class="pbar-fill" id="home-t-bar" style="width:0%;background:var(--green)"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ FLASHCARDS ═══════════════════════════════════════ -->
+<section id="view-flashcards" class="view" aria-label="Karteikarten">
+  <div class="topbar">
+    <div class="topbar-inner">
+      <div>
+        <h1>Karten<span style="color:var(--accent)">.</span></h1>
+        <div class="topbar-sub" id="fc-header-sub" aria-live="polite">Spaced Repetition</div>
+      </div>
+    </div>
+  </div>
+  <div class="pad" style="padding-bottom:8px">
+    <div class="chip-row" id="fc-cat-filter" role="group" aria-label="Kategorie wählen">
+      <button class="chip active" data-cat="all" onclick="fcSetCat(this,'all')" aria-pressed="true">Alle</button>
+      <button class="chip" data-cat="Regelfragen" onclick="fcSetCat(this,'Regelfragen')" aria-pressed="false">Regelfragen</button>
+      <button class="chip" data-cat="KR-Fragen" onclick="fcSetCat(this,'KR-Fragen')" aria-pressed="false">KR-Fragen</button>
+      <button class="chip" data-cat="Trainer" onclick="fcSetCat(this,'Trainer')" aria-pressed="false">🎓 Trainer C-Lizenz</button>
+    </div>
+    <div class="chip-row" id="fc-topic-filter" role="group" aria-label="Themengebiet wählen" style="display:none;margin-top:6px"></div>
+  </div>
+  <div id="fc-main">
+    <div class="fc-progress-row">
+      <div class="pbar" role="progressbar" id="fc-pbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
+        <div class="pbar-fill blue" id="fc-pbar-fill" style="width:0%"></div>
+      </div>
+      <span class="fc-progress-num" id="fc-queue-info" aria-live="polite">—</span>
+    </div>
+    <div class="fc-meta">
+      <span class="fc-meta-id" id="fc-id" aria-label="Fragen-ID">—</span>
+      <span class="fc-meta-art" id="fc-art">—</span>
+    </div>
+    <button class="fc-wrap" id="fc-flip-btn" onclick="fcFlip()" aria-label="Karte umdrehen" aria-pressed="false">
+      <div class="fc-inner" id="flashcard">
+        <div class="fc-face fc-front" aria-hidden="false">
+          <p class="fc-q-text" id="fc-question">Lade Fragen…</p>
+          <div class="fc-hint">Tippen zum Umdrehen</div>
+        </div>
+        <div class="fc-face fc-back" aria-hidden="true">
+          <div class="fc-answer-word" id="fc-answer">—</div>
+          <p class="fc-explanation" id="fc-explanation">—</p>
+        </div>
+      </div>
+    </button>
+    <div class="answer-row" role="group" aria-label="Antwort geben">
+      <button class="a-btn a-btn-nein" onclick="fcAnswer(false)" aria-label="Nein — falsch beantwortet"><span aria-hidden="true">✕</span> Nein</button>
+      <button class="a-btn a-btn-ja" onclick="fcAnswer(true)" aria-label="Ja — richtig beantwortet"><span aria-hidden="true">✓</span> Ja</button>
+    </div>
+    <div class="kbd-hint" aria-label="Tastaturkürzel"><kbd>J</kbd> Ja &nbsp;·&nbsp; <kbd>N</kbd> Nein &nbsp;·&nbsp; <kbd>Leertaste</kbd> Umdrehen</div>
+  </div>
+  <div id="fc-done" style="display:none" class="fc-done-state">
+    <div class="big-icon" aria-hidden="true">🎉</div>
+    <h2>Alle gemeistert!</h2>
+    <p style="margin-bottom:20px">Alle fälligen Karten beantwortet.</p>
+    <button class="btn btn-primary btn-full" onclick="fcReset()">Neu starten</button>
+  </div>
+</section>
+
+<!-- ═══ QUIZ ══════════════════════════════════════════════ -->
+<section id="view-quiz" class="view" aria-label="Quiz">
+  <div class="topbar">
+    <div>
+      <h1>Quiz<span style="color:var(--accent)">.</span></h1>
+      <div class="topbar-sub" id="quiz-header-sub" aria-live="polite">Konfigurieren</div>
+    </div>
+  </div>
+  <div id="quiz-config" class="quiz-config-wrap">
+    <div class="chip-row" id="quiz-cat-filter" role="group" aria-label="Kategorie" style="margin-bottom:8px">
+      <button class="chip active" data-cat="all" onclick="quizSetCat(this,'all')" aria-pressed="true">Alle</button>
+      <button class="chip" data-cat="Regelfragen" onclick="quizSetCat(this,'Regelfragen')" aria-pressed="false">Regelfragen</button>
+      <button class="chip" data-cat="KR-Fragen" onclick="quizSetCat(this,'KR-Fragen')" aria-pressed="false">KR-Fragen</button>
+      <button class="chip" data-cat="Trainer" onclick="quizSetCat(this,'Trainer')" aria-pressed="false">🎓 Trainer C-Lizenz</button>
+    </div>
+    <div class="chip-row" id="quiz-topic-filter" role="group" aria-label="Themengebiet wählen" style="display:none;margin-bottom:8px"></div>
+    <div class="section-label">Anzahl Fragen</div>
+    <div class="quiz-count-grid" role="group" aria-label="Anzahl der Fragen wählen">
+      <button class="count-tile active" data-n="10" onclick="quizSetN(this,10)" aria-pressed="true">10</button>
+      <button class="count-tile" data-n="20" onclick="quizSetN(this,20)" aria-pressed="false">20</button>
+      <button class="count-tile" data-n="50" onclick="quizSetN(this,50)" aria-pressed="false">50</button>
+      <button class="count-tile" data-n="0" onclick="quizSetN(this,0)" aria-pressed="false">Alle</button>
+    </div>
+    <button class="btn btn-primary btn-full" onclick="startQuiz()">Quiz starten</button>
+  </div>
+  <div id="quiz-active" style="display:none" class="pad">
+    <div class="quiz-q-header">
+      <span class="quiz-q-num" id="quiz-num" aria-live="polite">Frage 1/10</span>
+      <span class="quiz-score-live" id="quiz-score-live" aria-live="polite" aria-label="Richtige Antworten">✓ 0</span>
+    </div>
+    <div class="pbar" style="margin-bottom:16px" role="progressbar" id="quiz-pbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
+      <div class="pbar-fill blue" id="quiz-progress-bar" style="width:0%"></div>
+    </div>
+    <p class="quiz-q-text" id="quiz-question" aria-live="polite">—</p>
+    <div id="quiz-feedback" style="display:none" class="quiz-feedback" role="alert" aria-live="assertive"></div>
+    <div class="answer-row" id="quiz-btns" role="group" aria-label="Antwort wählen">
+      <button class="a-btn a-btn-nein" onclick="quizAnswer(false)" aria-label="Nein antworten"><span aria-hidden="true">✕</span> Nein</button>
+      <button class="a-btn a-btn-ja" onclick="quizAnswer(true)" aria-label="Ja antworten"><span aria-hidden="true">✓</span> Ja</button>
+    </div>
+    <button id="quiz-next-btn" style="display:none" class="btn btn-primary btn-full" onclick="quizNext()">Weiter →</button>
+    <div class="kbd-hint"><kbd>J</kbd> Ja &nbsp;·&nbsp; <kbd>N</kbd> Nein</div>
+  </div>
+  <div id="quiz-summary" style="display:none" class="quiz-summary-wrap" aria-live="polite">
+    <div class="quiz-big-score" id="quiz-final-score">0/0</div>
+    <div class="quiz-score-label" id="quiz-final-pct">0% richtig</div>
+    <div class="quiz-msg" id="quiz-summary-msg"></div>
+    <button class="btn btn-primary btn-full" onclick="navigate('quiz')" style="margin-bottom:10px">Neues Quiz</button>
+    <button class="btn btn-ghost btn-full" onclick="showQuizWrong()">Falsche Fragen anzeigen</button>
+    <div id="quiz-wrong-list" style="margin-top:16px;text-align:left;display:none" aria-live="polite"></div>
+  </div>
+</section>
+
+<!-- ═══ LERNEN ════════════════════════════════════════════ -->
+<section id="view-learn" class="view" aria-label="Lernmodus">
+  <div class="topbar">
+    <div>
+      <h1>Lernen<span style="color:var(--accent)">.</span></h1>
+      <div class="topbar-sub" id="learn-header-sub" aria-live="polite">314 Fragen</div>
+    </div>
+  </div>
+  <div class="pad">
+    <div class="search-wrap">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <label for="learn-search" class="sr-only">Fragen durchsuchen</label>
+      <input type="search" id="learn-search" class="search-input" placeholder="Fragen durchsuchen…" oninput="renderLearn()" aria-label="Fragen durchsuchen" autocomplete="off">
+    </div>
+    <div class="chip-row" id="learn-cat-filter" role="group" aria-label="Kategorie" style="margin-bottom:8px">
+      <button class="chip active" data-cat="all" onclick="learnSetCat(this,'all')" aria-pressed="true">Alle</button>
+      <button class="chip" data-cat="Regelfragen" onclick="learnSetCat(this,'Regelfragen')" aria-pressed="false">Regelfragen</button>
+      <button class="chip" data-cat="KR-Fragen" onclick="learnSetCat(this,'KR-Fragen')" aria-pressed="false">KR-Fragen</button>
+      <button class="chip" data-cat="Trainer" onclick="learnSetCat(this,'Trainer')" aria-pressed="false">🎓 Trainer C-Lizenz</button>
+    </div>
+    <div class="chip-row" id="learn-topic-filter" role="group" aria-label="Themengebiet wählen" style="display:none;margin-bottom:6px"></div>
+    <div class="chip-row" id="learn-art-filter" style="margin-bottom:10px" role="group" aria-label="Artikel filtern"></div>
+    <div class="learn-count" id="learn-count" aria-live="polite">314 Fragen</div>
+    <div id="learn-list" role="list" aria-label="Fragenliste"></div>
+  </div>
+</section>
+
+<!-- ═══ STATISTIK ════════════════════════════════════════ -->
+<section id="view-stats" class="view" aria-label="Statistik">
+  <div class="topbar">
+    <div>
+      <h1>Stats<span style="color:var(--accent)">.</span></h1>
+      <div class="topbar-sub">Lernfortschritt</div>
+    </div>
+  </div>
+  <div class="pad">
+    <div class="stat-kpi-grid" role="list">
+      <div class="kpi-tile kpi-blue" role="listitem">
+        <div class="kpi-n" id="stats-answered" aria-label="Beantwortete Fragen">0</div>
+        <div class="kpi-l">Beantwortet</div>
+      </div>
+      <div class="kpi-tile kpi-green" role="listitem">
+        <div class="kpi-n" id="stats-mastered" aria-label="Gemeisterte Fragen">0</div>
+        <div class="kpi-l">Gemeistert</div>
+      </div>
+      <div class="kpi-tile kpi-gold" role="listitem">
+        <div class="kpi-n" id="stats-accuracy" aria-label="Genauigkeit in Prozent">0%</div>
+        <div class="kpi-l">Genauigkeit</div>
+      </div>
+    </div>
+    <div class="section-label">Übersicht</div>
+    <div class="donut-container" id="stats-donut" role="img" aria-label="Fortschrittsdiagramm"></div>
+    <div class="legend-row" id="stats-legend" aria-live="polite"></div>
+    <div class="divider" style="margin:0 -16px; width:calc(100% + 32px); margin-bottom:16px;"></div>
+    <div class="section-label">Nach Artikel</div>
+    <table class="art-table" aria-label="Fortschritt nach Artikel">
+      <caption class="sr-only">Lernfortschritt aufgeschlüsselt nach Regelartikeln</caption>
+      <thead>
+        <tr>
+          <th scope="col">Artikel</th>
+          <th scope="col">Fragen</th>
+          <th scope="col">Richtig</th>
+          <th scope="col">Trend</th>
+        </tr>
+      </thead>
+      <tbody id="stats-art-table"></tbody>
+    </table>
+    <div style="margin-top:24px">
+      <button class="btn btn-ghost btn-full" onclick="confirmReset()" aria-label="Gesamten Lernfortschritt zurücksetzen">Fortschritt zurücksetzen</button>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ DURCHLAUF ════════════════════════════════════════ -->
+<section id="view-durchlauf" class="view" aria-label="Durchlauf-Modus">
+  <div class="topbar">
+    <div>
+      <h1>Prüfung<span style="color:var(--accent)">.</span></h1>
+      <div class="topbar-sub">Durchlauf-Modus</div>
+    </div>
+  </div>
+  <div id="dl-config" class="pad">
+    <div class="info-box" style="margin-bottom:14px">
+      <p>Alle Fragen werden durchlaufen. Falsch beantwortete Fragen kommen zurück, bis du sie <strong>2× hintereinander</strong> richtig hast.</p>
+    </div>
+    <div class="chip-row" id="dl-cat-filter" role="group" aria-label="Kategorie" style="margin-bottom:8px">
+      <button class="chip active" data-cat="all" onclick="dlSetCat(this,'all')" aria-pressed="true">Alle (314)</button>
+      <button class="chip" data-cat="Regelfragen" onclick="dlSetCat(this,'Regelfragen')" aria-pressed="false">Regelfragen (175)</button>
+      <button class="chip" data-cat="KR-Fragen" onclick="dlSetCat(this,'KR-Fragen')" aria-pressed="false">KR-Fragen (139)</button>
+      <button class="chip" data-cat="Trainer" onclick="dlSetCat(this,'Trainer')" aria-pressed="false">🎓 Trainer C-Lizenz</button>
+    </div>
+    <div class="chip-row" id="dl-topic-filter" role="group" aria-label="Themengebiet wählen" style="display:none;margin-bottom:8px"></div>
+    <button class="btn btn-primary btn-full" onclick="startDurchlauf()">Durchlauf starten</button>
+  </div>
+  <div id="dl-active" style="display:none">
+    <div class="dl-scoreboard">
+      <div class="dl-scoreboard-row">
+        <span class="dl-score-label">Fortschritt</span>
+        <span class="round-tag" aria-live="polite">Runde <span id="dl-round">1</span></span>
+      </div>
+      <div class="pbar" role="progressbar" id="dl-pbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="margin-bottom:8px">
+        <div class="pbar-fill green" id="dl-progress-bar" style="width:0%"></div>
+      </div>
+      <div class="dl-scoreboard-row">
+        <span class="dl-score-label">Abgehakt</span>
+        <span class="dl-score-val"><em id="dl-done-count">0</em> / <span id="dl-total-count">0</span></span>
+      </div>
+      <div class="dl-scoreboard-row">
+        <span class="dl-score-label">Verbleibend</span>
+        <span class="dl-score-val" id="dl-remaining">0</span>
+      </div>
+    </div>
+    <div class="fc-progress-row" style="padding:10px 16px 0">
+      <div class="fc-meta" style="padding:0;width:100%">
+        <span class="fc-meta-id" id="dl-id" aria-live="polite">—</span>
+        <span class="fc-meta-art">Art. <span id="dl-art-num">—</span></span>
+      </div>
+    </div>
+    <button class="fc-wrap" id="dl-flip-btn" onclick="dlFlip()" aria-label="Karte umdrehen" aria-pressed="false">
+      <div class="fc-inner" id="dl-flashcard">
+        <div class="fc-face fc-front">
+          <p class="fc-q-text" id="dl-question">—</p>
+          <div class="fc-hint">Tippen zum Umdrehen</div>
+        </div>
+        <div class="fc-face fc-back">
+          <div class="fc-answer-word" id="dl-answer">—</div>
+          <p class="fc-explanation" id="dl-explanation">—</p>
+        </div>
+      </div>
+    </button>
+    <div class="answer-row" role="group" aria-label="Antwort geben">
+      <button class="a-btn a-btn-nein" onclick="dlAnswer(false)" aria-label="Nein — falsch beantwortet"><span aria-hidden="true">✕</span> Nein</button>
+      <button class="a-btn a-btn-ja" onclick="dlAnswer(true)" aria-label="Ja — richtig beantwortet"><span aria-hidden="true">✓</span> Ja</button>
+    </div>
+    <div class="kbd-hint"><kbd>J</kbd> Ja &nbsp;·&nbsp; <kbd>N</kbd> Nein &nbsp;·&nbsp; <kbd>Leertaste</kbd> Umdrehen</div>
+  </div>
+  <div id="dl-summary" style="display:none" class="dl-summary-wrap" aria-live="polite">
+    <div class="dl-trophy" aria-hidden="true">🏆</div>
+    <div class="dl-summary-title">Geschafft!</div>
+    <div class="dl-big-rounds" id="dl-final-rounds">1</div>
+    <div class="dl-rounds-label">Runden benötigt</div>
+    <div class="dl-summary-stats" id="dl-summary-stats"></div>
+    <button class="btn btn-primary btn-full" onclick="startDurchlauf()" style="margin-bottom:10px">Nochmal</button>
+    <button class="btn btn-ghost btn-full" onclick="document.getElementById('dl-summary').style.display='none';document.getElementById('dl-config').style.display='block'">Zurück</button>
+  </div>
+</section>
+
+</main>
+</div>
+
+<script type="module" src="js/app.js"></script>
+<script>
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => navigator.serviceWorker.register('sw.js'));
+  }
+</script>
+</body>
+</html>

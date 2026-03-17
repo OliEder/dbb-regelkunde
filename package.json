@@ -1,0 +1,14 @@
+{
+  "name": "dbb-regelkunde",
+  "version": "1.0.0",
+  "description": "DBB Schiedsrichter Regelkunde Lerntool",
+  "private": true,
+  "scripts": {
+    "test": "playwright test",
+    "test:ui": "playwright test --ui",
+    "serve": "npx serve app -p 3000"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.44.0"
+  }
+}

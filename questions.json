@@ -1,0 +1,1135 @@
+Sheet 'DBB Regelfragen 2025': 175 Fragen extrahiert
+Sheet 'DBB KR-Fragen 2025': 139 Fragen extrahiert
+[
+  {
+    "id": "R-1",
+    "category": "Regelfragen",
+    "question": "Jede Mannschaft besteht aus höchstens 12 spielberechtigten Mannschaftsmitgliedern einschließlich eines Kapitäns, dem Trainer, höchstens 8 zur Mannschaft gehörende Begleitpersonen, einschließlich Trainer-Assistenten, die auf der Mannschaftsbank sitzen dürfen. Richtig?",
+    "answer": "Ja",
+    "explanation": "Ja (Art. 4).",
+    "article": "4"
+  },
+  {
+    "id": "R-2",
+    "category": "Regelfragen",
+    "question": "A1 trägt an einem Finger eine Schutzvorrichtung aus flexiblem Kunststoff, die zusätzlich weich gepolstert ist. Dies ist nicht erlaubt. Richtig?",
+    "answer": "Ja",
+    "explanation": "Ja (Art. 4). Schutzvorrichtungen aus flexiblem Kunststoff, auch wenn sie gepolstert sind, dürfen nicht getragen werden.",
+    "article": "4"
+  },
+  {
+    "id": "R-3",
+    "category": "Regelfragen",
+    "question": "A1 trägt auf dem Spielfeld ein weißes Stirnband, A2 eine Schutzmaske zum Abdecken seiner gebrochenen Nase und A3 ein weißes Kompressionsshirt. Das ist zulässig. Richtig?",
+    "answer": "Ja",
+    "explanation": "Ja (Art. 4).",
+    "article": "4"
+  },
+  {
+    "id": "R-4",
+    "category": "Regelfragen",
+    "question": "Ein geknotetes Stirnband ist zulässig. Richtig?",
+    "answer": "Nein",
+    "explanation": "Nein (Art. 4).",
+    "article": "4"
+  },
+  {
+    "id": "R-5",
+    "category": "Regelfragen",
+    "question": "A1 erhält zwei Freiwürfe. Nach dem 1. Freiwurf müssen die verletzten B2 und B3 ausgewechselt werden. Nun darf auch Mannschaft A maximal zwei Spieler auswechseln. Richtig?",
+    "answer": "Ja",
+    "explanation": "Ja (Art. 5). Maximal so viele Spieler wie Mannschaft B.",
+    "article": "5"
+  },
+  {
+    "id": "R-6",
+    "category": "Regelfragen",
+    "question": "Vor dem ersten von 3 Freiwürfen von A1 geht B2 zu seiner Mannschaftsbank, um sich ein gelockertes Tape nachkleben zu lassen. Die Schiedsrichter lassen dies zu, wenn B2 vor dem letzten Freiwurf wieder spielfähig ist. Richtig?",
+    "answer": "Ja",
+    "explanation": "Ja (Art. 5). Die Spielfortsetzung wird nicht verzögert.",
+    "article": "5"
+  },
+  {
+    "id": "R-7",
+    "category": "Regelfragen",
+    "question": "Werden Freiwerfer A1 und Mitspieler A2 zwischen den Freiwürfen von A1 wegen Verletzung ausgewechselt, darf auch Mannschaft B bis zu 2 Spieler auswechseln. Richtig?",
+    "answer": "Ja",
+    "explanation": "Ja (Art. 5). Maximal so viele Spieler wie Mannschaft A.",
+    "article": "5"
+  },
+  {
+    "id": "R-8",
+    "category": "Regelfragen",
+    "question": "A1 hat sich am Knöchel verletzt und sein Trainer betritt das Spielfeld, um mit dem Spieler kurz zu reden. A1 muss ausgewechselt werden. Richtig?",
+    "answer": "Ja",
+    "explanation": "Ja (Art. 5). Der Spieler hat Unterstützung erhalten, da der Trainer das Spielfeld betreten hat und A1 ist auszuwechseln.",
+    "article": "5"
+  },
+  {
+    "id": "R-9",
+    "category": "Regelfragen",
+    "question": "Spielerin A2 ist zusätzlich auf dem Anschreibebogen als 1. Trainer-Assistentin eingetragen. Damit muss sie auch Mannschaftskapitänin sein. Richtig?",
+    "answer": "Nein",
+    "explanation": "Nein (Art. 7). Das gilt nur für eine Spielertrainerin.",
+    "article": "7"
+  },
+  {
+    "id": "R-10",
+    "category": "Regelfragen",
+    "question": "A1 wird während seiner Korbwurfaktion von B1 gefoult, als der Ball noch in seinen Händen ist. Gleichzeitig mit dem Foul ertönt das Signal zum Ablauf der Spielzeit des 1. Viertels. Der Ball geht anschließend in den Korb. A1 wirft 1 Freiwurf ohne Aufstellung, das 1. Viertel ist beendet. Richtig?",
+    "answer": "Nein",
+    "explanation": "Nein (Art. 8). Die Schiedsrichter müssen entscheiden, ob das Foul vor oder nach Ablauf der Spielzeit geschah: Entweder zählen Korb und Foul nicht oder es gibt 1 Freiwurf mit mindestens 0,1 Sekunden Restzeit.",
+    "article": "8"
+  },
+  {
+    "id": "R-11",
+    "category": "Regelfragen",
+    "question": "A1 wird während ihrer Korbwurfaktion, aber kurz nach Ablauf der Spielzeit des 1. Viertels von B1 gefoult (persönliches Foul). Da das persönliche Foul in der Spielpause geschah, bleibt es ungeahndet. Richtig?",
+    "answer": "Ja",
+    "explanation": "Ja (Art. 8). Das Foul wird nicht beachtet.",
+    "article": "8"
+  },
+  {
+    "id": "R-12",
+    "category": "Regelfragen",
+    "question": "Kurz vor dem Schlusssignal beim Spielstand von 89:75 ist der Ball bei einem Drei-Punkte-Wurf von A1 in der Luft. Nach dem Signal begeht B1 ein Unsportliches Foul am Werfer A1, der sich noch in der Luft befindet. Dieses Foul bleibt ungeahndet. Richtig?",
+    "answer": "Ja",
+    "explanation": "Ja (Art. 8). Das Foul wird nicht beachtet, da es sich nach Spielende ereignet hat und kein weiterer Spielabschnitt (Verlängerung) folgt.",
+    "article": "8"
+  },
+  {
+    "id": "R-13",
+    "category": "Regelfragen",
+    "question": "Das 1. Viertel beginnt, wenn der Ball beim Eröffnungssprungball im Mittelkreis legal getippt wird. Richtig?",
+    "answer": "Nein",
+    "explanation": "Nein (Art. 9). Das 1. Viertel beginnt, wenn der Ball beim Eröffnungssprungball die Hand oder Hände des 1. Schiedsrichters verlässt.",
+    "article": "9"
+  },
+  {
+    "id": "R-14",
+    "category": "Regelfragen",
+    "question": "Zum Eröffnungssprungball stellen sich die Mannschaften auf der jeweils falschen Seite auf. A1 erzielt einen erfolgreichen Drei-Punkte-Wurf. Jetzt wird der Fehler erkannt und die Seiten getauscht. Richtig?",
+    "answer": "Ja",
+    "explanation": "Ja (Art. 9). Der Korb von A1 zählt drei Punkte für Mannschaft A.",
+    "article": "9"
+  },
+  {
+    "id": "R-15",
+    "category": "Regelfragen",
+    "question": "Wird B1 vor Spielbeginn unsportlich gefoult, wirft er zwei Freiwürfe, auch wenn er nicht zu den Ersten Fünf gehört. Richtig?",
+    "answer": "Ja",
+    "explanation": "Ja (Art. 9).",
+    "article": "9"
+  },
+  {
+    "id": "R-16",
+    "category": "Regelfragen",
+    "question": "Der zum Eröffnungssprungball hochgeworfene Ball wird von Springer A1 zu früh getippt. Noch in der Luft begeht B1 an ihm ein persönliches Foul, das zu den Mannschaftsfouls B zählt. Richtig?",
+    "answer": "Nein",
+    "explanation": "Nein (Art. 9). Das Spiel hat begonnen und ist durch die Regelübertretung von A1 gestoppt. Das Foul von B1 wird nur beachtet, wenn es ein Unsportliches oder Disqualifizierendes Foul ist.",
+    "article": "9"
+  },
+  {
+    "id": "R-17",
+    "category": "Regelfragen",
+    "question": "A1 wird während der Korbwurfbewegung gefoult, kommt aber noch zum Wurf. Der Ball rollt auf der Innenseite des Rings, wird dabei von A2 berührt und fällt dann durch den Korb. Der Korb zählt. Richtig?",
+    "answer": "Nein",
+    "explanation": "Nein (Art. 10). Der Korb zählt nicht und A1 erhält zwei Freiwürfe. Ein Angreifer darf den Ball im gegnerischen Korb zwar berühren, der Ball wird aber nach dem Foulpfiff durch die Berührung von A2 sofort zum toten Ball. Der Korb ist noch nicht erzielt, da der Ball erst anschließend durch den Korb fällt.",
+    "article": "10"
+  },
+  {
+    "id": "R-18",
+    "category": "Regelfragen",
+    "question": "Der Ball ist bei einem Korbwurf von A1 in der Luft, als das Signal der Spieluhr ertönt. Danach berührt B1 den steigenden Ball. Der Ball geht in den Korb und zählt. Richtig?",
+    "answer": "Nein",
+    "explanation": "Nein (Art. 10). Der Korb zählt nicht. Der Ball wird zum toten Ball, sobald nach dem Signal der Spieluhr zum Ende der Spielzeit der Ball von einem Spieler legal (oder illegal) berührt wird.",
+    "article": "10"
+  },
+  {
+    "id": "R-19",
+    "category": "Regelfragen",
+    "question": "A1 ist in der Korbwurfbewegung, als abseits des Balls ein Foul von B2 an A2 gepfiffen wird (5. Mannschaftsfoul). A1 beendet erfolgreich ihre Korbwurfbewegung. Der Korb zählt und A2 erhält zwei Freiwürfe mit Aufstellung. Richtig?",
+    "answer": "Ja",
+    "explanation": "Ja (Art. 10). Da A1 ihre Korbwurfbewegung bereits begonnen hatte, zählt der erzielte Korb und die abseits des Balls gefoulte A2 erhält zwei Freiwürfe.",
+    "article": "10"
+  },
+  {
+    "id": "R-20",
+    "category": "Regelfragen",
+    "question": "Während der Korbwurfbewegung von A1 begehen A2 und B2 aneinander ein Doppelfoul. Danach verlässt der Ball die Hand von A1 und geht in den Korb. Der Korb zählt. Richtig?",
+    "answer": "Nein",
+    "explanation": "Nein (Art. 10). Der Korb zählt nicht. Das Doppelfoul geschah, als der Ball noch in der Hand von A1 war.",
+    "article": "10"
+  },
+  {
+    "id": "R-21",
+    "category": "Regelfragen",
+    "question": "A1 passt den Ball zu einem Alley-oop-Anspiel zu A2. Bevor der Ball direkt in den Korb geht, wird A2 von B2 gefoult. Der Korb zählt. Richtig?",
+    "answer": "Nein",
+    "explanation": "Nein (Art. 10). Der Korb zählt nicht. Durch das Foul wird der Ball sofort zum toten Ball, da es sich nicht um einen Korbwurf, sondern um einen Pass handelt.",
+    "article": "10"
+  },
+  {
+    "id": "R-22",
+    "category": "Regelfragen",
+    "question": "A1 wird beim erfolgreichen Korbwurf gefoult, als der Ball noch in seinen Händen ist. Bevor der Ball die Hände von A1 verlässt, wird gegen Ersatzspieler A6 ein Technisches Foul verhängt. Der Korb zählt nicht. Richtig?",
+    "answer": "Ja",
+    "explanation": "Ja (Art. 10). Da das Technische Foul gegen die Mannschaft in Ballkontrolle verhängt wurde und der Ball die Hände des Werfers A1 noch nicht verlassen hatte, zählt der erzielte Korb nicht. Das Spiel wird mit 1 Freiwurf für B (für das Technische Foul) und anschließend mit zwei Freiwürfen für A1 fortgesetzt.",
+    "article": "10"
+  },
+  {
+    "id": "R-23",
+    "category": "Regelfragen",
+    "question": "Zwei Minuten vor Spielbeginn erhält A1 ein Technisches Foul. Vor dem Sprungball zu Spielbeginn wirft B1 (Erste Fünf) einen Freiwurf. Der Einwurfpfeil wird jetzt für Mannschaft A gesetzt. Richtig?",
+    "answer": "Nein",
+    "explanation": "Nein (Art. 12). Der Einwurfpfeil wird erst nach dem Sprungball gesetzt.",
+    "article": "12"
+  },
+  {
+    "id": "R-24",
+    "category": "Regelfragen",
+    "question": "A1 springt mit dem Ball in seinem Vorfeld hoch und wird von B1 geblockt. Bei der Landung haben beide Spieler die Hände fest am Ball, A1 landet mit einem Fuß in seinem Rückfeld. Dies ist eine Sprungballsituation. Richtig?",
+    "answer": "Ja",
+    "explanation": "Ja (Art. 12). Gleiches gilt, wenn A1 oder B1 im Aus landet.",
+    "article": "12"
+  },
+  {
+    "id": "R-25",
+    "category": "Regelfragen",
+    "question": "Beim Eröffnungssprungball tippt Springer A1 den Ball zu früh. Damit ist die erste Richtung des Einwurfpfeils festgelegt. Richtig?",
+    "answer": "Nein",
+    "explanation": "Nein (Art. 12). Sobald der Ball dem Einwerfer B zur Verfügung steht, ist die erste Richtung des Einwurfpfeils festgelegt, in diesem Fall für Mannschaft A.",
+    "article": "12"
+  },
+  {
+    "id": "R-26",
+    "category": "Regelfragen",
+    "question": "Beim Eröffnungssprungball tippt Springer A1 den Ball zu A2, der den Ball fängt. Kurz darauf wird er von B2 bedrängt und es entsteht ein Halteball. Das Spiel wird mit Einwurf B fortgesetzt. Richtig?",
+    "answer": "Ja",
+    "explanation": "Ja (Art. 12).",
+    "article": "12"
+  },
+  {
+    "id": "R-27",
+    "category": "Regelfragen",
+    "question": "Beim Einwurf von A1 gemäß Wechselndem Ballbesitz begeht A2 ein Foul, als A1 den Ball noch in seinen Händen hält. Mannschaft B erhält Einwurf und der Einwurfpfeil wird nicht gedreht. Richtig?",
+    "answer": "Ja",
+    "explanation": "Ja (Art. 12). Durch ein Foul gleich welcher Mannschaft während eines Einwurfs gemäß Wechselndem Ballbesitz geht der einwerfenden Mannschaft das Recht auf Wechselnden Ballbesitz nicht verloren.",
+    "article": "12"
+  },
+  {
+    "id": "R-28",
+    "category": "Regelfragen",
+    "question": "Springer A1 tippt zweimal den Ball. Der Ball fällt zu Boden, A1 nimmt ihn in beide Hände und beginnt zu dribbeln. Kein andere Spieler hatte den Ball berührt. Dies ist legal. Richtig?",
+    "answer": "Ja",
+    "explanation": "Ja (Art. 12). Da der Ball das Spielfeld berührt hat, ist die Aktion von A1 legal. Kein Springer darf den Ball fangen oder ihn mehr als zweimal tippen, bevor der Ball einen der Nichtspringer oder das Spielfeld berührt hat.",
+    "article": "12"
+  },
+  {
+    "id": "R-29",
+    "category": "Regelfragen",
+    "question": "A1 passt den Ball zu A2, der den Pass nicht fangen kann, sondern den Ball mit der Faust zu A3 weiterspielt. Dies ist legal. Richtig?",
+    "answer": "Nein",
+    "explanation": "Nein (Art. 13). Ein Spieler darf den Ball nicht mit der Faust schlagen.",
+    "article": "13"
+  },
+  {
+    "id": "R-30",
+    "category": "Regelfragen",
+    "question": "Nach einem Korberfolg A beginnt die neue Mannschaftsballkontrolle B, sobald der Ball durch den Korb gefallen ist. Richtig?",
+    "answer": "Nein",
+    "explanation": "Nein (Art. 14). Die neue Mannschaftsballkontrolle B beginnt in diesem Fall erst, wenn der Ball dem Einwerfer hinter der Endlinie zur Verfügung steht.",
+    "article": "14"
+  },
+  {
+    "id": "R-31",
+    "category": "Regelfragen",
+    "question": "Nach einem Ausball A beginnt die neue Mannschaftsballkontrolle B, sobald der Ball dem Einwerfer B zur Verfügung steht. Richtig?",
+    "answer": "Ja",
+    "explanation": "Ja (Art. 14).",
+    "article": "14"
+  },
+  {
+    "id": "R-32",
+    "category": "Regelfragen",
+    "question": "Mannschaftsballkontrolle beginnt unter anderem, wenn ein Spieler einen belebten Ball in einer oder beiden Händen hält. Richtig?",
+    "answer": "Ja",
+    "explanation": "Ja (Art. 14). Ein Spieler kontrolliert einen Ball, wenn er ihn in einer oder  beiden Händen hält und der Ball somit zur Ruhe kommt.",
+    "article": "14"
+  },
+  {
+    "id": "R-33",
+    "category": "Regelfragen",
+    "question": "Mannschaftsballkontrolle endet unter anderem, wenn der Ball zum toten Ball wird. Richtig?",
+    "answer": "Ja",
+    "explanation": "Ja (Art. 14.) Mannschaftsballkontrolle endet, wenn ein Gegenspieler die Ballkontrolle erlangt, der Ball zum toten Ball wird oder bei einem Korbwurf oder Freiwurf die Hände des Werfers verlassen hat.",
+    "article": "14"
+  },
+  {
+    "id": "R-34",
+    "category": "Regelfragen",
+    "question": "A1 hat den Ball in seinen Händen und wird bei seiner Korbwurfaktion von B1 gefoult (3. Mannschaftsfoul B). Nach dem Foul passt A1 zu A2. Mannschaft A erhält Einwurf nächst der Stelle des Fouls. Richtig?",
+    "answer": "Ja",
+    "explanation": "Ja (Art. 15).",
+    "article": "15"
+  },
+  {
+    "id": "R-35",
+    "category": "Regelfragen",
+    "question": "A1 befindet sich ausschließlich dann im Korbwurf, wenn er den Ball in seinen beiden Händen hält und anschließend in Richtung des gegnerischen Korbs wirft. Richtig?",
+    "answer": "Nein",
+    "explanation": "Nein (Art. 15). Ein Korbwurf oder Freiwurf liegt vor, wenn der Ball in einer oder beiden Händen gehalten wird und anschließend in Richtung des gegnerischen Korbs geworfen wird. Ein Spieler befindet sich auch in einer Korbwurfaktion, wenn der den Ball in den Korb dunkt oder in Richtung des gegnerischen Korbs tippt.",
+    "article": "15"
+  },
+  {
+    "id": "R-36",
+    "category": "Regelfragen",
+    "question": "Nach dem letzten Freiwurf von A1 springt der Ball vom Ring hoch. B1 tippt den Ball versehentlich in den eigenen Korb. A1 erhält einen Punkt. Richtig?",
+    "answer": "Nein",
+    "explanation": "Nein (Art. 16). Der Freiwurf ist mit der Ringberührung des Balls beendet und gilt als nicht erfolgreich. Dem Mannschaftskapitän A (auf dem Spielfeld) werden zwei Punkte angeschrieben.",
+    "article": "16"
+  },
+  {
+    "id": "R-37",
+    "category": "Regelfragen",
+    "question": "A1 wirft aus dem Drei-Punkte-Bereich auf den Korb. Der steigende Ball wird von Verteidigerin B1 berührt, die im Zwei-Punkte-Bereich abgesprungen ist. Der Ball geht anschließend in den Korb und zählt drei Punkte. Richtig?",
+    "answer": "Ja",
+    "explanation": "Ja (Art. 16). Der Korbwurf erfolgte aus dem Drei-Punkte-Bereich.",
+    "article": "16"
+  },
+  {
+    "id": "R-38",
+    "category": "Regelfragen",
+    "question": "A1 wirft aus dem Drei-Punkte-Bereich. Der Ball rollt auf der Innenseite des Rings, als er von A2 getippt wird und anschließend durch den Korb fällt. Der Korb zählt drei Punkte. Richtig?",
+    "answer": "Ja",
+    "explanation": "Ja (Art. 16). Der Ball befindet sich zum Zeitpunkt der legalen Berührung von A2 bereits im Korb, da ein Teil des Balls bereits innerhalb des Korbs und dort unterhalb der Oberkante des Rings ist. Daher zählt der Korb drei Punkte.",
+    "article": "16"
+  },
+  {
+    "id": "R-39",
+    "category": "Regelfragen",
+    "question": "A1 wirft aus dem Drei-Punkte-Bereich. Der Ball springt vom Ring hoch, rollt anschließend auf der Innenseite des Rings und wird dann von A2 getippt, bevor er durch den Korb fällt. Der Korb zählt drei Punkte. Richtig?",
+    "answer": "Ja",
+    "explanation": "Ja (Art. 16). Der Korb zählt drei Punkte. Durch die Ringberührung ist der Drei-Punkte-Wurf von A1 zwar beendet. Aber zum Zeitpunkt der legalen Berührung von A2 ist der Ball bereits im Korb, da ein Teil des Balls bereits innerhalb des Korbs und dort unterhalb der Oberkante des Rings ist. Die Berührung von A2 hat keinen Einfluss auf die Korbwertung.",
+    "article": "16"
+  },
+  {
+    "id": "R-40",
+    "category": "Regelfragen",
+    "question": "A1 wirft aus dem Drei-Punkte-Bereich auf den Korb. Der Ball berührt das Spielfeld und geht dann in den Korb. Der Korb zählt zwei Punkte. Richtig?",
+    "answer": "Nein",
+    "explanation": "Nein (Art. 16). Der Korb zählt drei Punkte für A1, da er aus dem Drei-Punkte-Bereich erzielt wurde.",
+    "article": "16"
+  },
+  {
+    "id": "R-41",
+    "category": "Regelfragen",
+    "question": "Nach einem Einwurf von A1 im Vorfeld der Mannschaft A wird der Ball von einem Spieler im Drei-Punkte-Bereich legal berührt und geht dann in den Korb. Der Korb zählt zwei Punkte. Richtig?",
+    "answer": "Ja",
+    "explanation": "Ja (Art. 16 und RI 16-10). Der Korb zählt zwei Punkte, da der Pass vom Einwerfer aus dem Aus und nicht aus dem Drei-Punkte-Bereich kommt. Die Ballberührung auf dem Spielfeld ist legal. Drei Punkte können nur durch Wurf oder Pass aus dem Drei-Punkte-Bereich auf dem Spielfeld erzielt werden.",
+    "article": "16"
+  },
+  {
+    "id": "R-42",
+    "category": "Regelfragen",
+    "question": "Bei 1:31 im 4. Viertel dribbelt A1 im Rückfeld, als B1 bei noch 18 Sekunden auf der Wurfuhr den Ball vor seiner Mannschaftsbank ins Aus tippt. Mannschaft A nimmt eine Auszeit und kann danach von der Einwurfmarkierung im Vorfeld gegenüber dem Anschreibertisch mit 18 Sekunden auf der Wurfuhr einwerfen. Richtig?",
+    "answer": "Nein",
+    "explanation": "Nein (Art. 17). Bei Vorverlegung des Einwurfs ins Vorfeld in den letzten beiden Spielminuten des 4. Viertels oder Verlängerungen in Folge einer Auszeit der angreifenden Mannschaft gibt es maximal 14 Sekunden auf der Wurfuhr. Der Einwurf im Vorfeld muss auf der Seite erfolgen, auf der der Ball ins Aus ging, also hier auf der Tischseite.",
+    "article": "17"
+  },
+  {
+    "id": "R-43",
+    "category": "Regelfragen",
+    "question": "Geht der Ball bei Einwurf A gemäß Wechselndem Ballbesitz zu Beginn eines Viertels ins Aus, ohne von einer Spielerin berührt worden zu sein, erhält Mannschaft B Einwurf von derselben Stelle in Höhe der Mittellinie und mit 24 Sekunden auf der Wurfuhr. Richtig?",
+    "answer": "Ja",
+    "explanation": "Ja (Art. 17). Mannschaft B kann in ihr Vor- oder Rückfeld einwerfen.",
+    "article": "17"
+  },
+  {
+    "id": "R-44",
+    "category": "Regelfragen",
+    "question": "Nach einem Korb von B1 hat A1 den Ball zum Einwurf an seiner Endlinie. A2 springt hinter seiner Endlinie ab, fängt den eingeworfenen Ball in der Luft und passt ihn sofort zu A3 auf dem Spielfeld. Das ist legal. Richtig?",
+    "answer": "Ja",
+    "explanation": "Ja (Art. 17). Da A2 noch Aus-Status hat, sind der Pass von A1 zu A2, das Fangen in der Luft sowie der Pass zu A3 legal.",
+    "article": "17"
+  },
+  {
+    "id": "R-45",
+    "category": "Regelfragen",
+    "question": "Einwerferin A1 tippt den Ball so auf, dass er das Spielfeld berührt und fängt danach den Ball. Das ist legal. Richtig?",
+    "answer": "Nein",
+    "explanation": "Nein (Art. 17). Die Einwerferin darf den Ball nicht auf dem Spielfeld berühren, ehe der Ball eine andere Spielerin berührt hat.",
+    "article": "17"
+  },
+  {
+    "id": "R-46",
+    "category": "Regelfragen",
+    "question": "Kommt es während derselben Uhr-Stopp-Phase zu einem Technischen Foul und einer Auszeit, ist zuerst die Auszeit durchzuführen und danach die Strafe für das Technische Foul. Richtig?",
+    "answer": "Ja",
+    "explanation": "Ja (Art. 17).",
+    "article": "17"
+  },
+  {
+    "id": "R-47",
+    "category": "Regelfragen",
+    "question": "Bei noch 17 Sekunden auf der Wurfuhr begeht die angreifende Mannschaft A ein Technisches Foul. Nach dem Freiwurf Mannschaft B gibt es Einwurf für Mannschaft A mit 17 Sekunden auf der Wurfuhr, egal ob der Einwurf im Vor- oder Rückfeld erfolgt. Richtig?",
+    "answer": "Ja",
+    "explanation": "Ja (Art. 17). Bei einem Technischen Foul durch die Mannschaft in Ballkontrolle erhält sie nach dem Freiwurf für die verteidigende Mannschaft den Einwurf mit der Restzeit auf der Wurfuhr, hier 17 Sekunden.",
+    "article": "17"
+  },
+  {
+    "id": "R-48",
+    "category": "Regelfragen",
+    "question": "Nach eigener Auszeit in den letzten 2 Minuten des 4. Viertels kann Trainer A immer entscheiden, ob bei einer Vorverlegung der folgende Einwurf seiner Mannschaft im Vorfeld auf der rechten oder linken Seite des Spielfelds ausgeführt wird. Richtig?",
+    "answer": "Nein",
+    "explanation": "Nein (Art. 17). Bei einem Einwurf infolge einer Regelverletzung erfolgt der vorverlegte Einwurf auf der Seite der Regelverletzung.",
+    "article": "17"
+  },
+  {
+    "id": "R-49",
+    "category": "Regelfragen",
+    "question": "In den letzten 2 Minuten des 4. Viertels nimmt Trainer A nach den Freiwürfen für ein Unsportliches Foul von B1 eine Auszeit. Danach kann er entscheiden, ob der folgende Einwurf seiner Mannschaft im Vorfeld auf der rechten oder linken Seite des Spielfelds ausgeführt wird. Richtig?",
+    "answer": "Nein",
+    "explanation": "Nein (Art. 17). Der Einwurf als Teil der Strafe für ein Unsportliches Foul erfolgt an der Einwurfmarkierung im Vorfeld gegenüber dem Anschreibertisch.",
+    "article": "17"
+  },
+  {
+    "id": "R-50",
+    "category": "Regelfragen",
+    "question": "Bei 1:25 auf der Spieluhr im 4. Viertel tippt B2 den Ball im Rückfeld der Mannschaft A auf der Seite des Anschreibertischs ins Aus. Nach eigener Auszeit möchte Trainer A den Einwurf ins Vorfeld auf die dem Anschreibertisch gegenüberliegenden Seite verlegen. Das ist legal. Richtig?",
+    "answer": "Nein",
+    "explanation": "Nein (Art. 17). Der vorverlegte Einwurf nach Ausball muss auf der Seite des Ausballs, hier auf der Tischseite, erfolgen.",
+    "article": "17"
+  },
+  {
+    "id": "R-51",
+    "category": "Regelfragen",
+    "question": "Wenn ein letzter Freiwurf aufgrund einer Regelübertretung des Freiwerfers nicht zählt, wird der darauffolgende Einwurf an der verlängerten Freiwurflinie auf der dem Anschreibertisch gegenüberliegenden Seite ausgeführt. Richtig?",
+    "answer": "Ja",
+    "explanation": "Ja (Art. 17).",
+    "article": "17"
+  },
+  {
+    "id": "R-52",
+    "category": "Regelfragen",
+    "question": "Wenn ein Korb nach einem Schrittfehler nicht zählt, wird der darauffolgende Einwurf an der verlängerten Freiwurflinie auf der dem Anschreibertisch gegenüberliegenden Seite ausgeführt. Richtig?",
+    "answer": "Nein",
+    "explanation": "Nein (Art. 17). Der Einwurf von der verlängerten Freiwurflinie wird auf derselben Seite des Spielfelds ausgeführt, auf der der Schrittfehler begangen wurde.",
+    "article": "17"
+  },
+  {
+    "id": "R-53",
+    "category": "Regelfragen",
+    "question": "Bei 57 Sekunden auf der Spieluhr im 4. Viertel wirft A1 zwei Freiwürfe. Beim letzten Freiwurf tritt sie auf die Freiwurflinie. Diese Regelübertretung wird geahndet. Nun nimmt Trainer B eine Auszeit und entscheidet sich für Einwurf im Vorfeld. Er kann wählen, ob der Einwurf auf der Seite des Anschreibertischs oder auf der gegenüberliegenden Seite stattfinden soll. Richtig?",
+    "answer": "Nein",
+    "explanation": "Nein (Art. 17.2.4 und RI 17-15) Aufgrund der Regelübertretung beim Freiwurf erfolgt der Einwurf gegenüber dem Anschreibetisch - in diesem Fall von der Einwurfmarkierung im Vorfeld mit 14 Sekunden auf der Wurfuhr.",
+    "article": "17"
+  },
+  {
+    "id": "R-54",
+    "category": "Regelfragen",
+    "question": "Bei 35 Sekunden auf der Spieluhr im 4. Viertel dribbelt A1 bei 18 Sekunden auf der Wurfuhr in seinem Rückfeld, als B2 den Ball in Höhe der Freiwurflinie auf der Seite des Anschreibertischs ins Aus tippt. Trainer A nimmt nun eine Auszeit und entscheidet, im Vorfeld einzuwerfen. Der Einwurf erfolgt an der Einwurfmarkierung im Vorfeld auf Tischseite mit 14 Sekunden auf der Wurfuhr. Richtig?",
+    "answer": "Ja",
+    "explanation": "Ja (Art. 17 und RI 17-14b). Das Spiel wird mit Einwurf A an der Einwurfmarkierung im Vorfeld auf der Seite des Anschreibertischs mit mit 14 Sekunden auf der Wurfuhr fortgesetzt.",
+    "article": "17"
+  },
+  {
+    "id": "R-55",
+    "category": "Regelfragen",
+    "question": "A1 erzielt einen Korb. Einwerfer B1 steht der Ball zur Verfügung, wenn er ihn in einer oder beiden Händen hinter der Endlinie hält. Richtig?",
+    "answer": "Ja",
+    "explanation": "Ja (Art. 17). Nach Korberfolg steht der Ball zur Verfügung, wenn er dem Einwerfer hinter der Endlinie, außerhalb des Spielfelds, zur Verfügung steht. Der Spieler, der den Einwurf von der Endlinie ausführt, muss den Ball in einer oder in beiden Händen halten und bereit sein, den Einwurf durchzuführen. Ab diesem Zeitpunkt steht ihm der Ball zur Verfügung.",
+    "article": "17"
+  },
+  {
+    "id": "R-56",
+    "category": "Regelfragen",
+    "question": "Bei 0:48 im 4. Viertel erzielt A1 einen Korb. Da die Spieluhr gestoppt ist, kann Mannschaft A nun eine Auszeit nehmen. Richtig?",
+    "answer": "Nein",
+    "explanation": "Nein (Art. 18). Mannschaft A kann nur dann eine dann Auszeit nehmen, wenn zuerst Mannschaft B Auszeit oder Spielerwechsel durchführt.",
+    "article": "18"
+  },
+  {
+    "id": "R-57",
+    "category": "Regelfragen",
+    "question": "Vor dem 2. Freiwurf von A1 erhält A2 ein Technisches Foul. Zur Ausführung dieses Freiwurfs wird B6 eingewechselt, der nach seinem Freiwurf und vor dem 2. Freiwurf von A1 wieder ausgewechselt werden kann. Richtig?",
+    "answer": "Nein",
+    "explanation": "Nein (Art. 19). Die Auswechslung ist erst möglich, nachdem die Spieluhr wieder gelaufen ist.",
+    "article": "19"
+  },
+  {
+    "id": "R-58",
+    "category": "Regelfragen",
+    "question": "In der Spielpause zwischen dem 1. und 2. Viertel erhält B1 ein Technisches Foul. Den Freiwurf vor Beginn des 2. Viertels wirft A1 unabhängig davon, ob er zu Beginn des 2. Viertels Spieler ist oder nicht. Richtig?",
+    "answer": "Ja",
+    "explanation": "Ja (Art. 19). Nur vor Spielbeginn müsste der Freiwerfer der Ersten Fünf angehören.",
+    "article": "19"
+  },
+  {
+    "id": "R-59",
+    "category": "Regelfragen",
+    "question": "Wird vor oder nach einem Technischen, Unsportlichen oder Disqualifizierenden Foul eine Auszeit beantragt, ist die Auszeit vor Ausführung der Freiwurfstrafe durchzuführen. Richtig?",
+    "answer": "Ja",
+    "explanation": "Ja (Art. 18/19 und RI 18/19-24)",
+    "article": "18/19"
+  },
+  {
+    "id": "R-60",
+    "category": "Regelfragen",
+    "question": "Trainer B hat eine Auszeit beantragt, als gegen A1 ein Unsportliches Foul an B1 verhängt wird, gefolgt von einem Technischen Foul gegen A2. Die Auszeit ist vor der Ausführung der Freiwurfstrafen durchzuführen. Richtig?",
+    "answer": "Ja",
+    "explanation": "Ja (Art. 18/19 und RI 18/19-24). Wird eine Auszeit vor oder nach einem Technischen, Unsportlichen oder Disqualifizierenden Foul beantragt, ist die Auszeit vor Ausführung der Freiwurfstrafe durchzuführen.",
+    "article": "18/19"
+  },
+  {
+    "id": "R-61",
+    "category": "Regelfragen",
+    "question": "In der Nähe der Seitenlinie wird A1 mit Ball eng von B1 verteidigt. Dabei berührt A1 mit seinem Körper seinen Gegenspieler, der mit einem Fuß auf der Seitenlinie steht. Damit hat A1 einen Ausball verursacht. Richtig?",
+    "answer": "Nein",
+    "explanation": "Nein (Art. 23). Legale Aktion, denn A1 ist nur im Aus, wenn er mit seinem Körper einen Gegenstand im Aus oder die Auslinie berührt, nicht aber einen Spieler im Aus.",
+    "article": "23"
+  },
+  {
+    "id": "R-62",
+    "category": "Regelfragen",
+    "question": "In der Nähe der Seitenlinie wird A1 mit Ball eng von B1 verteidigt. Dabei berührt A1 mit dem Ball ihre Gegenspielerin, die mit einem Fuß auf der Seitenlinie steht. Damit hat B1 einen Ausball verursacht. Richtig?",
+    "answer": "Ja",
+    "explanation": "Ja (Art. 23). Der Ball ist im Aus, wenn er eine Spielerin im Aus oder die Auslinie berührt.",
+    "article": "23"
+  },
+  {
+    "id": "R-63",
+    "category": "Regelfragen",
+    "question": "A1 dribbelt in der Nähe der Seitenlinie. Der Ball berührt B1, der mit einem Fuß auf der Seitenlinie steht. Damit hat A1 einen Ausball verursacht. Richtig?",
+    "answer": "Nein",
+    "explanation": "Nein (Art. 23). B1 hat einen Ausball verursacht.",
+    "article": "23"
+  },
+  {
+    "id": "R-64",
+    "category": "Regelfragen",
+    "question": "Nach Beendigung eines Dribblings wirft A1 im Stand den Ball absichtlich gegen das Spielbrett und fängt oder berührt ihn, bevor der Ball einen anderen Spieler berührt. Das ist legal. Richtig?",
+    "answer": "Ja",
+    "explanation": "Ja (Art. 24). A1 darf aber kein neues Dribbling beginnen.",
+    "article": "24"
+  },
+  {
+    "id": "R-65",
+    "category": "Regelfragen",
+    "question": "A1 beendet sein Dribbling und passt den Ball zu A2. Der Ball wird zufällig von B2 berührt. Danach springt der Ball auf das Spielfeld und wird wieder von A1 aufgenommen, der ein weiteres Dribbling beginnt. Das ist ein Doppeldribbling. Richtig?",
+    "answer": "Nein",
+    "explanation": "Nein (Art. 24). A1 darf erneut dribbeln, wenn nach seinem ersten Dribbling der Ball von einem anderen Spieler berührt wird.",
+    "article": "24"
+  },
+  {
+    "id": "R-66",
+    "category": "Regelfragen",
+    "question": "A1 erhält den Ball in der Bewegung, während er seinen linken Fuß auf dem Spielfeld hat. Er bleibt im Rhythmus und berührt danach erst mit seinem linken, dann mit seinem rechten Fuß das Spielfeld. Das ist ein Schrittfehler. Richtig?",
+    "answer": "Ja",
+    "explanation": "Ja (Art. 25). Zweimal derselbe Fuß ist Schrittfehler. Erst rechter, dann linker Fuß wäre legal.",
+    "article": "25"
+  },
+  {
+    "id": "R-67",
+    "category": "Regelfragen",
+    "question": "A1 fällt zu Boden mit dem Ball in seinen Händen und rollt sich zur Seite, um den Griff eines Gegenspielers nach dem Ball zu verhindern. Dies ist legal. Richtig?",
+    "answer": "Nein",
+    "explanation": "Nein (Art. 25). Das Fallen auf den Boden ist legal, aber das Rollen über das Spielfeld ist illegal.",
+    "article": "25"
+  },
+  {
+    "id": "R-68",
+    "category": "Regelfragen",
+    "question": "A1 springt nach dem Ball, fängt ihn und fällt anschließend auf den Boden. Dann rutscht er zwei Meter über das Spielfeld. Dies ist ein Schrittfehler. Richtig?",
+    "answer": "Nein",
+    "explanation": "Nein (Art. 25). Es ist legal, wenn ein Spieler mit dem Ball fällt und über das Spielfeld rutscht.",
+    "article": "25"
+  },
+  {
+    "id": "R-69",
+    "category": "Regelfragen",
+    "question": "A1 hält sich weniger als drei Sekunden in der Zone auf und verlässt das Spielfeld an der Endlinie, um eine Drei-Sekunden-Regelübertretung zu vermeiden. Anschließend kehrt er in der Zone auf das Spielfeld zurück. Dies ist eine Drei-Sekunden-Regelübertretung. Richtig?",
+    "answer": "Ja",
+    "explanation": "Ja (Art. 26 und RI 26-2). Verlässt ein Spieler an der Endlinie das Spielfeld, um eine Drei-Sekunden-Regelübertretung zu vermeiden, und betritt dann wieder die Zone, handelt es sich um eine Regelübertretung.",
+    "article": "26"
+  },
+  {
+    "id": "R-70",
+    "category": "Regelfragen",
+    "question": "A1 wird seit vier Sekunden von B1 nah bewacht. A1 begeht dann ein Fumbling und nimmt den Ball wieder auf. Dies ist eine Fünf-Sekunden-Regelübertretung durch A1. Richtig?",
+    "answer": "Ja",
+    "explanation": "Ja (Art. 27). A1 muss den Ball innerhalb von fünf Sekunden passen, werfen oder dribbeln. Ein Fumbling zu Beginn oder am Ende eines Dribblings ist kein Dribbling.",
+    "article": "27"
+  },
+  {
+    "id": "R-71",
+    "category": "Regelfragen",
+    "question": "Nach einem Pass von A1 aus seinem Rückfeld berührt der Ball die Schiedsrichterin, die mit je einem Fuß im Vor- und Rückfeld steht. Damit ist der Ball im Vorfeld. Richtig?",
+    "answer": "Ja",
+    "explanation": "Ja (Art. 28). Der Ball hat die Schiedsrichterin im Vorfeld berührt. Das Zählen der acht Sekunden wird beendet.",
+    "article": "28"
+  },
+  {
+    "id": "R-72",
+    "category": "Regelfragen",
+    "question": "A1 dribbelt ins Vorfeld und bleibt bei ihrem Dribbling mit je einem Fuß im Vor- und Rückfeld stehen. Die acht Sekunden werden weiter gezählt. Richtig?",
+    "answer": "Ja",
+    "explanation": "Ja (Art. 28). A1 hat noch keinen Vorfeldstatus.",
+    "article": "28"
+  },
+  {
+    "id": "R-73",
+    "category": "Regelfragen",
+    "question": "Kurz vor Ablauf der Acht-Sekunden-Periode verlässt der Ball bei einem Wurf aus dem Rückfeld die Hand von A1. Der Ball geht in den Korb und zählt drei Punkte. Richtig?",
+    "answer": "Ja",
+    "explanation": "Ja (Art. 28). Die Ballkontrolle und damit auch Zählen der acht Sekunden enden, sobald der Ball bei einem Korbwurf die Hand bzw. Hände des Werfers verlassen hat.",
+    "article": "28"
+  },
+  {
+    "id": "R-74",
+    "category": "Regelfragen",
+    "question": "A1 passt zu A2 für ein Dunking, aber A2 verfehlt den Ball. Dieser berührt den Ring und wird dann von A3 in seinem Rückfeld gefangen. Dies ist eine Rückspiel-Regelübertretung von A3. Richtig?",
+    "answer": "Ja",
+    "explanation": "Ja (Art. 30). Mannschaft A bleibt in Ballkontrolle. Die Ringberührung ist hierfür nicht relevant, da es sich um einen Pass und nicht um einen Korbwurf handelt.",
+    "article": "30"
+  },
+  {
+    "id": "R-75",
+    "category": "Regelfragen",
+    "question": "In seinem Vorfeld passt A1 den Ball zu einem Alley-oop zu A2, der den Ball verpasst. Der Ball berührt den Ring, wird von B2 berührt und dann von A3 in seinem Rückfeld gefangen. Dies ist ein Rückspiel. Richtig?",
+    "answer": "Nein",
+    "explanation": "Nein (Art. 30). Da B2 die letzte Ballberührung im Vorfeld verursacht hat, handelt es sich nicht um ein Rückspiel von Mannschaft A.",
+    "article": "30"
+  },
+  {
+    "id": "R-76",
+    "category": "Regelfragen",
+    "question": "Zu Beginn des 2. Viertels wirft A1 an der Mittellinie zu A2 ein. A2 springt in seinem Rückfeld ab, landet im Vorfeld auf einem Fuß, fängt dann den eingeworfenen Ball und setzt danach den anderen Fuß in seinem Rückfeld auf. Das ist legal. Richtig?",
+    "answer": "Ja",
+    "explanation": "Ja (Art. 30). Legale Aktion, da A2 beim Ballerhalt nur mit einem Fuß im Vorfeld war. Mannschaft A hatte noch keine Mannnschaftsballkontrolle im Vorfeld (beide Füße eines Spieler im Vorfeld und Ball wird gefangen oder gehalten bzw. im Vorfeld gedribbelt).",
+    "article": "30"
+  },
+  {
+    "id": "R-77",
+    "category": "Regelfragen",
+    "question": "A1 überquert dribbelnd die Mittellinie in ihr Vorfeld und ist bereits mit Ball und beiden Füßen im Vorfeld, als B1 den Ball an das Bein von A1 tippt. Von dort springt der Ball ins Rückfeld der Mannschaft A und wird von A1 wieder aufgenommen. Das ist legal. Richtig?",
+    "answer": "Nein",
+    "explanation": "Nein (Art. 30). Rückspiel von A1. Mannschaft A ist in Ballkontrolle geblieben und A1 hatte sowohl die letzte Ballberührung im Vorfeld als auch die erste Ballberührung im Rückfeld.",
+    "article": "30"
+  },
+  {
+    "id": "R-78",
+    "category": "Regelfragen",
+    "question": "Beim Eröffnungssprungball zwischen A1 und B1 wird der Ball legal getippt. A2 springt in ihrem Vorfeld ab, fängt den Ball in der Luft und landet mit je einem Fuß im Vor- und Rückfeld. Sie passt den Ball zu A3, die sich in ihrem Rückfeld befindet. Dies ist legal. Richtig?",
+    "answer": "Ja",
+    "explanation": "Ja (Art. 30). Nach dem Sprungball erlangt A2 Ballkontrolle, während sie sich in der Luft befindet und landet daher legal in ihrem Rückfeld.",
+    "article": "30"
+  },
+  {
+    "id": "R-79",
+    "category": "Regelfragen",
+    "question": "A1 steht mit beiden Füßen in seinem Rückfeld in der Nähe der Mittellinie und spielt den Ball per Bodenpass zu A2, der ebenfalls mit beiden Füßen im Rückfeld in der Nähe der Mittellinie steht. Der Ball berührt das Vorfeld, bevor er von A2 berührt wird. Dies ist legal. Richtig?",
+    "answer": "Ja",
+    "explanation": "Ja (Art. 30). Da sich weder A1 noch A2 im Vorfeld befinden und den Ball im Vorfeld kontrollieren, ist dies kein Rückspiel. Da bei dem Bodenpass der Ball das Vorfeld berührt, wird das Zählen der 8 Sekunden beendet.",
+    "article": "30"
+  },
+  {
+    "id": "R-80",
+    "category": "Regelfragen",
+    "question": "Mannschaft A kontrolliert den Ball in ihrem Vorfeld, als der Ball gleichzeitig von A1 und B1 berührt wird. Von dort geht der Ball ins Rückfeld der Mannschaft A und wird zuerst von A2 berührt. Dies ist legal. Richtig?",
+    "answer": "Nein",
+    "explanation": "Nein (Art. 30). Rückspiel von A1. Mannschaft A ist in Ballkontrolle geblieben und A1 hatte sowohl die letzte Ballberührung im Vorfeld als auch die erste Ballberührung im Rückfeld.",
+    "article": "30"
+  },
+  {
+    "id": "R-81",
+    "category": "Regelfragen",
+    "question": "A1 dribbelt aus seinem Rückfeld in sein Vorfeld. Mit beiden Füßen in seinem Vorfeld dribbelt A1 noch im Rückfeld. Der Ball berührt sein Bein und springt in sein Rückfeld, wo A2 ein Dribbling beginnt. Dies ist legal. Richtig?",
+    "answer": "Ja",
+    "explanation": "Ja (Art. 30).",
+    "article": "30"
+  },
+  {
+    "id": "R-82",
+    "category": "Regelfragen",
+    "question": "Beim letzten Freiwurf von A1 springt der Ball vom Ring hoch und hat noch die Möglichkeit, in den Korb zu gehen. B1 greift von unten durch den Korb und berührt den Ball. A1 erhält zwei Punkte. Richtig?",
+    "answer": "Nein",
+    "explanation": "Nein (Art. 31). Die Regelübertretung wird bei einem Freiwurf begangen. A1 erhält einen Punkt.",
+    "article": "31"
+  },
+  {
+    "id": "R-83",
+    "category": "Regelfragen",
+    "question": "Bei einem Drei-Punkte-Korbwurf von A1 springt der Ball vom Ring senkrecht nach oben, als A2 ein Foul an B2 begeht (5. Mannschaftsfoul A). Danach tippt B2 den fallenden Ball direkt über dem Ring weg. A1 erhält drei Punkte und B2 wirft zwei Freiwürfe. Richtig?",
+    "answer": "Ja",
+    "explanation": "Ja (Art. 31). Nach dem Foulpfiff darf der Ball nach Ringberührung nicht mehr berührt werden, solange er noch in Korb gehen kann. Da zum Zeitpunkt des Fouls Mannschaft A keine Ballkontrolle hatte, erhält B2 zwei Freiwürfe.",
+    "article": "31"
+  },
+  {
+    "id": "R-84",
+    "category": "Regelfragen",
+    "question": "Kurz vor Ablauf des 2. Viertels wirft A2 aus ihrem Rückfeld auf den gegnerischen Korb. Der Ball berührt im Vorfeld das Spielfeld, dann ertönt das Schlusssignal und anschließend geht der Ball in den Korb. Der Korb zählt nicht. Richtig?",
+    "answer": "Ja",
+    "explanation": "Ja (Art. 31). Sobald der Ball die Spielfläche berührt, ist der Korbwurf beendet und der Ball wird beim Signal der Spieluhr sofort zum toten Ball.",
+    "article": "31"
+  },
+  {
+    "id": "R-85",
+    "category": "Regelfragen",
+    "question": "Nach einem Korbwurf von A1 springt der Ball vom Ring hoch und landet wieder auf dem Ring. Während der Ball Kontakt mit dem Ring hat und noch in den Korb gehen kann, berührt B1 den Korb oder das Spielbrett. Dies ist legal. Richtig?",
+    "answer": "Nein",
+    "explanation": "Nein (Art. 31). Das ist Stören des Balls.",
+    "article": "31"
+  },
+  {
+    "id": "R-86",
+    "category": "Regelfragen",
+    "question": "Nach einem Zwei-Punkte-Korbwurf von A1 rollt der Ball auf der Innenseite des Rings, als A2 den Ball berührt. Das ist legal. Richtig?",
+    "answer": "Ja",
+    "explanation": "Ja (Art. 31).",
+    "article": "31"
+  },
+  {
+    "id": "R-87",
+    "category": "Regelfragen",
+    "question": "Nach einem Zwei-Punkte-Korbwurf von A1 rollt der Ball auf der Innenseite des Rings und wird gleichzeitig von A2 und B2 berührt. Beide Berührungen sind illegal. Richtig?",
+    "answer": "Nein",
+    "explanation": "Nein (Art. 31).",
+    "article": "31"
+  },
+  {
+    "id": "R-88",
+    "category": "Regelfragen",
+    "question": "Nach einem Zwei-Punkte-Korbwurf von A1 rollt der Ball auf der Innenseite des Rings. A2 und B2 berühren gleichzeitig den rollenden Ball, der dann durch den Korb fällt. Der Korb zählt. Richtig?",
+    "answer": "Ja",
+    "explanation": "Ja (Art. 31).",
+    "article": "31"
+  },
+  {
+    "id": "R-89",
+    "category": "Regelfragen",
+    "question": "Nach einem Korbwurf von A1 ist der Ball in der Luft, als A1 von B1 gefoult wird. Der steigende Ball wird von B2 legal berührt und geht dann in den Korb. Der Korb zählt. Richtig?",
+    "answer": "Nein",
+    "explanation": "Nein (Art. 31). Nach dem Pfiff des Schiedsrichters wird der Ball durch die Berührung durch B2 sofort zum toten Ball.",
+    "article": "31"
+  },
+  {
+    "id": "R-90",
+    "category": "Regelfragen",
+    "question": "Nach dem letzten Freiwurf von A1 springt der Ball vom Ring hoch, berührt das Spielbrett und befindet sich anschließend mit einem kleinen Teil innerhalb des Rings. Dort berührt A2 den Ball, der anschließend durch den Korb fällt. A1 erhält einen Punkt. Richtig?",
+    "answer": "Ja",
+    "explanation": "Ja (Art. 31).",
+    "article": "31"
+  },
+  {
+    "id": "R-91",
+    "category": "Regelfragen",
+    "question": "Ein Spieler begeht Goaltending bei einem Korbwurf, wenn sich der Ball teilweise oder vollständig über Ringniveau befindet und er den Ball berührt, während dieser im Abwärtsflug zum Korb ist.",
+    "answer": "Nein",
+    "explanation": "Nein (Art. 31). Der Ball muss vollständig über Ringniveau sein, damit es sich um ein Goaltending handeln kann.",
+    "article": "31"
+  },
+  {
+    "id": "R-92",
+    "category": "Regelfragen",
+    "question": "Ein Verteidiger begeht Stören des Balls, wenn er den Korb so in Schwingungen versetzt, dass der Ball anders abprallt als zu erwarten war oder seine Richtung ändert und dieser deshalb nicht in den Korb geht.",
+    "answer": "Ja",
+    "explanation": "Ja (Art. 31).",
+    "article": "31"
+  },
+  {
+    "id": "R-93",
+    "category": "Regelfragen",
+    "question": "B2 begeht Goaltending bei einem Korbwurf von A1, wenn sich der Ball vollständig über Ringniveau befindet, er den Ball berührt, nachdem dieser das Spielbrett berührt hat und der Ball noch die Möglichkeit hat, in den Korb zu gehen. Richtig?",
+    "answer": "Ja",
+    "explanation": "Ja (Art. 31.2.1). Alle drei Kriterien müssen erfüllt sein, damit es sich in diesem Fall um Goaltending handelt: Ball vollständig über Ringniveau, Ballberührung nach Spielbrettberührung, Ball hat noch die Möglichkeit, in den Korb zu gehen.",
+    "article": "31"
+  },
+  {
+    "id": "R-94",
+    "category": "Regelfragen",
+    "question": "A1 wird bei einem erfolglosen Sprungwurf von B1 gefoult (persönliches Foul). Als der Ball bereits in der Luft ist, begeht A1 ein Foul an B1. Danach ertönt das Schlusssignal. Beide Fouls werden geahndet. Richtig?",
+    "answer": "Nein",
+    "explanation": "Nein (Art. 32). Lediglich das persönliche Foul von B1 wird geahndet. Das spätere persönliche Foul von A1 wird nicht beachtet. Die Spieluhr ist auf den Zeitpunkt des Fouls (Restzeit) zu korrigieren und A1 erhält zwei Freiwürfe.",
+    "article": "32"
+  },
+  {
+    "id": "R-95",
+    "category": "Regelfragen",
+    "question": "Bei einem Korbwurf von A1 springt A2 zum Rebound. Dabei prallt er auf B2, der im No-Charge-Halbkreisbereich eine legale Verteidigungsposition eingenommen hat. Dies ist ein Charging-Foul von A2. Richtig?",
+    "answer": "Ja",
+    "explanation": "Ja (Art. 33). Bei einem Rebound wird die No-Charge-Halbkreisregel nicht angewendet.",
+    "article": "33"
+  },
+  {
+    "id": "R-96",
+    "category": "Regelfragen",
+    "question": "A1 zieht zum Korb und springt zum Korbwurf hoch. Anstatt zu werfen, passt sie zu A2, die in der Spielfeldecke steht. A1 springt in B1 hinein, die im No-Charge-Halbkreisbereich steht. Dies ist ein Charging-Foul von A1. Richtig?",
+    "answer": "Nein",
+    "explanation": "Nein (Art. 33). Die No-Charge-Halbkreisregel ist anzuwenden, da A1 zum Korb zieht.",
+    "article": "33"
+  },
+  {
+    "id": "R-97",
+    "category": "Regelfragen",
+    "question": "A1 wirft aus dem Drei-Punkte-Bereich auf den Korb. Noch in der Luft streckt er seinen linken Fuß aus seinem Zylinder hinaus und berührt damit seinen Verteidiger B1, der daraufhin stolpert. A1 verletzt das Zylinderprinzip und der Kontakt mit B1 ist ein Foul von A1. Richtig?",
+    "answer": "Ja",
+    "explanation": "Ja (Art. 33) Sowohl Angreifer als auch Verteidiger müssen das Zylinderprinzip beachten.",
+    "article": "33"
+  },
+  {
+    "id": "R-98",
+    "category": "Regelfragen",
+    "question": "Das Zylinder-Prinzip gilt für alle Spieler, unabhängig davon, ob es sich um einen Verteidiger oder einen Angreifer handelt. Richtig?",
+    "answer": "Ja",
+    "explanation": "Ja (Art. 33).",
+    "article": "33"
+  },
+  {
+    "id": "R-99",
+    "category": "Regelfragen",
+    "question": "Ein Verteidiger nimmt eine legale Verteidigungsposition ein, wenn er seinem Gegenspieler frontal gegenübersteht und sich mit beiden Füße auf dem Spielfeld befindet. Richtig?",
+    "answer": "Ja",
+    "explanation": "Ja (Art. 33).",
+    "article": "33"
+  },
+  {
+    "id": "R-100",
+    "category": "Regelfragen",
+    "question": "B1 bewegt sich unter A1, der sich in der Luft befindet und verursacht dabei einen Kontakt. Dies ist ein persönliches Foul. Richtig?",
+    "answer": "Nein",
+    "explanation": "Nein (Art. 33). Bewegt sich ein Spieler unter einen Spieler, der sich in der Luft befindet, und es kommt zum Kontakt, ist dies mindestens ein Unsportliches, unter Umständen ein Disqualifizierendes Foul.",
+    "article": "33"
+  },
+  {
+    "id": "R-101",
+    "category": "Regelfragen",
+    "question": "A2 stellt einen Block mit seinem Rücken an B1. Er hat beide Füße am Boden, steht während des Kontakts und bleibt innerhalb seines Zylinders. Dies ist legal. Richtig?",
+    "answer": "Ja",
+    "explanation": "Ja (Art. 33). Solange der Blocksteller innerhalb seines Zylinders steht und beide Füße am Boden hat, wenn es zum Kontakt kommt, kann er den Block auch mit dem Rücken stellen.",
+    "article": "33"
+  },
+  {
+    "id": "R-102",
+    "category": "Regelfragen",
+    "question": "A2 stellt einen Block außerhalb des Gesichtsfeldes von B1, der sich auf dem Spielfeld bewegt und A1 verteidigt. A2 muss den Einfluss von Zeit und Abstand berücksichtigen und einen Abstand von mehr als zwei normalen Schritten lassen. Richtig?",
+    "answer": "Nein",
+    "explanation": "Nein (Art. 33). A2 muss genügend Platz lassen, damit B1 abstoppen oder ausweichen kann. Der Abstand beträgt nie weniger als einen und nie mehr als zwei normale Schritte.",
+    "article": "33"
+  },
+  {
+    "id": "R-103",
+    "category": "Regelfragen",
+    "question": "A1 passt aus ihrem Rückfeld zu A2, die in Zwitterstellung an der Mittellinie steht. B2 steht mit beiden Füßen in ihrem Rückfeld und begeht ein persönliches Foul an A2 (2. Mannschaftsfoul B). Mannschaft A erhält Einwurf in ihrem Rückfeld in der Nähe der Mittellinie mit 24 Sekunden auf der Wurfuhr. Richtig?",
+    "answer": "Ja",
+    "explanation": "Ja (Art. 34). Da A2 in Zwitterstellung an der Mittellinie steht, hat sie noch keinen Vorfeld-, sondern Rückfeldstatus. Das persönliche Foul von B2 an A2 ereignet sich daher noch im Rückfeld.",
+    "article": "34"
+  },
+  {
+    "id": "R-104",
+    "category": "Regelfragen",
+    "question": "Bei 1:31 auf der Spieluhr in der Verlängerung hat Einwerfer A1 den Ball in seinen Händen, als B2 ein Einwurffoul an A2 begeht. Nach dem Freiwurf für A2 wird das Spiel mit Einwurf A nächst der Stelle des Fouls von B2 fortgesetzt. Richtig?",
+    "answer": "Ja",
+    "explanation": "Ja (Art. 34).",
+    "article": "34"
+  },
+  {
+    "id": "R-105",
+    "category": "Regelfragen",
+    "question": "Bei noch 4:30 Min auf der Spieluhr im 4. Viertel begeht B2 ein Foul an A2, als der Ball noch in den Händen des Einwerfers A1 ist. Dies ist ein Einwurffoul mit der Strafe von 1 Freiwurf ohne Aufstellung. Richtig?",
+    "answer": "Nein",
+    "explanation": "Nein (Art. 34). Nur in den letzten 2 Spielminuten des 4. Viertels oder einer Verlängerung.",
+    "article": "34"
+  },
+  {
+    "id": "R-106",
+    "category": "Regelfragen",
+    "question": "Die Strafe für ein Einwurffoul ist 1 Freiwurf ohne Aufstellung für den gefoulten Spieler. Anschließend wird das Spiel am ursprünglichen Einwurfort fortgesetzt. Richtig?",
+    "answer": "Nein",
+    "explanation": "Nein (Art. 34). Das Spiel wird nach dem Freiwurf ohne Aufstellung mit Einwurf für die Mannschaft des gefoulten Spielers nächst der Stelle des Einwurffouls fortgesetzt.",
+    "article": "34"
+  },
+  {
+    "id": "R-107",
+    "category": "Regelfragen",
+    "question": "Bei 0:57 im 4. Viertel hat Einwerfer A1 den Ball in seinen Händen oder steht ihm zur Verfügung, als B2 ein überhartes Foul an A2 auf dem Spielfeld begeht. Dies ist ein Einwurffoul. Richtig?",
+    "answer": "Nein",
+    "explanation": "Nein (Art. 34). Es handelt sich um ein Unsportliches Foul.",
+    "article": "34"
+  },
+  {
+    "id": "R-108",
+    "category": "Regelfragen",
+    "question": "Bei 0:57 im 4. Viertel hat Einwerfer A1 den Ball in seinen Händen, als B2 vor dem Einwurf ein Foul an A2 begeht (5. Mannschaftsfoul B). A2 erhält zwei Freiwürfe mit Aufstellung. Richtig?",
+    "answer": "Nein",
+    "explanation": "Nein (Art. 34). Es handelt sich um ein Einwurffoul. Ein Freiwurf für A2 ohne Aufstellung und Einwurf A nächst der Stelle des Einwurffouls.",
+    "article": "34"
+  },
+  {
+    "id": "R-109",
+    "category": "Regelfragen",
+    "question": "Bei 1:31 im 4. Viertel will A1 nach Korberfolg B von ihrer Endlinie einwerfen, als im Vorfeld ein Foul von B2 an A2 gepfiffen wird (5. Mannschaftsfoul B). Dies ist ein Einwurffoul. Richtig?",
+    "answer": "Ja",
+    "explanation": "Ja (Art. 34). Nach dem Freiwurf ohne Aufstellung für A2 wirft A nächst der Stelle des Einwurffouls im Vorfeld mit einer Restzeit von 24 Sekunden auf der Wurfuhr ein.",
+    "article": "34"
+  },
+  {
+    "id": "R-110",
+    "category": "Regelfragen",
+    "question": "Annähernd gleichzeitig begehen B1 ein persönliches Foul am erfolgreichen Korbwerfer A1 und A1 ein Technisches Foul. Da die Foulstrafen gleich sind, liegt ein Doppelfoul vor. Richtig?",
+    "answer": "Nein",
+    "explanation": "Nein (Art. 35). Ein Technisches Foul kann kein Bestandteil eines Doppelfouls sein. Dennoch kompensieren sich die identischen Strafen. Der Korb von A1 zählt. Das Spiel wird mit Einwurf B von der Endlinie fortgesetzt.",
+    "article": "35"
+  },
+  {
+    "id": "R-111",
+    "category": "Regelfragen",
+    "question": "Als A1 bei ihrer Korbwurfaktion den Ball noch in der Hand hat, begehen A2 und B2 aneinander zur etwa gleichen Zeit persönliche Fouls. A1 beendet ihre Aktion und trifft. Dies ist ein Doppelfoul und der Korb zählt nicht. Richtig?",
+    "answer": "Ja",
+    "explanation": "Ja (Art. 35). Bei einem Doppelfoul, bei dem eine Werferin den Ball noch in den Händen hat, kann ein erzielter Korb nicht zählen.",
+    "article": "35"
+  },
+  {
+    "id": "R-112",
+    "category": "Regelfragen",
+    "question": "Begehen A1 und B1 annähernd gleichzeitig aneinander ein persönliches Foul (3. Mannschaftsfoul A) und ein Unsportliches Foul, wird das persönliche Foul immer als erstes von beiden Fouls angesehen. Richtig?",
+    "answer": "Ja",
+    "explanation": "Ja (Art. 35). Das persönliche von A1 ist als erstes Foul anzusehen, das Unsportliche von B1 als zweites. Das Spiel wird mit zwei Freiwürfen für A1 und anschließend Einwurf A von der verlängerten Freiwurflinie mit 14 Sekunden auf der Wurfuhr fortgesetzt.",
+    "article": "35"
+  },
+  {
+    "id": "R-113",
+    "category": "Regelfragen",
+    "question": "Kurz nachdem der Ball die Hand des Werfers A1 verlassen hat, schreit B1 ihn an. Der Ball geht nicht in den Korb. Der Schiedsrichter verwarnt B1 und informiert Trainer B, dass im Wiederholungsfall ein Technisches Foul verhängt wird. Richtig?",
+    "answer": "Nein",
+    "explanation": "Nein (Art. 36). Gegen B1 ist sofort ein Technisches Foul zu verhängen, da der Korbwurf nicht erfolgreich war. Keine Mannschaft hatte zum Zeitpunkt des Technischen Fouls Ballkontrolle. Daher Sprungballsituation und Einwurf gemäß Wechselndem Ballbesitz.",
+    "article": "36"
+  },
+  {
+    "id": "R-114",
+    "category": "Regelfragen",
+    "question": "A1 erhält wegen Trash Talks zu B1 ein Technisches Foul, worauf sich B1 mit einem Faustschlag revanchiert und disqualifiziert wird. Den Freiwurf für das Technische Foul muss der für B1 eintretende Spieler werfen. Richtig?",
+    "answer": "Nein",
+    "explanation": "Nein (Art. 36). Es gibt kein Technisches Foul \"an einem Gegenspieler\". Der Freiwerfer B ist beliebig.",
+    "article": "36"
+  },
+  {
+    "id": "R-115",
+    "category": "Regelfragen",
+    "question": "Bleibt ein Spieler nach seinem 5. Foul illegal auf dem Spielfeld oder wird wieder eingewechselt und nimmt bei laufender Spieluhr am Spiel teil, ist in jedem Fall auf Technisches Foul (\"B\") gegen dessen Trainer zu entscheiden. Richtig?",
+    "answer": "Ja",
+    "explanation": "Ja (Art. 36). Gute Zusammenarbeit mit dem Kampfgericht sollte diesen Fehler vermeiden.",
+    "article": "36"
+  },
+  {
+    "id": "R-116",
+    "category": "Regelfragen",
+    "question": "A1 täuscht vor den letzten 2 Spielminuten bei laufender Spieluhr zweimal vor, gefoult worden zu sein. Gegen A1 ist bei laufendem Spiel durch Handzeichen erst eine Verwarnung und im Wiederholungsfoul ein Technisches Foul zu verhängen, ohne dass das Spiel zur Verwarnung unterbrochen war. Richtig?",
+    "answer": "Ja",
+    "explanation": "Ja (Art. 36). Das Spiel wird wegen einer Verwarnung nicht unterbrochen.",
+    "article": "36"
+  },
+  {
+    "id": "R-117",
+    "category": "Regelfragen",
+    "question": "A1 wurde im 2. Viertel wegen Protests gegen eine Entscheidung verwarnt. Im 3. Viertel macht Trainer A eine abwertende Geste in Richtung eines Schiedsrichters und gegen ihn wird ein Technisches Foul (C-Foul) verhängt. Richtig?",
+    "answer": "Ja",
+    "explanation": "Ja (Art. 36). Mannschaft A war wegen ähnlichen Verhaltens bereits verwarnt.",
+    "article": "36"
+  },
+  {
+    "id": "R-118",
+    "category": "Regelfragen",
+    "question": "A1 wird beim erfolgreichen Korbwurf gefoult, als Ersatzspieler B6 wegen Beleidigung disqualifiziert wird. Der Korb zählt, dann wirft Mannschaft A einen Freiwurf, dann A1 seinen Bonusfreiwurf mit Aufstellung. Richtig?",
+    "answer": "Nein",
+    "explanation": "Nein (Art. 36). Zuerst erhält A1 seinen Bonusfreiwurf, dann zwei Freiwürfe Mannschaft A gefolgt von Einwurf A von der Einwurfmarkierung in ihrem Vorfeld.",
+    "article": "36"
+  },
+  {
+    "id": "R-119",
+    "category": "Regelfragen",
+    "question": "Bleibt ein Spieler nach seinem 5. Foul irrtümlich auf dem Spielfeld und begeht ein weiteres Foul, wird dieses seinem Trainer als B-Foul (\"B\") angeschrieben. Richtig?",
+    "answer": "Nein",
+    "explanation": "Nein (Art. 36). Der Spieler erhält ein 6. Foul und sein Trainer ein Technisches Foul.",
+    "article": "36"
+  },
+  {
+    "id": "R-120",
+    "category": "Regelfragen",
+    "question": "Ein Spielertrainer ist u. a. automatisch zu disqualifizieren (\"GD\"), wenn gegen ihn ein Technisches Foul (\"C\") als Trainer und ein Technisches Foul als Spieler verhängt wurden. Richtig?",
+    "answer": "Ja",
+    "explanation": "Ja (Art. 36).",
+    "article": "36"
+  },
+  {
+    "id": "R-121",
+    "category": "Regelfragen",
+    "question": "B1 verteidigt gegen Dribbler A1. A1 stößt B1 weg und bewegt ruckartig seinen Kopf, um übertrieben anzudeuten, er sei von B1 gefoult worden. Der Schiedsrichter pfeift ein Offensivfoul gegen A1 und verwarnt A1 wegen Vortäuschen eines Fouls. Richtig?",
+    "answer": "Ja",
+    "explanation": "Ja (Art. 36). Zusätzlich zum Offensivfoul gegen A1 ist er wegen übertriebenen Vortäuschens eines Fouls zu verwarnen (im Wiederholungsfall ist ein Technisches Foul zu verhängen).",
+    "article": "36"
+  },
+  {
+    "id": "R-122",
+    "category": "Regelfragen",
+    "question": "Trainer B beantragt im laufenden Spiel eine Auszeit. A1 wirft erfolgreich auf den Korb. Nachdem der Ball durch den Korb gefallen ist, tippt A2 den Ball weit weg vom Korb, sodass B2 ihn nicht aufnehmen kann. Dies ist ein Technisches Foul wegen Spielverzögerung. Richtig?",
+    "answer": "Nein",
+    "explanation": "Nein (Art. 36). A2 tippt den Ball zwar absichtlich weg, nachdem er durch den Korb gegangen ist, verzögert die Spielfortsetzung aber nicht, indem er einen sofortigen Einwurf verhindert, da B eine Auszeit beantragt hat. B2 ist auch nicht zu verwarnen.",
+    "article": "36"
+  },
+  {
+    "id": "R-123",
+    "category": "Regelfragen",
+    "question": "Verteidigerin B1 fälscht einen Pass von A1 zu A2 in Richtung des eigenen Vorfelds ab und läuft dem Ball hinterher zu einem unbedrängten Korbleger. Beim Loslaufen und bevor B1 Ballkontrolle erlangen kann, wird sie von A1 regelwidrig behindert. Dies ist ein Unsportliches Foul. Richtig?",
+    "answer": "Ja",
+    "explanation": "Ja (Art. 37). Das Kriterium für ein Unsportliches Foul in dieser Situation ist unabhängig vom Status Angreifer/Verteidiger der gefoulten Spielerin.",
+    "article": "37"
+  },
+  {
+    "id": "R-124",
+    "category": "Regelfragen",
+    "question": "A1 passt aus seinem Rückfeld zu A2 im Vorfeld, der freie Bahn zum gegnerischen Korb hätte. Als A2 hochspringt, um den Ball zu fangen, wird er von B2 durch Kontakt an der Vorderseite von A2 gefoult. Dies ist kein Unsportliches Foul. Richtig?",
+    "answer": "Ja",
+    "explanation": "Ja (Art. 37). Der regelwidrige Kontakt ereignet sich nicht von hinten oder seitlich.",
+    "article": "37"
+  },
+  {
+    "id": "R-125",
+    "category": "Regelfragen",
+    "question": "B1 lenkt einen Pass von A1 zu A2 in sein Vorfeld ab und läuft alleine dem Ball hinterher. Bevor er die Ballkontrolle für seine Mannschaft erlangen kann, wird er von A1 von hinten gestoßen. Dies ist ein Unsportliches Foul. Richtig?",
+    "answer": "Ja",
+    "explanation": "Ja (Art. 37). B1 versucht, Ballkontrolle zu erlangen. Der regelwidriger Kontakt ereignet sich von hinten und es befindet sich kein Gegenspieler zwischen B1 und dem Korb von B. Daher handelt es sich um ein Unsportliches Foul.",
+    "article": "37"
+  },
+  {
+    "id": "R-126",
+    "category": "Regelfragen",
+    "question": "Für Fehlverhalten eines disqualifizierten Spielers erhält sein Trainer ein Technisches Foul angeschrieben. Richtig?",
+    "answer": "Nein",
+    "explanation": "Nein (Art. 38). Es kann weder dem disqualifizierten Spieler noch seinem Trainer angerechnet werden und wird nicht beachtet. Die Schiedsrichter senden einen Bericht über den Vorfall an die spielleitende Stelle.",
+    "article": "38"
+  },
+  {
+    "id": "R-127",
+    "category": "Regelfragen",
+    "question": "A1 wird beim erfolgreichen Korbwurf gefoult, als Ersatzspieler B6 wegen Beleidigung disqualifiziert wird. Der Korb zählt, dann wirft A1 seinen Bonusfreiwurf, danach erhält Mannschaft A zwei Freiwürfe und Einwurf von der Einwurfmarkierung. Richtig?",
+    "answer": "Ja",
+    "explanation": "Ja (Art. 38).",
+    "article": "38"
+  },
+  {
+    "id": "R-128",
+    "category": "Regelfragen",
+    "question": "B1 foult Dribbler A1 (5. Mannschaftsfoul B). Anschließend wirft A1 aus kurzer Distanz den Ball B1 direkt ins Gesicht. Gegen B1 wird ein persönliches, gegen A1 ein Technisches Foul verhängt. Richtig?",
+    "answer": "Nein",
+    "explanation": "Nein (Art. 38). Gegen A1 ist ein Disqualifizierendes Foul zu verhängen. Der Einwechselspieler für A1 wirft zwei Freiwürfe ohne Aufstellung. Ein beliebiger Spieler der Mannschaft B wirft zwei Freiwürfe ohne Aufstellung. Das Spiel wird fortgesetzt mit Einwurf B an der Einwurfmarkierung in deren Vorfeld und mit 14 Sekunden auf der Wurfuhr.",
+    "article": "38"
+  },
+  {
+    "id": "R-129",
+    "category": "Regelfragen",
+    "question": "Während einer gewalttätigen Auseinandersetzung auf dem Spielfeld betreten Ersatzspieler A6 und der Physiotherapeut der Mannschaft A das Spielfeld, beteiligen sich an der Auseinandersetzung und werden disqualifiziert. Trainer A werden zwei Technische Fouls (\"B\") angeschrieben. Richtig?",
+    "answer": "Ja",
+    "explanation": "Ja (Art. 39). Der Trainer erhält das erste Technische Foul für das Betreten des Spielfelds seiner Bankpersonen (A6 und Physiotherapeut) und das zweite Technische Foul für die aktive Teilnahme des Physiotherapeuten, welches nicht zur GD-Foulsumme des Trainers zählt und deshalb eingekreist wird. Die aktive Teilnahme von A6 wird in dessen Foulzeile als D eingetragen, sodass es insgesamt sechs Freiwürfe für Mannschaft B plus Einwurf gibt.",
+    "article": "39"
+  },
+  {
+    "id": "R-130",
+    "category": "Regelfragen",
+    "question": "Als der Ball bei einem erfolglosen Korbwurf von A1 in der Luft ist, bricht auf dem Spielfeld eine Gewalttätigkeit aus. Wenn sich alle Strafen kompensieren, wirft Mannschaft A von der Einwurfmarkierung in ihrem Vorfeld ein. Richtig?",
+    "answer": "Nein",
+    "explanation": "Nein (Art. 39). Keine Mannschaft hatte zum Zeitpunkt des Beginns der Gewalttätigkeit Ballkontrolle. Deshalb Sprungballsituation und Einwurf gemäß Wechselndem Ballbesitz.",
+    "article": "39"
+  },
+  {
+    "id": "R-131",
+    "category": "Regelfragen",
+    "question": "Bei einer Gewalttätigkeit auf dem Spielfeld betreten Trainer A und Ersatzspieler A8 das Spielfeld und beteiligen sich aktiv an der Auseinandersetzung. Beide werden disqualifiziert („D F F“) und erhalten je eine zusätzliches „D“ für die aktive Beteiligung. Richtig?",
+    "answer": "Nein",
+    "explanation": "Nein (Art. 39). Der Trainer erhält für seine beiden Vergehen nur ein einziges Disqualifizierendes Foul. Bei allen anderen Mitgliedern des Mannschaftsbankbereichs wird die aktive Teilnahme an einer Gewalttätigkeit zusätzlich bestraft.",
+    "article": "39"
+  },
+  {
+    "id": "R-132",
+    "category": "Regelfragen",
+    "question": "Trainer A verlässt seinen Mannschaftsbankbereich und beteiligt sich an der Schlägerei auf dem Spielfeld, indem er B1 heftig stößt. Die Strafe hierfür sind zwei Freiwürfe und Einwurf B. Richtig?",
+    "answer": "Ja",
+    "explanation": "Ja (Art. 39). Disqualifizierendes Foul Trainer A (\"D\") für Verlassen des Mannschaftsbankbereichs und fehlende Unterstützung zur Wiederherstellung der Ordnung. Kein weiteres \"D\" gegen Trainer A für aktive Teilnahme an Schlägerei. Noch freie Foulkästchen mit \"F\" ausfüllen. Für beliebigen Spieler B 2 Freiwürfe ohne Aufstellung, anschließend Einwurf B an Einwurfmarkierung im Vorfeld mit 14 Sekunden auf Wurfuhr.",
+    "article": "39"
+  },
+  {
+    "id": "R-133",
+    "category": "Regelfragen",
+    "question": "Während einer Gewalttätigkeit auf dem Spielfeld betritt Trainer A das Spielfeld, läuft zu der körperlichen Auseinandersetzung, stößt dabei B1 leicht und schreit B2 an. Gegen Trainer A ist ein Technisches Foul zu verhängen. Richtig?",
+    "answer": "Nein",
+    "explanation": "Nein (Art. 39). Trainer A ist zu disqualifizieren, da er sich aktiv an der gewalttätigen Auseinandersetzung beteiligt und die Schiedsrichter nicht bei der Aufrechterhaltung oder Wiederherstellung der Ordnung unterstützen oder dies versucht. Ein Trainer, der das Spielfeld während einer Gewalttätigkeit betritt, kann kein Technisches Foul erhalten.",
+    "article": "39"
+  },
+  {
+    "id": "R-134",
+    "category": "Regelfragen",
+    "question": "Trainer-Assistent A verlässt seinen Mannschaftsbankbereich und beteiligt sich an der Schlägerei auf dem Spielfeld, indem er B1 heftig stößt. Die Strafe hierfür sind 4 Freiwürfe und Einwurf B. Richtig?",
+    "answer": "Ja",
+    "explanation": "Ja (Art. 39). Disqualifizierendes Foul für Trainer-Assistenten A für  Verlassen des Mannschaftsbankbereichs und fehlende Unterstützung der Wiederherstellen der Ordnung (zwei Freiwürfe) sowie Technisches Foul (\"B\") für Trainer A für aktive Beteiligung des Trainer-Assistenten an Gewalttätigkeit (zwei Freiwürfe). Nach den 4 Freiwürfen ohne Aufstellung wird das Spiel mit Einwurf B an Einwurfmarkierung im Vorfeld mit 14 Sekunden auf Wurfuhr fortgesetzt.",
+    "article": "39"
+  },
+  {
+    "id": "R-135",
+    "category": "Regelfragen",
+    "question": "Betritt bei einer Gewalttätigkeit auf dem Spielfeld Ersatzspieler A6 das Spielfeld und beteiligt sich an der Schlägerei, werden seinem Trainer zwei Technische Fouls angeschrieben. Richtig?",
+    "answer": "Nein",
+    "explanation": "Nein (Art. 39). Disqualifizierendes Foul (\"D\") für A6 und die weiteren Kästchen werden mit \"F\" aufgefüllt. Bei Trainer A wird nur 1 Technisches Foul (\"B\") angeschrieben. Ein beliebiger bzw. zwei beliebige Spieler der Mannschaft B werfen je zwei Freiwürfe ohne Aufstellung. Das Spiel wird mit Einwurf B an der Einwurfmarkierung in ihrem Vorfeld und mit 14 Sekunden auf der Wurfuhr fortgesetzt.",
+    "article": "39"
+  },
+  {
+    "id": "R-136",
+    "category": "Regelfragen",
+    "question": "Spielertrainer A1 begeht ein Unsportliches Foul an B1. Er wird gegen A6 ausgewechselt und begeht anschließend ein Technisches Foul als Trainer (\"C\"). A1 ist zu disqualifizieren (\"GD\"). Richtig?",
+    "answer": "Ja",
+    "explanation": "Ja (Art. 40 und RI 36-34). A1 begeht ein Unsportliches Foul sowie ein Technisches Foul wegen persönlichen unsportlichen Verhaltens (\"C\"). Diese Kombination führt zu einer automatischen Spieldisqualifikation (Game Disqualification, \"GD\").",
+    "article": "40"
+  },
+  {
+    "id": "R-137",
+    "category": "Regelfragen",
+    "question": "A1 begeht im 1. Viertel ein Unsportliches Foul an B1. Im 3. Viertel wird gegen A1 ein Technisches Foul wegen übertriebenen Schwingens des Ellbogens verhängt. Sie ist automatisch spieldisqualifiziert (\"GD\"). Der Schiedsrichter macht das Handzeichen \"Disqualifizierendes Foul\". Richtig?",
+    "answer": "Nein",
+    "explanation": "Nein (Art. 40.4 und RI 38-A). Es wird kein Handzeichen vom Schiedsrichter gemacht. A1 wird über seine Spieldisqualifikation (Game Disqualification, \"GD\") vom Zeitnehmer informiert, indem dieser die entsprechende Tafel (GD) hochhebt.",
+    "article": "40"
+  },
+  {
+    "id": "R-138",
+    "category": "Regelfragen",
+    "question": "Wird eine Person spieldisqualifiziert (\"GD\"), muss sie innerhalb von maximal einer Minute das Spiel (und die Halle) verlassen. Richtig?",
+    "answer": "Nein",
+    "explanation": "Nein (Art. 40), innerhalb 30 Sekunden.",
+    "article": "40"
+  },
+  {
+    "id": "R-139",
+    "category": "Regelfragen",
+    "question": "Nach einem Korbwurf von A1 ist der Ball gerade durch den Korb gefallen, als B2 ein Foul an A2 begeht (5. Mannschaftsfoul B). A2 erhält zwei Freiwürfe mit Aufstellung. Richtig?",
+    "answer": "Nein",
+    "explanation": "Nein (Art. 41). Zum Zeitpunkt des Fouls steht der Ball der Mannschaft B bereits zu, so dass A2 auch bei Mannschaftsfouls keine Freiwürfe erhält.",
+    "article": "41"
+  },
+  {
+    "id": "R-140",
+    "category": "Regelfragen",
+    "question": "A1 wirft auf den Korb. Er foult B1, nachdem der Ball seine Hände verlassen hat (5. Mannschaftsfoul A). Anschließend geht der Ball in den Korb. Mannschaft B erhält den Ball zum Einwurf nach Korberfolg. Richtig?",
+    "answer": "Nein",
+    "explanation": "Nein (Art. 41). Korb zählt und zwei Freiwürfe für B1, da der Ball die Hand des Werfers bereits verlassen hatte (Mannschaftsballkontrolle beendet).",
+    "article": "41"
+  },
+  {
+    "id": "R-141",
+    "category": "Regelfragen",
+    "question": "Bevor nach Korberfolg der Ball der Einwerferin A1 zur Verfügung steht, begeht A2 ein Foul an B2 (5. Mannschaftsfoul A). B2 erhält zwei Freiwürfe. Richtig?",
+    "answer": "Nein",
+    "explanation": "Nein (Art. 41). Persönliches Foul eines Spielers, dessen Mannschaft der Ball zusteht, wird mit Einwurf für gegnerische Mannschaft bestraft, nicht mit Freiwürfen.",
+    "article": "41"
+  },
+  {
+    "id": "R-142",
+    "category": "Regelfragen",
+    "question": "Schrittfehler von A1 bei Dribblingsbeginn. Etwa gleichzeitig ein persönliches Foul gegen B1 (3. Mannschaftsfoul B). Da sich beide Strafen – je ein Einwurf – aufheben, ist eine Sprungballsituation entstanden.
