@@ -124,15 +124,24 @@ test.describe('Accessibility & Theme', () => {
     expect(val).toBeTruthy();
   });
 
-  test('theme preference is persisted in localStorage', async ({ page }) => {
-    // Start from dark mode, then toggle to light
-    const htmlClass = await page.locator('html').getAttribute('class');
-    if (htmlClass && htmlClass.includes('light')) {
-      await page.locator('#theme-toggle-btn').click(); // back to dark
-    }
-    await page.locator('#theme-toggle-btn').click(); // to light
+  test('theme override is persisted when it differs from system preference', async ({ page }) => {
+    // Determine current system preference via matchMedia
+    const systemIsLight = await page.evaluate(() =>
+      window.matchMedia('(prefers-color-scheme: light)').matches
+    );
+    // Toggle twice to end up on the opposite of the system preference
+    await page.locator('#theme-toggle-btn').click();
+    await page.locator('#theme-toggle-btn').click();
+    // After two toggles we're back where we started;
+    // toggle once more to land on the non-system value
+    await page.locator('#theme-toggle-btn').click();
     const stored = await page.evaluate(() => localStorage.getItem('regelkunde_theme'));
-    expect(stored).toBe('light');
+    // The stored value must be the opposite of the system preference
+    if (systemIsLight) {
+      expect(stored).toBe('dark');
+    } else {
+      expect(stored).toBe('light');
+    }
   });
 
   test('all buttons have min-height ≥ 44px (touch target WCAG 2.5.5)', async ({ page }) => {
