@@ -3,6 +3,9 @@ import { escHtml } from './utils.js';
 
 let RULES_DATA = null;
 let rulesTab = 'artikel';
+let hzMode = 'galerie'; // 'galerie' | 'quiz-name' | 'quiz-bild'
+let hzCategoryFilter = 'all';
+let hzQuizState = null;
 let rulesRegelFilter = 'all';
 let rulesSearchQuery = '';
 let QUESTIONS_REF = null;
@@ -67,6 +70,7 @@ function renderRulesTab() {
   if (rulesTab === 'artikel') renderArtikelList();
   else if (rulesTab === 'glossar') renderGlossarList();
   else if (rulesTab === 'bilder') renderBilderGrid();
+  else if (rulesTab === 'handzeichen') renderHandzeichenTab();
 }
 
 function getRegelNum(artikel) {
@@ -266,11 +270,640 @@ function renderBilderGrid() {
   container.appendChild(grid);
 }
 
+// ── GLOSSAR INLINE ANNOTATION ──────────────────────────────
+let _activePopup = null;
+
+function closeActivePopup() {
+  if (_activePopup) { _activePopup.remove(); _activePopup = null; }
+}
+
+function buildGlossPopup(term, def, artNums, anchorEl) {
+  closeActivePopup();
+
+  const popup = document.createElement('div');
+  popup.className = 'gloss-popup';
+  popup.setAttribute('role', 'dialog');
+  popup.setAttribute('aria-modal', 'true');
+  popup.setAttribute('aria-label', term);
+
+  const termEl = document.createElement('div');
+  termEl.className = 'gloss-popup-term';
+  termEl.textContent = term;
+  popup.appendChild(termEl);
+
+  const defEl = document.createElement('div');
+  defEl.className = 'gloss-popup-def';
+  defEl.textContent = def;
+  popup.appendChild(defEl);
+
+  if (artNums && artNums.length) {
+    const linksRow = document.createElement('div');
+    linksRow.className = 'gloss-popup-links';
+    artNums.forEach(num => {
+      const btn = document.createElement('button');
+      btn.className = 'gloss-popup-link';
+      btn.textContent = `Art. ${num}`;
+      btn.addEventListener('click', e => { e.stopPropagation(); closeActivePopup(); rulesOpenDetail(num); });
+      linksRow.appendChild(btn);
+    });
+    popup.appendChild(linksRow);
+  }
+
+  const closeBtn = document.createElement('button');
+  closeBtn.className = 'gloss-popup-close';
+  closeBtn.setAttribute('aria-label', 'Schließen');
+  closeBtn.textContent = '✕';
+  closeBtn.addEventListener('click', e => {
+    e.stopPropagation();
+    closeActivePopup();
+    if (anchorEl && anchorEl.focus) anchorEl.focus();
+  });
+  popup.appendChild(closeBtn);
+
+  // Escape schließt Popup, Focus-Trap innerhalb
+  popup.addEventListener('keydown', e => {
+    if (e.key === 'Escape') {
+      e.preventDefault();
+      closeActivePopup();
+      if (anchorEl && anchorEl.focus) anchorEl.focus();
+      return;
+    }
+    if (e.key === 'Tab') {
+      const focusable = Array.from(popup.querySelectorAll('button')).filter(b => !b.disabled);
+      if (!focusable.length) { e.preventDefault(); return; }
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+      if (e.shiftKey) {
+        if (document.activeElement === first) { e.preventDefault(); last.focus(); }
+      } else {
+        if (document.activeElement === last) { e.preventDefault(); first.focus(); }
+      }
+    }
+  });
+
+  document.body.appendChild(popup);
+  _activePopup = popup;
+
+  // Position below anchor (fixed coords, no scroll offset needed)
+  const rect = anchorEl.getBoundingClientRect();
+  const popW = popup.offsetWidth || 300;
+  let left = rect.left;
+  let top = rect.bottom + 6;
+  if (left + popW > window.innerWidth - 8) left = window.innerWidth - popW - 8;
+  if (left < 8) left = 8;
+  // If popup would go below viewport, show above anchor instead
+  const popH = popup.offsetHeight || 150;
+  if (top + popH > window.innerHeight - 8) top = rect.top - popH - 6;
+  popup.style.left = left + 'px';
+  popup.style.top = top + 'px';
+  closeBtn.focus();
+}
+
+// Append text with glossary annotations into a DOM element
+function appendAnnotatedText(rawText, container, terms, pattern) {
+  const parts = rawText.split(pattern);
+  parts.forEach(part => {
+    if (!part) return;
+    const entry = terms.find(t => t.term.toLowerCase() === part.toLowerCase());
+    if (entry) {
+      const btn = document.createElement('button');
+      btn.className = 'gloss-term';
+      btn.textContent = part;
+      btn.setAttribute('aria-label', `Glossar: ${entry.term}`);
+      btn.addEventListener('click', e => {
+        e.stopPropagation();
+        buildGlossPopup(entry.term, entry.definition, entry.articles, btn);
+      });
+      container.appendChild(btn);
+    } else {
+      container.appendChild(document.createTextNode(part));
+    }
+  });
+}
+
+function annotateTextWithGlossary(text, container, artImages) {
+  // Glossary setup
+  const terms = (RULES_DATA && RULES_DATA.glossary && RULES_DATA.glossary.length)
+    ? [...RULES_DATA.glossary].sort((a, b) => b.term.length - a.term.length)
+    : [];
+  const escaped = terms.map(t => t.term.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'));
+  const pattern = terms.length ? new RegExp('(' + escaped.join('|') + ')', 'gi') : null;
+
+  // Build global bild map: Bild N -> image data (GLOBAL numbering, not per-article)
+  const globalBildMap = {};
+  if (RULES_DATA && RULES_DATA.images) {
+    RULES_DATA.images.forEach(function(img) {
+      if (img.caption) {
+        const m = img.caption.match(/^Bild\s+(\d+)\s*[:\-]/);
+        if (m) globalBildMap[parseInt(m[1])] = img;
+      }
+    });
+  }
+
+  // Render text with inline glossary annotations and (Bild N) inline refs
+  function renderText(str, parentEl) {
+    const bildInlineRe = /\(Bild\s+(\d+)\)/g;
+    let lastIdx = 0;
+    let mInline;
+    while ((mInline = bildInlineRe.exec(str)) !== null) {
+      const before = str.slice(lastIdx, mInline.index);
+      if (before) {
+        if (pattern) appendAnnotatedText(before, parentEl, terms, pattern);
+        else parentEl.appendChild(document.createTextNode(before));
+      }
+      const bildNum = parseInt(mInline[1]);
+      const imgData = globalBildMap[bildNum];
+      const refBtn = document.createElement('button');
+      refBtn.className = 'rules-inline-bild-btn';
+      refBtn.textContent = mInline[0];
+      refBtn.setAttribute('aria-label', 'Bild ' + bildNum + ' anzeigen');
+      if (imgData) {
+        (function(d, caption) {
+          refBtn.addEventListener('click', function(e) {
+            e.stopPropagation();
+            rulesOpenLightbox(d, caption);
+          });
+        }(imgData.filename, imgData.caption || 'Bild ' + bildNum));
+      } else {
+        refBtn.disabled = true;
+      }
+      parentEl.appendChild(refBtn);
+      lastIdx = mInline.index + mInline[0].length;
+    }
+    const rest = str.slice(lastIdx);
+    if (rest) {
+      if (pattern) appendAnnotatedText(rest, parentEl, terms, pattern);
+      else parentEl.appendChild(document.createTextNode(rest));
+    }
+  }
+
+  // Make an image figure and append to container
+  function makeImageFigure(bildNum, captionFallback) {
+    const imgData = globalBildMap[bildNum];
+    if (!imgData) return;
+    const figure = document.createElement('figure');
+    figure.className = 'rules-inline-figure';
+    const img = document.createElement('img');
+    img.className = 'rules-inline-img';
+    img.src = 'data/images/' + imgData.filename;
+    img.alt = imgData.caption || captionFallback || 'Bild ' + bildNum;
+    img.loading = 'lazy';
+    (function(d, cap) {
+      img.addEventListener('click', function() { rulesOpenLightbox(d, cap); });
+    }(imgData.filename, imgData.caption || captionFallback || 'Bild ' + bildNum));
+    const cap = document.createElement('figcaption');
+    cap.className = 'rules-inline-caption';
+    cap.textContent = imgData.caption || captionFallback || 'Bild ' + bildNum;
+    figure.appendChild(img);
+    figure.appendChild(cap);
+    container.appendChild(figure);
+  }
+
+  // Build nested list from bullet lines starting at startIdx with startIndent
+  function buildList(linesArr, startIdx, startIndent) {
+    const ul = document.createElement('ul');
+    ul.className = 'rules-list';
+    let k = startIdx;
+    while (k < linesArr.length) {
+      const rawLine = linesArr[k];
+      const trimLine = rawLine.trim();
+      if (trimLine === '') { k++; continue; }
+      const lineIndent = rawLine.match(/^(\s*)/)[1].length;
+      const isBulletLine = /^[\*\-\t]\s*/.test(trimLine) && /^[\*\-]/.test(trimLine);
+      if (!isBulletLine) break;
+      if (lineIndent < startIndent) break;
+      if (lineIndent > startIndent) {
+        // Sub-list belongs to last li
+        const lastLi = ul.lastElementChild;
+        if (lastLi) {
+          const res = buildList(linesArr, k, lineIndent);
+          lastLi.appendChild(res.ul);
+          k = res.end;
+        } else { k++; }
+        continue;
+      }
+      const bulletContent = trimLine.replace(/^[\*\-]\s*/, '');
+      const li = document.createElement('li');
+      renderText(bulletContent, li);
+      ul.appendChild(li);
+      k++;
+      // Consume continuation lines (deeper indent, not bullets)
+      while (k < linesArr.length) {
+        const nextRaw = linesArr[k];
+        const nextTrimmed = nextRaw.trim();
+        if (nextTrimmed === '') break;
+        const nextIndent = nextRaw.match(/^(\s*)/)[1].length;
+        const nextIsBullet = /^[\*\-]/.test(nextTrimmed);
+        if (nextIsBullet && nextIndent > lineIndent) {
+          const res = buildList(linesArr, k, nextIndent);
+          li.appendChild(res.ul);
+          k = res.end;
+        } else if (!nextIsBullet && nextIndent > lineIndent) {
+          li.appendChild(document.createTextNode(' '));
+          renderText(nextTrimmed, li);
+          k++;
+        } else {
+          break;
+        }
+      }
+    }
+    return { ul: ul, end: k };
+  }
+
+  const lines = text.split('\n');
+  let paraAccum = [];
+
+  function flushPara() {
+    if (!paraAccum.length) return;
+    const str = paraAccum.join(' ').trim();
+    paraAccum = [];
+    if (!str) return;
+    const p = document.createElement('p');
+    p.className = 'rules-para';
+    renderText(str, p);
+    container.appendChild(p);
+  }
+
+  let idx = 0;
+  while (idx < lines.length) {
+    const raw = lines[idx];
+    const trimmed = raw.trim();
+
+    // Skip REGEL chapter separators
+    if (/^#{1,3}\s+REGEL\s+/.test(trimmed)) { idx++; continue; }
+    if (/^REGEL\s+[IVX]+\s+[-\u2013]/.test(trimmed)) { idx++; continue; }
+
+    // Empty line flushes paragraph
+    if (trimmed === '') {
+      flushPara();
+      idx++;
+      continue;
+    }
+
+    // Bold heading: **text** as the entire line
+    const boldM = trimmed.match(/^\*\*(.+)\*\*$/);
+    if (boldM) {
+      flushPara();
+      const headText = boldM[1].trim();
+
+      // Check for standalone image caption: **Bild N [title]**
+      const bildHeadM = headText.match(/^Bild\s+(\d+)(?:\s+(.*))?$/);
+      if (bildHeadM) {
+        makeImageFigure(parseInt(bildHeadM[1]), headText);
+        idx++;
+        continue;
+      }
+
+      // Section number heading: **4.1 Title** or **4.1.1 Title**
+      const secM = headText.match(/^(\d+\.\d+(?:\.\d+)*)\s+(.*)/);
+      if (secM) {
+        const secNum = secM[1];
+        const secTitle = secM[2];
+        const depth = (secNum.match(/\./g) || []).length;
+        const tagName = depth === 1 ? 'h3' : 'h4';
+        const hEl = document.createElement(tagName);
+        hEl.className = depth === 1 ? 'rules-h3' : 'rules-h4';
+        const numSpan = document.createElement('span');
+        numSpan.className = 'rules-sec-num';
+        numSpan.textContent = secNum + ' ';
+        hEl.appendChild(numSpan);
+        renderText(secTitle, hEl);
+        container.appendChild(hEl);
+        idx++;
+        continue;
+      }
+
+      // Bold text without section number — render as strong paragraph
+      const p = document.createElement('p');
+      p.className = 'rules-para';
+      const strong = document.createElement('strong');
+      renderText(headText, strong);
+      p.appendChild(strong);
+      container.appendChild(p);
+      idx++;
+      continue;
+    }
+
+    // Standalone image line (no ** wrapper): "Bild N text."
+    const standBildM = trimmed.match(/^Bild\s+(\d+)(?:\s+(.*))?[.]*$/);
+    if (standBildM && paraAccum.length === 0) {
+      makeImageFigure(parseInt(standBildM[1]), trimmed.replace(/\.$/, ''));
+      idx++;
+      continue;
+    }
+
+    // Bullet list
+    if (/^[\*\-]/.test(trimmed)) {
+      flushPara();
+      const indent = raw.match(/^(\s*)/)[1].length;
+      const res = buildList(lines, idx, indent);
+      if (res.ul.children.length) container.appendChild(res.ul);
+      idx = res.end;
+      continue;
+    }
+
+    // Inline bold within paragraph (not full-line heading) — collect into para
+    paraAccum.push(trimmed);
+    idx++;
+  }
+
+  flushPara();
+}
+
+// ── HANDZEICHEN ────────────────────────────────────────────
+
+function getHandzeichen() {
+  return (RULES_DATA && RULES_DATA.handzeichen) ? RULES_DATA.handzeichen : [];
+}
+
+function getHzCategories() {
+  const cats = new Set();
+  getHandzeichen().forEach(function(hz) { if (hz.category) cats.add(hz.category); });
+  return Array.from(cats);
+}
+
+function renderHandzeichenTab() {
+  const container = document.getElementById('rules-handzeichen-container');
+  if (!container) return;
+  container.textContent = '';
+
+  const all = getHandzeichen();
+  if (!all.length) {
+    setEmpty(container, '👐', 'Keine Handzeichen gefunden');
+    return;
+  }
+
+  // Mode selector bar
+  const modeBar = el('div', 'hz-mode-bar');
+  const modes = [
+    { key: 'galerie', label: 'Galerie' },
+    { key: 'quiz-name', label: 'Quiz: Name' },
+    { key: 'quiz-bild', label: 'Quiz: Bild' },
+  ];
+  modes.forEach(function(m) {
+    const btn = el('button', 'chip' + (hzMode === m.key ? ' active' : ''), m.label);
+    btn.setAttribute('role', 'tab');
+    btn.setAttribute('aria-selected', String(hzMode === m.key));
+    btn.addEventListener('click', function() {
+      hzMode = m.key;
+      hzQuizState = null;
+      renderHandzeichenTab();
+    });
+    modeBar.appendChild(btn);
+  });
+  container.appendChild(modeBar);
+
+  if (hzMode === 'galerie') {
+    renderHzGalerie(container, all);
+  } else if (hzMode === 'quiz-name') {
+    renderHzQuiz(container, all, 'name');
+  } else if (hzMode === 'quiz-bild') {
+    renderHzQuiz(container, all, 'bild');
+  }
+}
+
+function renderHzGalerie(container, all) {
+  const cats = getHzCategories();
+
+  // Category filter
+  const filterRow = el('div', 'hz-filter-row');
+  const allBtn = el('button', 'chip' + (hzCategoryFilter === 'all' ? ' active' : ''), 'Alle');
+  allBtn.addEventListener('click', function() {
+    hzCategoryFilter = 'all';
+    renderHandzeichenTab();
+  });
+  filterRow.appendChild(allBtn);
+  cats.forEach(function(cat) {
+    const catBtn = el('button', 'chip' + (hzCategoryFilter === cat ? ' active' : ''), cat);
+    catBtn.addEventListener('click', function() {
+      hzCategoryFilter = cat;
+      renderHandzeichenTab();
+    });
+    filterRow.appendChild(catBtn);
+  });
+  container.appendChild(filterRow);
+
+  const filtered = hzCategoryFilter === 'all'
+    ? all
+    : all.filter(function(hz) { return hz.category === hzCategoryFilter; });
+
+  if (!filtered.length) {
+    setEmpty(container, '🔍', 'Keine Handzeichen gefunden');
+    return;
+  }
+
+  const grid = el('div', 'hz-grid');
+  filtered.forEach(function(hz) {
+    const card = el('div', 'hz-card');
+    card.setAttribute('role', 'button');
+    card.setAttribute('tabindex', '0');
+    card.setAttribute('aria-label', hz.name);
+
+    if (hz.image) {
+      const img = document.createElement('img');
+      img.className = 'hz-card-img';
+      img.src = 'data/images/' + hz.image;
+      img.alt = hz.name;
+      img.loading = 'lazy';
+      img.addEventListener('click', function(e) {
+        e.stopPropagation();
+        rulesOpenLightbox(hz.image, hz.name);
+      });
+      card.appendChild(img);
+    } else {
+      const placeholder = el('div', 'hz-card-no-img', '?');
+      card.appendChild(placeholder);
+    }
+
+    const body = el('div', 'hz-card-body');
+    const nameEl = el('div', 'hz-card-name', hz.name);
+    const descEl = el('div', 'hz-card-desc', hz.description || '');
+    const badge = el('span', 'hz-category-badge', hz.category || '');
+    body.appendChild(nameEl);
+    body.appendChild(descEl);
+    body.appendChild(badge);
+    card.appendChild(body);
+
+    card.addEventListener('click', function() {
+      if (hz.image) rulesOpenLightbox(hz.image, hz.name + ': ' + (hz.description || ''));
+    });
+    card.addEventListener('keydown', function(e) {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); card.click(); }
+    });
+
+    grid.appendChild(card);
+  });
+  container.appendChild(grid);
+}
+
+function initHzQuiz(all, quizType) {
+  const shuffled = all.slice().sort(function() { return Math.random() - 0.5; });
+  hzQuizState = {
+    type: quizType,
+    items: shuffled,
+    currentIdx: 0,
+    score: 0,
+    answered: false,
+  };
+}
+
+function renderHzQuiz(container, all, quizType) {
+  if (!hzQuizState || hzQuizState.type !== quizType) {
+    initHzQuiz(all, quizType);
+  }
+  const state = hzQuizState;
+
+  if (state.currentIdx >= state.items.length) {
+    // Summary screen
+    const summary = el('div', 'hz-quiz-summary');
+    summary.appendChild(el('div', 'hz-quiz-score-big', state.score + '/' + state.items.length));
+    const pct = Math.round((state.score / state.items.length) * 100);
+    summary.appendChild(el('div', 'hz-quiz-score-pct', pct + '% richtig'));
+    let msg = pct >= 80 ? 'Ausgezeichnet!' : pct >= 50 ? 'Gut gemacht!' : 'Weiter üben!';
+    summary.appendChild(el('div', 'hz-quiz-msg', msg));
+    const restartBtn = el('button', 'btn btn-primary btn-full', 'Nochmal');
+    restartBtn.addEventListener('click', function() {
+      hzQuizState = null;
+      renderHandzeichenTab();
+    });
+    summary.appendChild(restartBtn);
+    container.appendChild(summary);
+    return;
+  }
+
+  const current = state.items[state.currentIdx];
+
+  // Build 4 options (1 correct + 3 random distractors)
+  function buildOptions(correctItem, allItems) {
+    const others = allItems.filter(function(hz) { return hz.id !== correctItem.id; });
+    const shuffledOthers = others.sort(function() { return Math.random() - 0.5; }).slice(0, 3);
+    const options = [correctItem].concat(shuffledOthers).sort(function() { return Math.random() - 0.5; });
+    return options;
+  }
+  const options = buildOptions(current, all);
+
+  const quizWrap = el('div', 'hz-quiz-container');
+
+  // Progress bar
+  const progressWrap = el('div', 'hz-quiz-progress');
+  const progressFill = el('div', 'hz-quiz-progress-fill');
+  const pctDone = Math.round((state.currentIdx / state.items.length) * 100);
+  progressFill.style.width = pctDone + '%';
+  progressWrap.appendChild(progressFill);
+  const progressLabel = el('span', 'hz-quiz-progress-label', (state.currentIdx + 1) + '/' + state.items.length + '  Punkte: ' + state.score);
+  quizWrap.appendChild(progressLabel);
+  quizWrap.appendChild(progressWrap);
+
+  // Question area
+  const questionEl = el('div', 'hz-quiz-question');
+  if (quizType === 'name') {
+    // Show image, guess name
+    if (current.image) {
+      const img = document.createElement('img');
+      img.className = 'hz-quiz-img';
+      img.src = 'data/images/' + current.image;
+      img.alt = 'Handzeichen';
+      img.loading = 'lazy';
+      questionEl.appendChild(img);
+    }
+    questionEl.appendChild(el('p', 'hz-quiz-instruction', 'Wie heißt dieses Handzeichen?'));
+  } else {
+    // Show name, guess image
+    questionEl.appendChild(el('div', 'hz-quiz-name-display', current.name));
+    questionEl.appendChild(el('p', 'hz-quiz-instruction', 'Welches Bild zeigt dieses Handzeichen?'));
+  }
+  quizWrap.appendChild(questionEl);
+
+  const feedbackEl = el('div', 'hz-quiz-feedback');
+  feedbackEl.style.display = 'none';
+  quizWrap.appendChild(feedbackEl);
+
+  // Options grid
+  const optGrid = el('div', 'hz-quiz-options');
+  options.forEach(function(opt) {
+    const optBtn = document.createElement('button');
+    optBtn.className = 'hz-quiz-option';
+
+    if (quizType === 'name') {
+      optBtn.textContent = opt.name;
+    } else {
+      if (opt.image) {
+        const img = document.createElement('img');
+        img.src = 'data/images/' + opt.image;
+        img.alt = opt.name;
+        img.loading = 'lazy';
+        img.className = 'hz-quiz-option-img';
+        optBtn.appendChild(img);
+        const nameLabel = el('span', 'hz-quiz-option-img-label', opt.name);
+        optBtn.appendChild(nameLabel);
+      } else {
+        optBtn.textContent = opt.name;
+      }
+    }
+
+    optBtn.addEventListener('click', function() {
+      if (state.answered) return;
+      state.answered = true;
+      const isCorrect = opt.id === current.id;
+      if (isCorrect) {
+        state.score++;
+        optBtn.classList.add('correct');
+        feedbackEl.className = 'hz-quiz-feedback hz-quiz-feedback-correct';
+        feedbackEl.textContent = 'Richtig! ' + current.name;
+      } else {
+        optBtn.classList.add('wrong');
+        feedbackEl.className = 'hz-quiz-feedback hz-quiz-feedback-wrong';
+        feedbackEl.textContent = 'Falsch! Die Antwort ist: ' + current.name;
+        // Mark correct option
+        optGrid.querySelectorAll('.hz-quiz-option').forEach(function(b) {
+          if (b !== optBtn) {
+            const isThisCorrect = quizType === 'name'
+              ? b.textContent === current.name
+              : b.querySelector('img') && b.querySelector('img').src.includes(current.image);
+            if (isThisCorrect) b.classList.add('correct');
+          }
+        });
+      }
+      feedbackEl.style.display = '';
+
+      // Disable all options
+      optGrid.querySelectorAll('.hz-quiz-option').forEach(function(b) { b.disabled = true; });
+
+      // Show next button
+      nextBtn.style.display = '';
+    });
+
+    optGrid.appendChild(optBtn);
+  });
+  quizWrap.appendChild(optGrid);
+
+  // Next button
+  const nextBtn = el('button', 'btn btn-primary btn-full', state.currentIdx + 1 < state.items.length ? 'Weiter \u2192' : 'Ergebnis anzeigen');
+  nextBtn.style.display = 'none';
+  nextBtn.addEventListener('click', function() {
+    state.currentIdx++;
+    state.answered = false;
+    renderHandzeichenTab();
+  });
+  quizWrap.appendChild(nextBtn);
+
+  container.appendChild(quizWrap);
+}
+
+// Close popup when clicking outside
+document.addEventListener('click', e => {
+  if (_activePopup && !_activePopup.contains(e.target)) closeActivePopup();
+});
+
 // ── ARTIKEL DETAIL ─────────────────────────────────────────
+let _detailTriggerEl = null;
+
 export function rulesOpenDetail(artNum) {
   if (!RULES_DATA) return;
   const art = RULES_DATA.articles.find(a => a.number === artNum);
   if (!art) return;
+
+  _detailTriggerEl = document.activeElement;
 
   const overlay = document.getElementById('rules-detail');
   const metaEl = document.getElementById('rules-detail-meta');
@@ -286,29 +919,9 @@ export function rulesOpenDetail(artNum) {
   header.appendChild(el('div', 'rules-detail-regel', art.regel));
   bodyEl.appendChild(header);
 
-  // Images
-  if (art.images.length) {
-    const imgSection = el('div', 'rules-detail-images');
-    imgSection.appendChild(el('div', 'rules-detail-images-title', 'Abbildungen'));
-    const scroll = el('div', 'rules-detail-img-scroll');
-    art.images.forEach(fn => {
-      const imgData = RULES_DATA.images.find(i => i.filename === fn);
-      const cap = (imgData && imgData.caption) ? imgData.caption : fn;
-      const thumb = document.createElement('img');
-      thumb.className = 'rules-detail-img-thumb';
-      thumb.src = `data/images/${fn}`;
-      thumb.alt = cap;
-      thumb.title = cap;
-      thumb.loading = 'lazy';
-      thumb.addEventListener('click', () => rulesOpenLightbox(fn, cap));
-      scroll.appendChild(thumb);
-    });
-    imgSection.appendChild(scroll);
-    bodyEl.appendChild(imgSection);
-  }
-
-  // Article text
-  const textEl = el('div', 'rules-detail-text', art.text);
+  // Article text with glossary term highlights and inline images
+  const textEl = el('div', 'rules-detail-text');
+  annotateTextWithGlossary(art.text, textEl, art.images);
   bodyEl.appendChild(textEl);
 
   // Related questions
@@ -333,11 +946,36 @@ export function rulesOpenDetail(artNum) {
 
   overlay.style.display = '';
   overlay.scrollTop = 0;
+
+  // Focus-Trap: Tab bleibt innerhalb des Overlays
+  overlay.onkeydown = function(e) {
+    if (e.key === 'Escape') { e.preventDefault(); rulesCloseDetail(); return; }
+    if (e.key !== 'Tab') return;
+    const focusable = Array.from(overlay.querySelectorAll(
+      'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+    )).filter(el => !el.disabled);
+    if (!focusable.length) { e.preventDefault(); return; }
+    const first = focusable[0];
+    const last = focusable[focusable.length - 1];
+    if (e.shiftKey) {
+      if (document.activeElement === first) { e.preventDefault(); last.focus(); }
+    } else {
+      if (document.activeElement === last) { e.preventDefault(); first.focus(); }
+    }
+  };
+
+  // Fokus auf Zurück-Button setzen
+  const backBtn = overlay.querySelector('.rules-back-btn');
+  if (backBtn) backBtn.focus();
 }
 
 export function rulesCloseDetail() {
   const overlay = document.getElementById('rules-detail');
   if (overlay) overlay.style.display = 'none';
+  if (_detailTriggerEl && _detailTriggerEl.focus) {
+    _detailTriggerEl.focus();
+    _detailTriggerEl = null;
+  }
 }
 
 // ── LIGHTBOX ───────────────────────────────────────────────
@@ -345,15 +983,22 @@ export function rulesOpenLightbox(filename, caption) {
   const existing = document.getElementById('rules-lightbox');
   if (existing) existing.remove();
 
+  const triggerEl = document.activeElement;
+
   const lb = el('div', 'rules-lightbox');
   lb.id = 'rules-lightbox';
   lb.setAttribute('role', 'dialog');
   lb.setAttribute('aria-modal', 'true');
   lb.setAttribute('aria-label', caption || 'Bildvorschau');
 
+  function closeLightbox() {
+    lb.remove();
+    if (triggerEl && triggerEl.focus) triggerEl.focus();
+  }
+
   const closeBtn = el('button', 'rules-lightbox-close', '✕');
   closeBtn.setAttribute('aria-label', 'Schließen');
-  closeBtn.addEventListener('click', () => lb.remove());
+  closeBtn.addEventListener('click', closeLightbox);
 
   const img = document.createElement('img');
   img.className = 'rules-lightbox-img';
@@ -367,6 +1012,18 @@ export function rulesOpenLightbox(filename, caption) {
     lb.appendChild(el('div', 'rules-lightbox-caption', caption));
   }
 
-  lb.addEventListener('click', e => { if (e.target === lb) lb.remove(); });
+  lb.addEventListener('click', e => { if (e.target === lb) closeLightbox(); });
+
+  // Escape-Key und Focus-Trap
+  lb.addEventListener('keydown', e => {
+    if (e.key === 'Escape') { e.preventDefault(); closeLightbox(); return; }
+    if (e.key === 'Tab') {
+      // Nur der Close-Button ist fokussierbar — Trap verhindern
+      e.preventDefault();
+      closeBtn.focus();
+    }
+  });
+
   document.body.appendChild(lb);
+  closeBtn.focus();
 }

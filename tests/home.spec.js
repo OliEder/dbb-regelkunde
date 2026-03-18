@@ -12,9 +12,9 @@ test.describe('Home View', () => {
     await expect(page.locator('.bottom-nav')).toBeVisible();
   });
 
-  test('shows 6 navigation buttons', async ({ page }) => {
+  test('shows 7 navigation buttons', async ({ page }) => {
     const navBtns = page.locator('.nav-btn');
-    await expect(navBtns).toHaveCount(6);
+    await expect(navBtns).toHaveCount(7);
   });
 
   test('home nav button is active on load', async ({ page }) => {

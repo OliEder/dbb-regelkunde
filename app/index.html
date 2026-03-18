@@ -43,7 +43,12 @@
     Prüfung
   </button>
   <button class="nav-btn" data-view="regeln" onclick="navigate('regeln')" aria-label="Regelwerk">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+      <path d="M4 19.5A2.5 2.5 0 016.5 17H20"/>
+      <path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/>
+      <line x1="9" y1="9" x2="15" y2="9"/>
+      <line x1="9" y1="13" x2="13" y2="13"/>
+    </svg>
     Regeln
   </button>
 </nav>
@@ -75,7 +80,7 @@
   </div>
 
   <div class="pad">
-    <div class="section-label">Modus wählen</div>
+    <div class="section-label">Üben</div>
     <div class="mode-grid" role="list">
       <button class="mode-btn" onclick="navigate('flashcards')" aria-label="Karteikarten - Spaced Repetition">
         <div class="m-icon" aria-hidden="true">🃏</div>
@@ -97,16 +102,35 @@
         <div class="m-title">Durchlauf</div>
         <div class="m-desc">Prüfungstest</div>
       </button>
-      <button class="mode-btn" onclick="navigate('regeln')" aria-label="Regelwerk - Artikel und Glossar">
-        <div class="m-icon" aria-hidden="true">📋</div>
-        <div class="m-title">Regelwerk</div>
-        <div class="m-desc">Artikel & Glossar</div>
-      </button>
     </div>
 
-    <div class="divider" style="margin:16px -16px; width:calc(100% + 32px);"></div>
+    <div class="divider" style="margin:12px -16px; width:calc(100% + 32px);"></div>
 
-    <div class="section-label" style="margin-top:16px">Fortschritt</div>
+    <div class="section-label">Nachschlagen</div>
+    <button class="home-rules-btn" onclick="navigate('regeln')" aria-label="Regelwerk öffnen">
+      <div class="home-rules-left">
+        <div class="home-rules-icon" aria-hidden="true">📋</div>
+        <div>
+          <div class="home-rules-title">Regelwerk</div>
+          <div class="home-rules-desc">50 Artikel · 137 Bilder · 58 Begriffe im Glossar</div>
+        </div>
+      </div>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20" aria-hidden="true"><polyline points="9 18 15 12 9 6"/></svg>
+    </button>
+    <button class="home-rules-btn home-stats-btn" onclick="navigate('stats')" aria-label="Statistik ansehen">
+      <div class="home-rules-left">
+        <div class="home-rules-icon" aria-hidden="true">📊</div>
+        <div>
+          <div class="home-rules-title">Statistik</div>
+          <div class="home-rules-desc">Detailauswertung nach Artikel</div>
+        </div>
+      </div>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20" aria-hidden="true"><polyline points="9 18 15 12 9 6"/></svg>
+    </button>
+
+    <div class="divider" style="margin:12px -16px; width:calc(100% + 32px);"></div>
+
+    <div class="section-label">Fortschritt</div>
     <div class="cat-progress">
       <div class="cat-progress-head">
         <span>Regelfragen</span>
@@ -389,6 +413,7 @@
       <button class="chip active" role="tab" aria-selected="true" onclick="rulesSetTab('artikel',this)">Artikel</button>
       <button class="chip" role="tab" aria-selected="false" onclick="rulesSetTab('glossar',this)">Glossar</button>
       <button class="chip" role="tab" aria-selected="false" onclick="rulesSetTab('bilder',this)">Bilder</button>
+      <button class="chip" role="tab" aria-selected="false" onclick="rulesSetTab('handzeichen',this)">Handzeichen</button>
     </div>
   </div>
 
@@ -418,6 +443,11 @@
   <!-- BILDER TAB -->
   <div id="rules-tab-bilder" class="rules-tab-content" style="display:none">
     <div id="rules-bilder-list" class="pad" style="padding-top:8px"></div>
+  </div>
+
+  <!-- HANDZEICHEN TAB -->
+  <div id="rules-tab-handzeichen" class="rules-tab-content" style="display:none">
+    <div id="rules-handzeichen-container" class="pad" style="padding-top:8px"></div>
   </div>
 
   <!-- ARTIKEL DETAIL OVERLAY -->

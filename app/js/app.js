@@ -480,9 +480,16 @@ function renderLearn() {
     aRow.appendChild(pill);
 
     if (q.article) {
-      const badge = document.createElement('span');
-      badge.className = 'badge badge-blue';
-      badge.textContent = 'Art. ' + q.article;
+      const badge = document.createElement('button');
+      badge.className = 'badge badge-blue badge-link';
+      badge.textContent = 'Art. ' + q.article + ' →';
+      badge.setAttribute('aria-label', 'Artikel ' + q.article + ' im Regelwerk öffnen');
+      badge.addEventListener('click', async e => {
+        e.stopPropagation();
+        navigate('regeln');
+        await loadRules();
+        rulesOpenDetail(parseInt(q.article));
+      });
       aRow.appendChild(badge);
     }
 
@@ -723,6 +730,14 @@ function showDlSummary() {
 
 // KEYBOARD
 document.addEventListener('keydown', function(e) {
+  // Escape schließt Overlays
+  if (e.key === 'Escape') {
+    const lightbox = document.getElementById('rules-lightbox');
+    if (lightbox) { lightbox.remove(); return; }
+    const detail = document.getElementById('rules-detail');
+    if (detail && detail.style.display !== 'none') { rulesCloseDetail(); return; }
+  }
+
   const k = e.key.toLowerCase();
   if (currentView === 'flashcards') {
     if (k === 'j') fcAnswer(true);
