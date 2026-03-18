@@ -1,7 +1,7 @@
 # ARC42 Architekturdokumentation: DBB Regelkunde Lerntool
 
-**Version:** 1.0
-**Datum:** 2026-03-17
+**Version:** 1.1
+**Datum:** 2026-03-18
 **Status:** Living Document
 
 ---
@@ -66,13 +66,15 @@ graph TD
     A["👤 Schiedsrichter-Anwärter"]
     B["👤 Aktiver Schiedsrichter"]
     C["👤 Trainer C-Lizenz Kandidat"]
-    D["📱 DBB Regelkunde Lerntool (PWA)\n314 Fragen · 6 Lernmodi · Offline · SM-2"]
+    D["📱 DBB Regelkunde Lerntool (PWA)\n314 Fragen · 6 Lernmodi · Regelwerk · Offline · SM-2"]
     E["📄 DBB Fragenkatalog 2025 (XLSX)\nDatenquelle – einmalig extrahiert"]
+    F["📋 DBB Regelwerk 2024 (PDF)\n49 Artikel · 137 Bilder · 58 Glossarbegriffe"]
 
     A -->|lernt mit| D
     B -->|frischt auf| D
     C -->|bereitet sich vor| D
     E -->|Datenbasis| D
+    F -->|Regelartikel| D
 ```
 
 ### 3.2 Technischer Kontext
@@ -86,7 +88,7 @@ graph LR
     end
 
     subgraph Browser["Browser (Endgerät)"]
-        SPA["SPA\nindex.html + 4 JS-Module"]
+        SPA["SPA\nindex.html + 5 JS-Module"]
         SW["Service Worker\nCache-First"]
         LS[("LocalStorage\nLernstand")]
     end
@@ -128,22 +130,27 @@ graph TD
         STATE["state.js\nPersistenz · SM-2"]
         THEME["theme.js\nHell/Dunkel"]
         UTILS["utils.js\nshuffle · escHtml"]
+        RULES["rules.js\nRegelwerk-Controller"]
         SW["sw.js\nService Worker"]
-        DATA[("questions.json\n314 Prüfungsfragen · ~137 KB")]
+        DATA[("questions.json\n314 Prüfungsfragen")]
+        RULESDATA[("rules.json\n49 Artikel · 137 Bilder · 58 Begriffe")]
     end
 
     HTML -->|onclick-Handler| APP
     APP --> STATE
     APP --> UTILS
+    APP --> RULES
     APP -->|Fragen laden| DATA
+    RULES -->|Regelwerk laden| RULESDATA
     THEME -->|CSS-Klasse| HTML
     SW -->|cacht| DATA
+    SW -->|cacht| RULESDATA
     SW -->|cacht| HTML
 ```
 
 ### 5.2 Ebene 2 – app.js (View-Controller)
 
-`app.js` implementiert alle 6 Anwendungsviews als eigenständige „Mini-Controller":
+`app.js` implementiert alle Anwendungsviews als eigenständige „Mini-Controller":
 
 ```mermaid
 graph LR
@@ -155,6 +162,7 @@ graph LR
     NAV --> LEARN["Lernen learn*\nVollständige Liste + Suche"]
     NAV --> STATS["Statistik stats*\nCharts + Artikelübersicht"]
     NAV --> DL["Durchlauf dl*\nPrüfungssimulation"]
+    NAV --> REGELN["Regelwerk rules*\nArtikel · Glossar · Bilder"]
 ```
 
 | Controller | Beschreibung |
@@ -165,6 +173,7 @@ graph LR
 | **Lernen (`learn*`)** | Vollständige Fragenliste mit Suche und Filterung |
 | **Statistik (`stats*`)** | Donut-Charts und artikelbezogene Fortschrittsanzeige |
 | **Durchlauf (`dl*`)** | Prüfungssimulation (2× hintereinander richtig pro Frage) |
+| **Regelwerk (`rules*`)** | Volltext-Regelartikel mit Glossar-Annotations, Bilder-Galerie und Suchfunktion |
 
 ### 5.3 Ebene 2 – state.js (Datenhaltung)
 
@@ -294,8 +303,9 @@ Der Service Worker (`sw.js`) cacht beim ersten Besuch alle statischen Assets. Al
 Gecachte Dateien:
 - `index.html`
 - `css/style.css`
-- `js/app.js`, `state.js`, `theme.js`, `utils.js`
+- `js/app.js`, `state.js`, `theme.js`, `utils.js`, `rules.js`
 - `data/questions.json`
+- `data/rules.json`
 - `manifest.json`
 - Fonts und Icons
 
@@ -331,6 +341,26 @@ Die Warteschlange wird bei jedem Modus-Start neu gebaut:
 - Touch-Gesten (Swipe links/rechts)
 - Klasse `.sr-only` für screenreader-only Text
 
+#### Keyboard-Trap-Prävention in modalen Overlays (seit v1.1)
+
+Modale Overlays (Lightbox, Artikel-Detail, Glossar-Popup) implementieren vollständiges Fokus-Management:
+
+| Overlay | Öffnen | Schließen | Escape | Focus-Trap | Fokus-Rückgabe |
+|---------|--------|-----------|--------|------------|----------------|
+| **Lightbox** | Fokus → Schließen-Button | `✕`-Button oder Klick auf Backdrop | ✓ | Tab bleibt auf Schließen-Button | ✓ → auslösendes Element |
+| **Artikel-Detail** | Fokus → Zurück-Button | Zurück-Button | ✓ | Tab zirkuliert durch alle fokussierbaren Elemente im Overlay | ✓ → angeklickte Artikel-Card |
+| **Glossar-Popup** | Fokus → Schließen-Button | `✕`-Button | ✓ | Tab zirkuliert innerhalb der Popup-Buttons | ✓ → angeklickter Glossar-Begriff |
+
+**Hintergrund:** Ohne dieses Fokus-Management konnten Tastaturnutzer nach dem Öffnen eines Overlays nicht mehr zur Hauptnavigation zurücknavigieren (Keyboard-Trap). Besonders betroffen waren die Bilder-Galerie (Lightbox) und die Regelwerk-Artikelansicht.
+
+**Suchfeld-Trap (Regelwerk & Lernen):** `<input type="search">` rendert in Safari/Chrome einen nativen Clear-Button, der in den Tab-Fokus einfließt und den Tab-Fluss aus dem Eingabefeld heraus blockiert. Dieser Button wird per CSS ausgeblendet:
+```css
+.rules-search-input::-webkit-search-cancel-button,
+.search-input::-webkit-search-cancel-button { display: none; }
+```
+
+**Globaler Escape-Handler:** `app.js` fängt `Escape` dokumentweit ab und schließt das jeweils oberste aktive Overlay — unabhängig davon, wo der Fokus gerade liegt.
+
 ### 8.6 Theming
 
 Hell/Dunkel-Modus via CSS Custom Properties. Präferenz wird in `localStorage` gespeichert, `prefers-color-scheme` wird als Fallback ausgelesen.
@@ -358,6 +388,8 @@ function escHtml(str) {
     .replace(/"/g, '&quot;');
 }
 ```
+
+`rules.js` verwendet durchgängig die sichere DOM-API (kein `innerHTML`). Die Glossar-Annotation (`annotateTextWithGlossary`) baut Textknoten und Buttons ausschließlich via `document.createElement` / `textContent` auf – Regelartikel-Text wird niemals als HTML interpretiert.
 
 ---
 
@@ -398,6 +430,20 @@ function escHtml(str) {
 **Entscheidung:** `extract_questions.py` liest XLSX als ZIP, parst XML, erzeugt `questions.json`
 **Konsequenzen:** Klare Datenpipeline, Trennung von Datenpflege und App-Logik. Jährliche Aktualisierung ohne Code-Änderungen möglich.
 
+### ADR-006: Regelwerk als separates ES-Modul (rules.js)
+
+**Status:** Akzeptiert
+**Kontext:** Das vollständige Regelwerk (49 Artikel, 137 Bilder, 58 Glossarbegriffe) wurde als Feature hinzugefügt, was zu erheblichem Code-Umfang führt
+**Entscheidung:** Regelwerk-Logik in eigenem ES-Modul `rules.js` kapseln, das lazy von `app.js` importiert wird
+**Konsequenzen:** `app.js` bleibt überschaubar; `rules.js` kann unabhängig weiterentwickelt werden. Glossar-Annotations nutzen ausschließlich sichere DOM-API (kein innerHTML).
+
+### ADR-007: Navigation-Konsolidierung (5 statt 7 Bottom-Nav-Buttons)
+
+**Status:** Akzeptiert
+**Kontext:** Bottom Navigation hatte 7 Einträge – zu viele für ein mobiles Interface
+**Entscheidung:** Bottom Nav auf 5 primäre Aktionen reduziert (Home, Karten, Quiz, Lernen, Durchlauf). Regelwerk und Statistik über Home-Sektion „Nachschlagen" erreichbar
+**Konsequenzen:** Saubereres mobiles UI. Regelwerk und Statistik sind einen Tap weiter entfernt, aber besser gruppiert.
+
 ---
 
 ## 10. Qualitätsszenarien
@@ -416,7 +462,7 @@ mindmap
     Benutzbarkeit
       Barrierefreiheit (WCAG 2.1 AA)
       Mobile-First Bedienbarkeit
-      Intuitive Navigation (6 Tabs)
+      Intuitive Navigation (5 Tabs + Home-Nachschlagen)
     Effizienz
       Ladezeit < 1s lokal / < 3s auf 3G
       Bundle-Größe ~20 KB JS
@@ -432,6 +478,8 @@ mindmap
 | Q1 | Nutzer öffnet App ohne Internetverbindung (nach erstem Besuch) | App lädt vollständig aus Service Worker Cache | Erfüllt |
 | Q2 | Nutzer beantwortet 314 Fragen; App soll Lernstand nicht verlieren | LocalStorage persistiert alle Karten-Zustände dauerhaft | Erfüllt |
 | Q3 | Screenreader-Nutzer navigiert durch Flashcard-Modus | Alle interaktiven Elemente haben ARIA-Labels, Live-Regions für Statusmeldungen | Erfüllt |
+| Q6 | Tastaturnutzer öffnet Bild-Lightbox und möchte sie wieder schließen | Fokus springt auf Schließen-Button, Escape schließt, Fokus kehrt zum auslösenden Element zurück | Erfüllt |
+| Q7 | Tastaturnutzer öffnet Artikel-Detail und navigiert zurück | Fokus springt auf Zurück-Button, Focus-Trap hält Tab im Overlay, Escape und Zurück-Button geben Fokus an Artikel-Card zurück | Erfüllt |
 | Q4 | Jährliche Aktualisierung der Fragendatenbank | Python-Skript auf neue XLSX ausführen → `questions.json` ersetzen → deployen | Erfüllt |
 | Q5 | Nutzer wechselt zwischen Smartphone und Tablet | Responsives Layout, viewport-meta korrekt gesetzt | Erfüllt |
 
@@ -446,6 +494,7 @@ mindmap
 | Kein geräteübergreifender Sync | Hoch (konzeptionell) | Lernstand nicht auf zweitem Gerät verfügbar | Bewusst akzeptiert (kein Backend) |
 | XLSX-Format ändert sich | Mittel | Python-Skript muss angepasst werden | Extraktion jährlich manuell prüfen |
 | Keine Analytics | Hoch | Nutzungsmuster unbekannt | Privacy-friendly Analytics (z.B. Plausible) möglich |
+| Glossar-Regex zu aggressiv (Teilwort-Matches) | Mittel | Falsche Hervorhebungen im Text | Längste Terme zuerst matchen, ggf. Wortgrenzen ergänzen |
 
 ---
 
@@ -465,3 +514,6 @@ mindmap
 | **Durchlauf** | Prüfungssimulation: alle Fragen müssen 2× hintereinander richtig beantwortet werden |
 | **Cache-First** | Service-Worker-Strategie: Cache bevorzugt, Netzwerk nur bei Cache-Miss |
 | **WCAG 2.1 AA** | Web Content Accessibility Guidelines – Barrierefreiheitsstandard Level AA |
+| **Regelwerk-View** | Neue App-Ansicht mit Volltext der 49 Regelartikel, Bildersuche und Glossar |
+| **Glossar-Annotation** | Automatische Hervorhebung von Glossarbegriffen im Artikeltext mit Popup-Definition |
+| **extract_rules.py** | Python-Skript (PyMuPDF) zur Extraktion von Artikeln und Bildern aus dem DBB Regelwerk PDF |

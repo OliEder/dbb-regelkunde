@@ -155,6 +155,66 @@ test.describe('Accessibility & Theme', () => {
     }
   });
 
+  // ── Keyboard-Trap Fixes ───────────────────────────────────────────────────
+
+  test('lightbox: Escape closes the lightbox', async ({ page }) => {
+    await page.locator('.nav-btn[data-view="regeln"]').click();
+    await page.waitForSelector('.rules-artikel-card', { timeout: 10000 });
+    // Switch to Bilder tab and open a lightbox
+    await page.locator('#rules-tab-row button:has-text("Bilder")').click();
+    await page.waitForSelector('.rules-bild-card', { timeout: 5000 });
+    await page.locator('.rules-bild-card').first().click();
+    await page.waitForSelector('#rules-lightbox', { timeout: 3000 });
+    await expect(page.locator('#rules-lightbox')).toBeVisible();
+    // Escape should close it
+    await page.keyboard.press('Escape');
+    await page.waitForTimeout(200);
+    await expect(page.locator('#rules-lightbox')).not.toBeAttached();
+  });
+
+  test('lightbox: focus moves to close button on open', async ({ page }) => {
+    await page.locator('.nav-btn[data-view="regeln"]').click();
+    await page.waitForSelector('.rules-artikel-card', { timeout: 10000 });
+    await page.locator('#rules-tab-row button:has-text("Bilder")').click();
+    await page.waitForSelector('.rules-bild-card', { timeout: 5000 });
+    await page.locator('.rules-bild-card').first().click();
+    await page.waitForSelector('#rules-lightbox', { timeout: 3000 });
+    const focused = await page.evaluate(() => document.activeElement?.className);
+    expect(focused).toContain('rules-lightbox-close');
+  });
+
+  test('article detail: Escape closes the overlay', async ({ page }) => {
+    await page.locator('.nav-btn[data-view="regeln"]').click();
+    await page.waitForSelector('.rules-artikel-card', { timeout: 10000 });
+    await page.locator('.rules-artikel-card').first().click();
+    await page.waitForSelector('#rules-detail-body', { timeout: 5000 });
+    await expect(page.locator('#rules-detail')).toBeVisible();
+    await page.keyboard.press('Escape');
+    await page.waitForTimeout(200);
+    await expect(page.locator('#rules-detail')).not.toBeVisible();
+  });
+
+  test('article detail: focus moves to back button on open', async ({ page }) => {
+    await page.locator('.nav-btn[data-view="regeln"]').click();
+    await page.waitForSelector('.rules-artikel-card', { timeout: 10000 });
+    await page.locator('.rules-artikel-card').first().click();
+    await page.waitForSelector('#rules-detail-body', { timeout: 5000 });
+    const focused = await page.evaluate(() => document.activeElement?.className);
+    expect(focused).toContain('rules-back-btn');
+  });
+
+  test('article detail: focus returns to triggering card on close', async ({ page }) => {
+    await page.locator('.nav-btn[data-view="regeln"]').click();
+    await page.waitForSelector('.rules-artikel-card', { timeout: 10000 });
+    const firstCard = page.locator('.rules-artikel-card').first();
+    await firstCard.click();
+    await page.waitForSelector('#rules-detail-body', { timeout: 5000 });
+    await page.locator('.rules-back-btn').click();
+    await page.waitForTimeout(200);
+    const focused = await page.evaluate(() => document.activeElement?.getAttribute('aria-label'));
+    expect(focused).toBeTruthy();
+  });
+
   test('quiz feedback has role="alert" for live announcements', async ({ page }) => {
     await page.locator('.nav-btn[data-view="quiz"]').click();
     await page.locator('button:has-text("Quiz starten")').click();

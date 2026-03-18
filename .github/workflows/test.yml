@@ -3,8 +3,7 @@ name: Tests
 on:
   push:
     branches: ['**']
-  pull_request:
-    branches: [main]
+  # pull_request-Trigger deaktiviert (temporär, solange Test-Timeouts ungeklärt sind)
 
 jobs:
   test:
