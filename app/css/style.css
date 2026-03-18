@@ -1316,6 +1316,139 @@ html.light .rules-detail-header { background: var(--bg); }
   font-style: italic;
 }
 
+/* ── Artikel-Section-Overlay (global) ─────────────────────── */
+.art-sec-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 600;
+  background: var(--bg);
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  flex-direction: column;
+}
+.art-sec-overlay[style*="display:none"] { display: none !important; }
+.art-sec-overlay.open { display: flex; }
+
+.art-sec-header {
+  position: sticky;
+  top: 0;
+  background: var(--bg);
+  border-bottom: 1px solid var(--border);
+  padding: 10px 16px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  z-index: 1;
+}
+.art-sec-back-btn {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  background: none;
+  border: 1.5px solid var(--border);
+  border-radius: 8px;
+  color: var(--text2);
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 600;
+  padding: 6px 10px;
+  flex-shrink: 0;
+  transition: border-color .15s, color .15s;
+}
+.art-sec-back-btn svg { width: 18px; height: 18px; }
+.art-sec-back-btn:hover { border-color: var(--text2); color: var(--text); }
+.art-sec-back-btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+.art-sec-header-info { min-width: 0; }
+.art-sec-art-num   { font-size: 11px; font-weight: 700; color: var(--accent); text-transform: uppercase; letter-spacing: .06em; }
+.art-sec-art-title { font-size: 14px; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.art-sec-meta      { font-size: 12px; color: var(--text3); margin-left: auto; white-space: nowrap; flex-shrink: 0; }
+
+.art-sec-body { padding: 0; max-width: 680px; margin: 0 auto; width: 100%; }
+
+/* Einzelner Abschnitt */
+.art-sec-item {
+  border-bottom: 1px solid var(--border);
+  scroll-margin-top: 56px;
+}
+
+/* Fokussierter Abschnitt */
+.art-sec-item.is-focused {
+  border-left: 3px solid var(--accent);
+}
+.art-sec-item.is-focused .art-sec-inner { padding-left: 13px; }
+
+/* Benachbarte (navigierbar, ausgegraut) */
+.art-sec-item.is-nav {
+  cursor: pointer;
+  transition: opacity .15s, background .15s;
+}
+.art-sec-item.is-nav:hover  { background: var(--bg2); }
+.art-sec-item.is-nav:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; opacity: .75; }
+.art-sec-item[data-dist="1"] { opacity: .42; }
+.art-sec-item[data-dist="2"] { opacity: .22; }
+.art-sec-item[data-dist="3"] { opacity: .14; }
+
+.art-sec-inner { padding: 16px 16px; }
+
+.art-sec-num   { font-size: 11px; font-weight: 700; color: var(--text3); margin-bottom: 2px; }
+.art-sec-title { font-size: 16px; font-weight: 700; margin-bottom: 8px; }
+.art-sec-item.is-focused .art-sec-title { font-size: 18px; }
+
+.art-sec-text { font-size: 14px; line-height: 1.65; color: var(--text2); }
+.art-sec-text p { margin-bottom: 10px; }
+.art-sec-text p:last-child { margin-bottom: 0; }
+
+.art-sec-hint { font-size: 12px; color: var(--text3); margin-top: 4px; }
+
+/* Bildgruppe innerhalb Section-Overlay */
+.art-sec-img-group { margin-top: 16px; }
+.art-sec-img-label { font-size: 12px; font-weight: 600; color: var(--text2); margin-bottom: 8px; text-align: center; }
+.art-sec-img-row   { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
+.art-sec-img-row figure { text-align: center; margin: 0; }
+.art-sec-img-row img    { max-height: 130px; border-radius: 8px; border: 1px solid var(--border); display: block; cursor: zoom-in; }
+.art-sec-img-row figcaption { font-size: 11px; color: var(--text3); margin-top: 4px; font-style: italic; }
+
+html.light .art-sec-overlay  { background: var(--bg); }
+html.light .art-sec-header   { background: var(--bg); }
+
+/* ── Bildgruppen im Artikel-Detail ────────────────────────── */
+.rules-img-group {
+  margin: 18px 0 10px;
+}
+.rules-img-group-label {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text2);
+  margin-bottom: 10px;
+  text-align: center;
+}
+.rules-img-group-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+}
+.rules-img-group-figure {
+  flex: 0 1 auto;
+  text-align: center;
+  margin: 0;
+}
+.rules-img-group-img {
+  max-height: 220px;
+  max-width: 100%;
+  border-radius: var(--r);
+  border: 1px solid var(--border);
+  cursor: zoom-in;
+  display: block;
+}
+.rules-img-group-caption {
+  margin-top: 4px;
+  font-size: 11px;
+  color: var(--text2);
+  font-style: italic;
+}
+
 /* ── Artikel Text Struktur (neu) ───────────────────────────── */
 .rules-detail-text .rules-h3 {
   font-size: 15px;
@@ -1606,3 +1739,66 @@ html.light .rules-detail-header { background: var(--bg); }
   color: var(--text);
   margin-bottom: 8px;
 }
+
+/* ── UPDATE BANNER ──────────────────────────────────────── */
+.update-banner {
+  background: var(--accent);
+  color: #fff;
+  font-size: 13px;
+  font-weight: 600;
+  padding: 10px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  position: sticky;
+  top: 0;
+  z-index: 500;
+}
+.update-banner button { background: rgba(0,0,0,.25); border: none; border-radius: 6px; color: #fff; cursor: pointer; font-size: 12px; font-weight: 700; padding: 4px 10px; }
+
+/* ── LEARN HUB ──────────────────────────────────────────── */
+.learn-hub-modes {
+  display: flex;
+  gap: 8px;
+  padding: 8px 16px 0;
+}
+.learn-hub-btn {
+  flex: 1;
+  background: var(--bg2);
+  border: 1.5px solid var(--border);
+  border-radius: var(--r);
+  color: var(--text);
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 12px 8px;
+  gap: 4px;
+  transition: border-color .15s;
+}
+.learn-hub-btn:hover { border-color: var(--accent); }
+.learn-hub-btn--active { border-color: var(--accent); background: rgba(255,107,26,.08); }
+.learn-hub-btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.learn-hub-icon { font-size: 22px; line-height: 1; }
+.learn-hub-title { font-size: 13px; font-weight: 700; }
+.learn-hub-desc { font-size: 11px; color: var(--text3); }
+
+/* ── BUY ME A COFFEE ────────────────────────────────────── */
+.bmac-btn {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: #ffdd00;
+  color: #000;
+  border-radius: var(--r);
+  padding: 12px 16px;
+  font-size: 14px;
+  font-weight: 700;
+  text-decoration: none;
+  width: 100%;
+  transition: opacity .15s;
+}
+.bmac-btn:hover { opacity: .85; }
+.bmac-btn:focus-visible { outline: 2px solid #000; outline-offset: 2px; }
+.bmac-btn span:first-child { font-size: 20px; }

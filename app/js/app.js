@@ -4,8 +4,11 @@ import { initTheme, toggleTheme } from './theme.js';
 import { shuffle, escHtml } from './utils.js';
 import {
   loadRules, initRegeln, rulesSetTab, rulesSetRegel, rulesSearch,
-  rulesOpenDetail, rulesCloseDetail, rulesOpenLightbox, setQuestionsRef
+  rulesOpenDetail, rulesCloseDetail, rulesOpenLightbox, setQuestionsRef,
+  rulesOpenSecOverlay, rulesCloseSecOverlay
 } from './rules.js';
+
+const APP_VERSION = 'v1.3.0';
 
 // Globale Exports für onclick-Handler im HTML
 window.toggleTheme    = toggleTheme;
@@ -37,7 +40,8 @@ window.rulesSetTab      = rulesSetTab;
 window.rulesSetRegel    = rulesSetRegel;
 window.rulesSearch      = rulesSearch;
 window.rulesOpenDetail  = rulesOpenDetail;
-window.rulesCloseDetail = rulesCloseDetail;
+window.rulesCloseDetail    = rulesCloseDetail;
+window.rulesCloseSecOverlay = rulesCloseSecOverlay;
 window.rulesOpenLightbox = rulesOpenLightbox;
 
 let QUESTIONS = [];
@@ -486,9 +490,7 @@ function renderLearn() {
       badge.setAttribute('aria-label', 'Artikel ' + q.article + ' im Regelwerk öffnen');
       badge.addEventListener('click', async e => {
         e.stopPropagation();
-        navigate('regeln');
-        await loadRules();
-        rulesOpenDetail(parseInt(q.article));
+        await rulesOpenSecOverlay(parseInt(q.article), badge);
       });
       aRow.appendChild(badge);
     }
@@ -778,6 +780,23 @@ document.addEventListener('keydown', function(e) {
   initTheme();
   await loadQuestions();
   setQuestionsRef(QUESTIONS);
+  // Show version in hero
+  const versionEl = document.getElementById('app-version');
+  if (versionEl) versionEl.textContent = APP_VERSION;
   renderHome();
   initLearn();
 })();
+
+// SERVICE WORKER UPDATE BANNER
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.addEventListener('message', e => {
+    if (e.data && e.data.type === 'SW_UPDATED') {
+      const banner = document.getElementById('update-banner');
+      const text   = document.getElementById('update-banner-text');
+      if (banner) {
+        if (text) text.textContent = 'Neue Version ' + (e.data.version || APP_VERSION) + ' verfügbar — Seite neu laden';
+        banner.style.display = 'flex';
+      }
+    }
+  });
+}

@@ -225,6 +225,58 @@ test.describe('Regelwerk View', () => {
     }
   });
 
+  // ── Bildgruppen (Artikel 33) ──────────────────────────────────────────────
+
+  test('Artikel 33 detail shows imageGroup section with label and 4 images', async ({ page }) => {
+    await goToRegeln(page);
+    // Find and open Artikel 33
+    const cards = page.locator('.rules-artikel-card');
+    const cardCount = await cards.count();
+    let found = false;
+    for (let i = 0; i < cardCount; i++) {
+      const label = await page.locator('.rules-artikel-card').nth(i).getAttribute('aria-label');
+      if (label && label.includes('33')) {
+        await page.locator('.rules-artikel-card').nth(i).click();
+        found = true;
+        break;
+      }
+    }
+    if (!found) { console.log('Artikel 33 not found — skipping'); return; }
+    await page.waitForSelector('#rules-detail-body', { timeout: 5000 });
+
+    // Image group section should exist
+    const group = page.locator('.rules-img-group');
+    await expect(group).toBeVisible();
+
+    // Label should contain "Zylinderprinzip"
+    await expect(page.locator('.rules-img-group-label')).toContainText('Zylinderprinzip');
+
+    // All 4 images rendered in the group
+    const groupImgs = page.locator('.rules-img-group-img');
+    await expect(groupImgs).toHaveCount(4);
+
+    // No standalone inline figure for Bild 6 (suppressed because it's in a group)
+    const inlineFigures = page.locator('.rules-inline-figure');
+    await expect(inlineFigures).toHaveCount(0);
+  });
+
+  test('Bilder tab only shows images with captions (no uncaptioned sub-images)', async ({ page }) => {
+    await goToRegeln(page);
+    await page.locator('#rules-tab-row button:has-text("Bilder")').click();
+    await page.waitForTimeout(300);
+    const captions = await page.locator('.rules-bild-caption').allTextContents();
+    // Every caption in the gallery should be non-empty
+    for (const cap of captions) {
+      expect(cap.trim().length).toBeGreaterThan(0);
+    }
+    // page043_img02 and img03 (sub-images, non-thumbnail) should not appear
+    const imgSrcs = await page.locator('.rules-bild-img').evaluateAll(imgs => imgs.map(i => i.src));
+    for (const src of imgSrcs) {
+      expect(src).not.toContain('page043_img02');
+      expect(src).not.toContain('page043_img03');
+    }
+  });
+
   // ── Handzeichen tab ───────────────────────────────────────────────────────
 
   test('Handzeichen tab is present and shows 70 cards', async ({ page }) => {
@@ -272,26 +324,28 @@ test.describe('Regelwerk View', () => {
 
   // ── Learn view article badge link ─────────────────────────────────────────
 
-  test('article badge in Learn view navigates to Regelwerk detail', async ({ page }) => {
-    // Navigate to the Lernen view via the nav button
+  test('article badge in Learn view opens section overlay without leaving view', async ({ page }) => {
     await page.locator('.nav-btn[data-view="learn"]').click();
     await page.waitForTimeout(300);
     await expect(page.locator('#view-learn')).toHaveClass(/active/);
 
-    // Wait for questions with article badges to load
     await page.waitForSelector('.badge-link', { timeout: 10000 });
     const badgeLink = page.locator('.badge-link').first();
     await expect(badgeLink).toBeVisible();
 
-    // Click the badge link — it should navigate to regeln and open the detail overlay
     await badgeLink.click();
     await page.waitForTimeout(500);
 
-    // Regelwerk view should be active
-    await expect(page.locator('#view-regeln')).toHaveClass(/active/);
+    // Lernmodus bleibt aktiv — kein View-Wechsel
+    await expect(page.locator('#view-learn')).toHaveClass(/active/);
 
-    // The article detail overlay should be open
-    await page.waitForSelector('#rules-detail-body', { timeout: 15000 });
-    await expect(page.locator('#rules-detail')).toBeVisible();
+    // Section-Overlay öffnet sich
+    await expect(page.locator('#art-sec-overlay')).toBeVisible();
+    await expect(page.locator('#art-sec-body')).not.toBeEmpty();
+
+    // Schließen mit Zurück-Button
+    await page.locator('#art-sec-back-btn').click();
+    await page.waitForTimeout(200);
+    await expect(page.locator('#art-sec-overlay')).not.toBeVisible();
   });
 });

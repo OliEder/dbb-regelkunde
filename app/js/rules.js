@@ -221,13 +221,28 @@ function renderGlossarList() {
   });
 }
 
+// Build set of filenames that are non-thumbnail members of an imageGroup
+function _getGroupSubImages() {
+  const subs = new Set();
+  if (!RULES_DATA) return subs;
+  RULES_DATA.articles.forEach(art => {
+    if (!art.imageGroups) return;
+    art.imageGroups.forEach(g => {
+      g.images.forEach(f => { if (f !== g.thumbnail) subs.add(f); });
+    });
+  });
+  return subs;
+}
+
 // ── BILDER ─────────────────────────────────────────────────
 function renderBilderGrid() {
   const container = document.getElementById('rules-bilder-list');
   if (!container || !RULES_DATA) return;
 
+  const groupSubs = _getGroupSubImages();
   let images = RULES_DATA.images.filter(img =>
-    img.width >= 200 && img.height >= 150 && img.article !== null
+    img.width >= 200 && img.height >= 150 && img.article !== null &&
+    img.caption !== null && !groupSubs.has(img.filename)
   );
 
   if (rulesSearchQuery) {
@@ -381,7 +396,7 @@ function appendAnnotatedText(rawText, container, terms, pattern) {
   });
 }
 
-function annotateTextWithGlossary(text, container, artImages) {
+function annotateTextWithGlossary(text, container, artImages, imageGroups) {
   // Glossary setup
   const terms = (RULES_DATA && RULES_DATA.glossary && RULES_DATA.glossary.length)
     ? [...RULES_DATA.glossary].sort((a, b) => b.term.length - a.term.length)
@@ -397,6 +412,25 @@ function annotateTextWithGlossary(text, container, artImages) {
         const m = img.caption.match(/^Bild\s+(\d+)\s*[:\-]/);
         if (m) globalBildMap[parseInt(m[1])] = img;
       }
+    });
+  }
+
+  // Build map of Bild number → imageGroup for inline rendering at the right position
+  const groupedBildNums = new Set();
+  const bildNumToGroup = {};
+  if (imageGroups && imageGroups.length) {
+    imageGroups.forEach(function(g) {
+      g.images.forEach(function(filename) {
+        const imgMeta = RULES_DATA && RULES_DATA.images && RULES_DATA.images.find(i => i.filename === filename);
+        if (imgMeta && imgMeta.caption) {
+          const m = imgMeta.caption.match(/^Bild\s+(\d+)\s*[:\-]/);
+          if (m) {
+            const n = parseInt(m[1]);
+            groupedBildNums.add(n);
+            bildNumToGroup[n] = g;
+          }
+        }
+      });
     });
   }
 
@@ -439,6 +473,34 @@ function annotateTextWithGlossary(text, container, artImages) {
 
   // Make an image figure and append to container
   function makeImageFigure(bildNum, captionFallback) {
+    // Render imageGroup inline at the position where the Bild reference appears in text
+    const group = bildNumToGroup[bildNum];
+    if (group) {
+      const section = el('div', 'rules-img-group');
+      section.appendChild(el('div', 'rules-img-group-label', group.label));
+      const row = el('div', 'rules-img-group-row');
+      group.images.forEach(function(filename) {
+        const imgMeta = RULES_DATA.images.find(i => i.filename === filename);
+        const caption = imgMeta && imgMeta.caption ? imgMeta.caption : filename;
+        const figure = document.createElement('figure');
+        figure.className = 'rules-img-group-figure';
+        const imgEl = document.createElement('img');
+        imgEl.className = 'rules-img-group-img';
+        imgEl.src = 'data/images/' + filename;
+        imgEl.alt = caption;
+        imgEl.loading = 'lazy';
+        imgEl.addEventListener('click', function() { rulesOpenLightbox(filename, caption); });
+        const cap = document.createElement('figcaption');
+        cap.className = 'rules-img-group-caption';
+        cap.textContent = caption;
+        figure.appendChild(imgEl);
+        figure.appendChild(cap);
+        row.appendChild(figure);
+      });
+      section.appendChild(row);
+      container.appendChild(section);
+      return;
+    }
     const imgData = globalBildMap[bildNum];
     if (!imgData) return;
     const figure = document.createElement('figure');
@@ -921,7 +983,7 @@ export function rulesOpenDetail(artNum) {
 
   // Article text with glossary term highlights and inline images
   const textEl = el('div', 'rules-detail-text');
-  annotateTextWithGlossary(art.text, textEl, art.images);
+  annotateTextWithGlossary(art.text, textEl, art.images, art.imageGroups);
   bodyEl.appendChild(textEl);
 
   // Related questions
@@ -1026,4 +1088,283 @@ export function rulesOpenLightbox(filename, caption) {
 
   document.body.appendChild(lb);
   closeBtn.focus();
+}
+
+// ── ARTIKEL-SECTION-OVERLAY ────────────────────────────────
+// Öffnet einen Artikel mit Section-Navigation direkt im aktuellen View,
+// ohne zu Regelwerk zu navigieren.
+
+let _secOverlayTrigger = null;
+let _secOverlayArtNum  = null;
+let _secFocusedSecId   = null;
+
+function _srAnnounce(msg) {
+  const el = document.getElementById('sr-announce');
+  if (!el) return;
+  el.textContent = '';
+  setTimeout(() => { el.textContent = msg; }, 50);
+}
+
+// Parst den Artikel-Text in Abschnitte: [{id, title, lines[]}]
+function _parseSections(art) {
+  const lines = art.text.split('\n');
+  const sections = [];
+  let current = null;
+
+  lines.forEach(raw => {
+    const trimmed = raw.trim();
+    const m = trimmed.match(/^\*\*(\d+\.\d+(?:\.\d+)*)\s+(.*)\*\*$/);
+    if (m) {
+      if (current) sections.push(current);
+      current = { id: m[1], title: m[2], lines: [] };
+    } else if (current) {
+      current.lines.push(raw);
+    }
+  });
+  if (current) sections.push(current);
+
+  if (!sections.length) {
+    sections.push({ id: String(art.number), title: art.title, lines: lines });
+  }
+  return sections;
+}
+
+function _renderSecOverlay() {
+  const art = RULES_DATA && RULES_DATA.articles.find(a => a.number === _secOverlayArtNum);
+  if (!art) return;
+
+  const sections = _parseSections(art);
+  const focusIdx = sections.findIndex(s => s.id === _secFocusedSecId);
+  const efi = focusIdx === -1 ? 0 : focusIdx;
+
+  document.getElementById('art-sec-dialog-title').textContent = `Artikel ${art.number}`;
+  document.getElementById('art-sec-art-title').textContent = art.title;
+  document.getElementById('art-sec-meta').textContent = `${sections[efi].id} · ${efi + 1}/${sections.length}`;
+
+  const body = document.getElementById('art-sec-body');
+  body.textContent = '';
+
+  sections.forEach((sec, idx) => {
+    const distance  = Math.abs(idx - efi);
+    const isFocused = idx === efi;
+
+    const item = document.createElement('div');
+    item.className = 'art-sec-item' + (isFocused ? ' is-focused' : ' is-nav');
+    item.id = 'art-sec-' + sec.id.replace(/\./g, '-');
+    item.setAttribute('data-dist', String(Math.min(distance, 3)));
+
+    if (!isFocused) {
+      item.setAttribute('role', 'button');
+      item.setAttribute('tabindex', '0');
+      const dir = idx < efi ? 'Vorheriger Abschnitt' : 'Nächster Abschnitt';
+      item.setAttribute('aria-label', `${dir}: ${sec.id} ${sec.title}. Enter zum Fokussieren.`);
+      item.addEventListener('click', () => _focusSecOverlaySection(sec.id));
+      item.addEventListener('keydown', e => {
+        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); _focusSecOverlaySection(sec.id); }
+      });
+    }
+
+    const inner = document.createElement('div');
+    inner.className = 'art-sec-inner';
+
+    const numEl = document.createElement('div');
+    numEl.className = 'art-sec-num';
+    numEl.setAttribute('aria-hidden', 'true');
+    numEl.textContent = sec.id;
+
+    const titleEl = document.createElement(isFocused ? 'h2' : 'div');
+    titleEl.className = 'art-sec-title';
+    titleEl.textContent = sec.title;
+    if (isFocused) {
+      titleEl.setAttribute('tabindex', '-1');
+      titleEl.id = 'art-sec-heading-' + sec.id.replace(/\./g, '-');
+    }
+
+    inner.appendChild(numEl);
+    inner.appendChild(titleEl);
+
+    if (isFocused) {
+      const textEl = document.createElement('div');
+      textEl.className = 'art-sec-text';
+      let paraLines = [];
+      const flushPara = () => {
+        const str = paraLines.join(' ').trim();
+        paraLines = [];
+        if (!str) return;
+        const p = document.createElement('p');
+        p.textContent = str;
+        textEl.appendChild(p);
+      };
+      sec.lines.forEach(raw => {
+        const t = raw.trim();
+        if (!t) { flushPara(); return; }
+        if (/^\*\*Bild\s+\d+/.test(t) || /^Bild\s+\d+/.test(t)) return;
+        const boldM = t.match(/^\*\*(.+)\*\*$/);
+        if (boldM) {
+          flushPara();
+          const p = document.createElement('p');
+          const s = document.createElement('strong');
+          s.textContent = boldM[1];
+          p.appendChild(s);
+          textEl.appendChild(p);
+          return;
+        }
+        const bullet = t.match(/^[-*]\s+(.*)/);
+        if (bullet) {
+          flushPara();
+          const p = document.createElement('p');
+          p.textContent = '• ' + bullet[1];
+          textEl.appendChild(p);
+          return;
+        }
+        paraLines.push(t);
+      });
+      flushPara();
+      inner.appendChild(textEl);
+
+      // Bildgruppen: zeige Gruppen die im Text dieses Abschnitts referenziert werden
+      if (art.imageGroups) {
+        const allLines = art.text.split('\n');
+        const secHeadIdx = allLines.findIndex(l => l.includes(`**${sec.id} `));
+        const nextSec = sections[idx + 1];
+        const nextHeadIdx = nextSec
+          ? allLines.findIndex(l => l.includes(`**${nextSec.id} `))
+          : allLines.length;
+        const secSlice = allLines.slice(secHeadIdx, nextHeadIdx).join('\n');
+
+        art.imageGroups.forEach(g => {
+          const m = g.label.match(/Bild\s+(\d+)/);
+          if (!m) return;
+          if (secSlice.includes('Bild ' + m[1])) {
+            inner.appendChild(_makeSecImgGroup(g));
+          }
+        });
+      }
+    } else {
+      const hint = document.createElement('div');
+      hint.className = 'art-sec-hint';
+      hint.setAttribute('aria-hidden', 'true');
+      hint.textContent = (idx < efi ? '↑ ' : '↓ ') + 'Tippen zum Fokussieren';
+      inner.appendChild(hint);
+    }
+
+    item.appendChild(inner);
+    body.appendChild(item);
+  });
+}
+
+function _makeSecImgGroup(group) {
+  const wrap = document.createElement('div');
+  wrap.className = 'art-sec-img-group';
+  const labelEl = document.createElement('div');
+  labelEl.className = 'art-sec-img-label';
+  labelEl.id = 'art-sec-imglbl-' + group.label.replace(/\s+/g, '-');
+  labelEl.textContent = group.label;
+  wrap.appendChild(labelEl);
+  const row = document.createElement('div');
+  row.className = 'art-sec-img-row';
+  row.setAttribute('role', 'list');
+  row.setAttribute('aria-labelledby', labelEl.id);
+  group.images.forEach(filename => {
+    const imgMeta = RULES_DATA.images.find(i => i.filename === filename);
+    const caption = imgMeta && imgMeta.caption ? imgMeta.caption : filename;
+    const li = document.createElement('div');
+    li.setAttribute('role', 'listitem');
+    const fig = document.createElement('figure');
+    const img = document.createElement('img');
+    img.src = 'data/images/' + filename;
+    img.alt = caption;
+    img.loading = 'lazy';
+    img.addEventListener('click', () => rulesOpenLightbox(filename, caption));
+    const cap = document.createElement('figcaption');
+    cap.textContent = caption;
+    fig.appendChild(img);
+    fig.appendChild(cap);
+    li.appendChild(fig);
+    row.appendChild(li);
+  });
+  wrap.appendChild(row);
+  return wrap;
+}
+
+function _focusSecOverlaySection(sectionId) {
+  _secFocusedSecId = sectionId;
+  _renderSecOverlay();
+  const art = RULES_DATA && RULES_DATA.articles.find(a => a.number === _secOverlayArtNum);
+  const sec = art ? _parseSections(art).find(s => s.id === sectionId) : null;
+  _srAnnounce(`Abschnitt ${sectionId}: ${sec ? sec.title : ''}`);
+  setTimeout(() => {
+    const el = document.getElementById('art-sec-' + sectionId.replace(/\./g, '-'));
+    if (!el) return;
+    const heading = el.querySelector('.art-sec-title');
+    if (heading) heading.focus();
+    el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }, 30);
+}
+
+function _handleSecOverlayKey(e) {
+  if (e.key === 'Escape') { e.preventDefault(); rulesCloseSecOverlay(); return; }
+
+  if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
+    e.preventDefault();
+    const art = RULES_DATA && RULES_DATA.articles.find(a => a.number === _secOverlayArtNum);
+    if (!art) return;
+    const sections = _parseSections(art);
+    const idx = sections.findIndex(s => s.id === _secFocusedSecId);
+    if (idx === -1) return;
+    const next = e.key === 'ArrowDown' ? idx + 1 : idx - 1;
+    if (next >= 0 && next < sections.length) _focusSecOverlaySection(sections[next].id);
+    return;
+  }
+
+  if (e.key === 'Tab') {
+    const overlay = document.getElementById('art-sec-overlay');
+    const tabStops = Array.from(overlay.querySelectorAll('#art-sec-back-btn, .art-sec-item.is-nav'));
+    if (!tabStops.length) { e.preventDefault(); return; }
+    const first = tabStops[0], last = tabStops[tabStops.length - 1];
+    if (e.shiftKey) {
+      if (document.activeElement === first) { e.preventDefault(); last.focus(); }
+    } else {
+      if (document.activeElement === last) { e.preventDefault(); first.focus(); }
+    }
+  }
+}
+
+export async function rulesOpenSecOverlay(artNum, trigger) {
+  await loadRules();
+  const art = RULES_DATA && RULES_DATA.articles.find(a => a.number === artNum);
+  if (!art) return;
+
+  _secOverlayTrigger = trigger || document.activeElement;
+  _secOverlayArtNum  = artNum;
+  const sections = _parseSections(art);
+  _secFocusedSecId = sections.length ? sections[0].id : String(artNum);
+
+  _renderSecOverlay();
+
+  const overlay = document.getElementById('art-sec-overlay');
+  overlay.style.display = '';
+  overlay.classList.add('open');
+  overlay.addEventListener('keydown', _handleSecOverlayKey);
+  document.getElementById('art-sec-back-btn').onclick = rulesCloseSecOverlay;
+
+  _srAnnounce(`Artikel ${artNum}: ${art.title}. Abschnitt ${_secFocusedSecId}. Pfeiltasten zum Navigieren, Escape zum Schließen.`);
+
+  setTimeout(() => {
+    const heading = document.getElementById('art-sec-heading-' + _secFocusedSecId.replace(/\./g, '-'));
+    if (heading) heading.focus();
+  }, 50);
+}
+
+export function rulesCloseSecOverlay() {
+  const overlay = document.getElementById('art-sec-overlay');
+  if (!overlay) return;
+  overlay.classList.remove('open');
+  overlay.style.display = 'none';
+  overlay.removeEventListener('keydown', _handleSecOverlayKey);
+  _srAnnounce('Artikel-Overlay geschlossen.');
+  if (_secOverlayTrigger && _secOverlayTrigger.focus) {
+    _secOverlayTrigger.focus();
+    _secOverlayTrigger = null;
+  }
 }

@@ -1,5 +1,6 @@
 // sw.js — Service Worker für Offline-Nutzung
-const CACHE = 'regelkunde-v9';
+const VERSION = 'v1.3.0';
+const CACHE = 'regelkunde-v1.3.0';
 const ASSETS = [
   './',
   './index.html',
@@ -23,9 +24,17 @@ self.addEventListener('install', e => {
 
 self.addEventListener('activate', e => {
   e.waitUntil(
-    caches.keys().then(keys =>
-      Promise.all(keys.filter(k => k !== CACHE).map(k => caches.delete(k)))
-    )
+    caches.keys().then(keys => {
+      const oldCaches = keys.filter(k => k !== CACHE);
+      const isUpdate = oldCaches.length > 0;
+      return Promise.all(oldCaches.map(k => caches.delete(k)))
+        .then(() => self.clients.matchAll({ includeUncontrolled: true }))
+        .then(clients => {
+          if (isUpdate) {
+            clients.forEach(client => client.postMessage({ type: 'SW_UPDATED', version: VERSION }));
+          }
+        });
+    })
   );
   self.clients.claim();
 });

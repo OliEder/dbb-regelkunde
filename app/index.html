@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#0d0f14" id="theme-color-meta">
 <meta name="description" content="DBB Regelkunde Lerntool — Schiedsrichter-Fragenkatalog 2025">
+<meta name="version" content="v1.3.0">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Regelkunde">
@@ -22,25 +23,13 @@
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
     Home
   </button>
-  <button class="nav-btn" data-view="flashcards" onclick="navigate('flashcards')" aria-label="Karteikarten">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="2" y="5" width="20" height="14" rx="3"/><line x1="2" y1="10" x2="22" y2="10"/></svg>
-    Karten
-  </button>
-  <button class="nav-btn" data-view="quiz" onclick="navigate('quiz')" aria-label="Quiz">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
-    Quiz
-  </button>
   <button class="nav-btn" data-view="learn" onclick="navigate('learn')" aria-label="Lernmodus">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>
     Lernen
   </button>
-  <button class="nav-btn" data-view="stats" onclick="navigate('stats')" aria-label="Statistik">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
-    Statistik
-  </button>
-  <button class="nav-btn" data-view="durchlauf" onclick="navigate('durchlauf')" aria-label="Durchlauf-Modus">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polygon points="5 3 19 12 5 21 5 3"/></svg>
-    Prüfung
+  <button class="nav-btn" data-view="quiz" onclick="navigate('quiz')" aria-label="Quiz">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+    Quiz
   </button>
   <button class="nav-btn" data-view="regeln" onclick="navigate('regeln')" aria-label="Regelwerk">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
@@ -55,6 +44,14 @@
 
 <main id="main-content" tabindex="-1">
 
+<div id="update-banner" class="update-banner" role="alert" style="display:none">
+  <span id="update-banner-text">Neue Version verfügbar</span>
+  <div style="display:flex;gap:8px">
+    <button onclick="location.reload()">Neu laden</button>
+    <button onclick="document.getElementById('update-banner').style.display='none'" aria-label="Schließen">✕</button>
+  </div>
+</div>
+
 <!-- ═══ HOME ════════════════════════════════════════════ -->
 <section id="view-home" class="view active" role="main" aria-label="Home">
   <div class="hero" style="position:relative">
@@ -62,6 +59,7 @@
       <span id="theme-icon">☀️</span>
     </button>
     <div class="hero-label" aria-hidden="true">Schiedsrichter · 2025</div>
+    <div id="app-version" style="font-size:11px;color:var(--text3);margin-bottom:4px;font-family:var(--font-mono)"></div>
     <h1 class="hero-title">DBB Regel<span>kunde</span></h1>
     <div class="stats-grid" role="list">
       <div class="stat-tile" role="listitem">
@@ -127,6 +125,12 @@
       </div>
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20" aria-hidden="true"><polyline points="9 18 15 12 9 6"/></svg>
     </button>
+
+    <div class="divider" style="margin:12px -16px; width:calc(100% + 32px);"></div>
+    <a href="https://www.buymeacoffee.com" target="_blank" rel="noopener noreferrer" class="bmac-btn" aria-label="Buy me a coffee – App unterstützen">
+      <span aria-hidden="true">☕</span>
+      <span>Buy me a coffee</span>
+    </a>
 
     <div class="divider" style="margin:12px -16px; width:calc(100% + 32px);"></div>
 
@@ -276,6 +280,23 @@
       <h1>Lernen<span style="color:var(--accent)">.</span></h1>
       <div class="topbar-sub" id="learn-header-sub" aria-live="polite">314 Fragen</div>
     </div>
+  </div>
+  <div class="learn-hub-modes" role="list" aria-label="Lernmodus wählen">
+    <button class="learn-hub-btn" onclick="navigate('flashcards')" aria-label="Karteikarten – Spaced Repetition" role="listitem">
+      <div class="learn-hub-icon" aria-hidden="true">🃏</div>
+      <div class="learn-hub-title">Karten</div>
+      <div class="learn-hub-desc">Spaced Repetition</div>
+    </button>
+    <button class="learn-hub-btn learn-hub-btn--active" aria-label="Fragenliste – alle Fragen durchsuchen" role="listitem" aria-current="true">
+      <div class="learn-hub-icon" aria-hidden="true">📖</div>
+      <div class="learn-hub-title">Liste</div>
+      <div class="learn-hub-desc">Alle Fragen</div>
+    </button>
+    <button class="learn-hub-btn" onclick="navigate('durchlauf')" aria-label="Durchlauf – Prüfungsvorbereitung" role="listitem">
+      <div class="learn-hub-icon" aria-hidden="true">🏆</div>
+      <div class="learn-hub-title">Prüfung</div>
+      <div class="learn-hub-desc">Durchlauf-Modus</div>
+    </button>
   </div>
   <div class="pad">
     <div class="search-wrap">
@@ -465,6 +486,32 @@
 
 </main>
 </div>
+
+<!-- ═══ ARTIKEL-SECTION-OVERLAY (global, view-unabhängig) ══ -->
+<div
+  id="art-sec-overlay"
+  class="art-sec-overlay"
+  role="dialog"
+  aria-modal="true"
+  aria-labelledby="art-sec-dialog-title"
+  style="display:none"
+>
+  <div class="art-sec-header">
+    <button class="art-sec-back-btn" id="art-sec-back-btn" aria-label="Zurück">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true" focusable="false"><polyline points="15 18 9 12 15 6"/></svg>
+      Zurück
+    </button>
+    <div class="art-sec-header-info">
+      <div class="art-sec-art-num" id="art-sec-dialog-title"></div>
+      <div class="art-sec-art-title" id="art-sec-art-title"></div>
+    </div>
+    <div class="art-sec-meta" id="art-sec-meta" aria-live="polite"></div>
+  </div>
+  <div class="art-sec-body" id="art-sec-body"></div>
+</div>
+
+<!-- Screen-Reader Live-Region -->
+<div id="sr-announce" class="sr-only" aria-live="polite" aria-atomic="true"></div>
 
 <script type="module" src="js/app.js"></script>
 <script>

@@ -378,6 +378,13 @@
         "page043_img02.png",
         "page043_img03.png",
         "page043_img04.png"
+      ],
+      "imageGroups": [
+        {
+          "label": "Bild 6: Zylinderprinzip",
+          "images": ["page043_img01.png", "page043_img02.png", "page043_img03.png", "page043_img04.png"],
+          "thumbnail": "page043_img04.png"
+        }
       ]
     },
     {
@@ -654,7 +661,7 @@
       "page": 43,
       "width": 313,
       "height": 468,
-      "caption": "Bild 6: Zylinderprinzip",
+      "caption": "Bild 6a: Zylinderprinzip – Verteidigerin",
       "article": 33,
       "article_title": "Kontakt (Grundsätze)"
     },
@@ -663,7 +670,7 @@
       "page": 43,
       "width": 158,
       "height": 304,
-      "caption": null,
+      "caption": "Bild 6b: Zylinderprinzip – Angreiferin",
       "article": 33,
       "article_title": "Kontakt (Grundsätze)"
     },
@@ -672,7 +679,7 @@
       "page": 43,
       "width": 190,
       "height": 461,
-      "caption": null,
+      "caption": "Bild 6c: Zylinderprinzip – Angreifer mit Ball",
       "article": 33,
       "article_title": "Kontakt (Grundsätze)"
     },
@@ -681,7 +688,7 @@
       "page": 43,
       "width": 425,
       "height": 470,
-      "caption": null,
+      "caption": "Bild 6: Zylinderprinzip",
       "article": 33,
       "article_title": "Kontakt (Grundsätze)"
     },
