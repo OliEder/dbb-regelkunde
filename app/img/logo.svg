@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 84" fill="none" role="img" aria-label="DBB Regelkunde">
+  <defs>
+    <linearGradient id="lg-ball" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ff9055"/>
+      <stop offset="100%" stop-color="#cc4800"/>
+    </linearGradient>
+    <radialGradient id="rg-shine" cx="33%" cy="30%" r="52%">
+      <stop offset="0%" stop-color="#ffcba0" stop-opacity="0.55"/>
+      <stop offset="100%" stop-color="#ff6b1a" stop-opacity="0"/>
+    </radialGradient>
+    <clipPath id="clip-ball">
+      <circle cx="42" cy="42" r="33"/>
+    </clipPath>
+    <style>
+      .logo-dbb  { font: 900 34px/1 'Barlow Condensed','Arial Narrow',Impact,sans-serif; letter-spacing:3px; text-transform:uppercase; }
+      .logo-sub  { font: 700 22px/1 'Barlow Condensed','Arial Narrow',Impact,sans-serif; letter-spacing:4px; text-transform:uppercase; }
+    </style>
+  </defs>
+
+  <!-- ── BALL ── -->
+  <circle cx="42" cy="42" r="33" fill="url(#lg-ball)"/>
+  <g clip-path="url(#clip-ball)" stroke="#210d00" stroke-width="2" stroke-linecap="round" opacity="0.45" fill="none">
+    <path d="M42 9  Q24 25 24 42 Q24 59 42 75"/>
+    <path d="M42 9  Q60 25 60 42 Q60 59 42 75"/>
+    <line x1="9"  y1="42" x2="75" y2="42"/>
+    <path d="M13 28 Q42 18 71 28"/>
+    <path d="M13 56 Q42 66 71 56"/>
+  </g>
+  <circle cx="42" cy="42" r="33" fill="url(#rg-shine)"/>
+  <circle cx="42" cy="42" r="33" stroke="#a83a00" stroke-width="1.5"/>
+
+  <!-- ── WORDMARK ── -->
+  <!-- DBB — orange, bold condensed -->
+  <text x="88" y="36" class="logo-dbb" fill="#ff6b1a">DBB</text>
+
+  <!-- divider line -->
+  <rect x="88" y="40" width="198" height="2.5" rx="1.25" fill="#ff6b1a" opacity="0.65"/>
+
+  <!-- REGELKUNDE — white/light, bold condensed -->
+  <text x="88" y="66" class="logo-sub" fill="#e8eaf0">REGELKUNDE</text>
+</svg>

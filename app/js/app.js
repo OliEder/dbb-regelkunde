@@ -8,7 +8,7 @@ import {
   rulesOpenSecOverlay, rulesCloseSecOverlay
 } from './rules.js';
 
-const APP_VERSION = 'v1.3.0';
+const APP_VERSION = 'v1.3.1';
 
 // Globale Exports für onclick-Handler im HTML
 window.toggleTheme    = toggleTheme;
