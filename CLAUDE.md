@@ -10,6 +10,31 @@
 
 > **TODO:** Sobald die Test-Timeouts behoben sind, wieder auf Feature-Branches + PR-Pflicht umstellen.
 
+## Versionierung
+
+Die Version wird **ausschließlich in `package.json`** gepflegt. Ein Script überträgt sie automatisch in alle App-Dateien.
+
+### Workflow für einen Release
+
+```bash
+# 1. Version bumpen (schreibt in package.json, sw.js, app.js, index.html)
+node scripts/bump-version.js 1.4.0
+
+# RC / Pre-Release:
+node scripts/bump-version.js 1.4.0-RC1
+
+# 2. Committen & pushen
+git add package.json app/sw.js app/js/app.js app/index.html
+git commit -m "chore: bump to v1.4.0"
+git push
+
+# 3. Tag setzen → löst GitHub Pages Deploy aus
+git tag -a v1.4.0 -m "v1.4.0"
+git push --tags
+```
+
+**Niemals** die Version manuell in `sw.js`, `app.js` oder `index.html` ändern — immer `bump-version.js` nutzen.
+
 ## Tests
 
 - Playwright-Tests liegen in `tests/`.
